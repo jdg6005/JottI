@@ -2,8 +2,8 @@ package provided;
 
 /**
  * This class is responsible for tokenizing Jott code.
- * 
- * @author 
+ *
+ * @author
  **/
 
 import jdk.jshell.spi.ExecutionControl;
@@ -14,84 +14,87 @@ import java.io.FileReader;
 
 public class JottTokenizer {
 
-	  /**
+    /**
      * Takes in a filename and tokenizes that file into Tokens
      * based on the rules of the Jott Language
      * @param filename the name of the file to tokenize; can be relative or absolute path
      * @return an ArrayList of Jott Tokens
      */
     public static ArrayList<Token> tokenize(String filename) {
-        ArrayList<Token> tokens = new ArrayList<>();
+        TokenList tokens = new TokenList(filename);
 
-        int lineNum = 1; // TODO: update this
+        int lineNum = 1;
         try(BufferedReader in = new BufferedReader(new FileReader(filename))) {
             int cInt = in.read();
             while(cInt != -1) {
+
                 char c = (char)cInt;
-                if(c == '\n') { lineNum++; }
-                else if(Character.isWhitespace(c)) {
+
+                if(c == '\n') {
+					lineNum++;
+				} else if(Character.isWhitespace(c)) {
                     // nop
                 } else if(c == '#') {
-                    while(c != '\n') {
-                        c = (char)in.read();
-                    }
+                    while((char)in.read() != '\n') { /* nop */ }
                     lineNum++;
                 } else if(c == ',') {
-                    tokens.add(new Token(",", filename, lineNum, TokenType.COMMA));
+                    tokens.add(",", lineNum, TokenType.COMMA);
                 } else if(c == '[') {
-                    tokens.add(new Token("[", filename, lineNum, TokenType.L_BRACKET));
+                    tokens.add("[", lineNum, TokenType.L_BRACKET);
                 } else if(c == ']') {
-                    tokens.add(new Token("]", filename, lineNum, TokenType.R_BRACKET));
+                    tokens.add("]", lineNum, TokenType.R_BRACKET);
                 } else if(c == '{') {
-                    tokens.add(new Token("{", filename, lineNum, TokenType.L_BRACE));
+                    tokens.add("{", lineNum, TokenType.L_BRACE);
                 } else if(c == '}') {
-                    tokens.add(new Token("}", filename, lineNum, TokenType.R_BRACE));
+                    tokens.add("}", lineNum, TokenType.R_BRACE);
                 } else if(c == '=') {
                     c = (char)in.read();
-                    if (c == '=') tokens.add(new Token("==", filename, lineNum, TokenType.REL_OP));
-                    else tokens.add(new Token("=", filename, lineNum, TokenType.ASSIGN));
+                    if(c == '=') tokens.add("==", lineNum, TokenType.REL_OP);
+                    else tokens.add("=", lineNum, TokenType.ASSIGN);
                 } else if(c == '<') {
                     in.mark(1);
                     c = (char)in.read();
-                    if (c == '=') tokens.add(new Token("<=", filename, lineNum, TokenType.REL_OP));
-                    else  {
+                    if(c == '=') {
+                        tokens.add("<=", lineNum, TokenType.REL_OP);
+                    } else {
                         in.reset();
-                        tokens.add(new Token("<", filename, lineNum, TokenType.REL_OP));
+                        tokens.add("<", lineNum, TokenType.REL_OP);
                     }
                 } else if(c == '>') {
                     in.mark(1);
                     c = (char)in.read();
-                    if (c == '=') tokens.add(new Token(">=", filename, lineNum, TokenType.REL_OP));
-                    else {
+                    if(c == '=') {
+                        tokens.add(">=", lineNum, TokenType.REL_OP);
+                    } else {
                         in.reset();
-                        tokens.add(new Token(">", filename, lineNum, TokenType.REL_OP));
+                        tokens.add(">", lineNum, TokenType.REL_OP);
                     }
                 } else if(c == '!') {
                     in.mark(1);
                     c = (char)in.read();
-                    if (c == '=') tokens.add(new Token("!=", filename, lineNum, TokenType.REL_OP));
+                    if(c == '=') tokens.add("!=", lineNum, TokenType.REL_OP);
                     else {
                         in.reset();
                         throw new ExecutionControl.NotImplementedException("TODO");
                     } // TODO: error
                 } else if(c == '+') {
-                    tokens.add(new Token("+", filename, lineNum, TokenType.MATH_OP));
+                    tokens.add("+", lineNum, TokenType.MATH_OP);
                 } else if(c == '-') {
-                    tokens.add(new Token("-", filename, lineNum, TokenType.MATH_OP));
+                    tokens.add("-", lineNum, TokenType.MATH_OP);
                 } else if(c == '*') {
-                    tokens.add(new Token("*", filename, lineNum, TokenType.MATH_OP));
+                    tokens.add("*", lineNum, TokenType.MATH_OP);
                 } else if(c == '/') {
-                    tokens.add(new Token("/", filename, lineNum, TokenType.MATH_OP));
+                    tokens.add("/", lineNum, TokenType.MATH_OP);
                 } else if(c == ';') {
-                    tokens.add(new Token(";", filename, lineNum, TokenType.SEMICOLON));
+                    tokens.add(";", lineNum, TokenType.SEMICOLON);
                 } else if(c == ':') {
                     in.mark(1);
                     char nextC =  (char)in.read();
                     if(nextC == ':') {
-                        tokens.add(new Token("::", filename, lineNum, TokenType.FC_HEADER));
+                        tokens.add("::", lineNum, TokenType.FC_HEADER);
                     } else {
                         in.reset(); // "unread" the next character
-                        tokens.add(new Token(":", filename, lineNum, TokenType.COLON));
+                        tokens.add(":", lineNum, TokenType.COLON);
                     }
                 } else if(c == '.') {
                     StringBuilder number = new StringBuilder(".");
@@ -103,24 +106,24 @@ public class JottTokenizer {
                         throw new ExecutionControl.NotImplementedException("");
                     }
                     // continue
-                    while (Character.isDigit(c)) {
+                    while(Character.isDigit(c)) {
                         number.append(c);
                         in.mark(1);
                         c = (char)in.read();
                     }
                     in.reset(); // unread the non-digit character
-                    tokens.add(new Token(number.toString(), filename, lineNum, TokenType.NUMBER));
+                    tokens.add(number.toString(), lineNum, TokenType.NUMBER);
                 } else if(Character.isDigit(c)) {
                     StringBuilder number = new StringBuilder();
 
                     // read in digits up until . or other non-digit
-                    while (Character.isDigit(c)) {
+                    while(Character.isDigit(c)) {
                         number.append(c);
                         in.mark(1);
                         c = (char)in.read();
                     }
                     // read in rest if next is a non-digit
-                    if (c == '.') {
+                    if(c == '.') {
                         number.append('.');
                         in.mark(1);
                         c = (char)in.read();
@@ -132,8 +135,8 @@ public class JottTokenizer {
                     }
                     in.reset(); // unread the non-digit/non-period character
 
-                    System.out.println("number: " + number.toString());
-                    tokens.add(new Token(number.toString(), filename, lineNum, TokenType.NUMBER));
+                    System.out.println("number: " + number);
+                    tokens.add(number.toString(), lineNum, TokenType.NUMBER);
                 } else if(Character.isAlphabetic(c)) {
                     StringBuilder idKeyword = new StringBuilder();
                     while(Character.isAlphabetic(c) || Character.isDigit(c)) {
@@ -142,7 +145,7 @@ public class JottTokenizer {
                         c = (char) in.read();
                     }
                     in.reset();
-                    tokens.add(new Token(idKeyword.toString(), filename, lineNum, TokenType.ID_KEYWORD));
+                    tokens.add(idKeyword.toString(), lineNum, TokenType.ID_KEYWORD);
                 } else if(c == '"') {
                     StringBuilder string = new StringBuilder("\"");
                     in.mark(1);
@@ -152,24 +155,38 @@ public class JottTokenizer {
                         in.mark(1);
                         c = (char)in.read();
                     }
-                    if (c == '"')  {
+                    if(c == '"')  {
                         string.append('"');
-                        tokens.add(new Token(string.toString(), filename, lineNum, TokenType.STRING));
-                    }
-                    else {
+                        tokens.add(string.toString(), lineNum, TokenType.STRING);
+                    } else {
                         in.reset();
                         throw new ExecutionControl.NotImplementedException("TODO");
                     }  // TODO: error
-                }
-                else {
+                } else {
                     break;  // TODO: error
                 }
                 cInt = in.read();
             }
 
             return tokens;
-        } catch(Exception e) { 
+        } catch(Exception e) {
             System.err.println("TODO: bru"); return null;
         }
-	}
+    }
+
+    
+    private static class TokenList extends ArrayList<Token> {
+        String filename;
+        
+        public TokenList(String filename) {
+            this.filename = filename;
+        }
+        
+        // shortens: tokens.add(new Token(";", filename, lineNum, TokenType.SEMICOLON));
+        // to:       tokens.add(";", lineNum, TokenType.SEMICOLON);
+        public void add(String token, int lineNum, TokenType type) {
+                super.add(new Token(token, filename, lineNum, type));
+        }
+    }
+
 }
