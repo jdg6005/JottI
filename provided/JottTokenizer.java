@@ -78,7 +78,7 @@ public class JottTokenizer {
                         if(c == '=') tokens.add("!=", lineNum, TokenType.REL_OP);
                         else {
                             in.reset();
-                            // TODO: print error
+                            printError("Invalid token \"" + c + "\". \"!\" expects following \"=\"", filename, lineNum);
                             return null;
                         }
                     }
@@ -99,7 +99,7 @@ public class JottTokenizer {
                         c = (char)in.read();
                         if(!Character.isDigit(c)) {
                             in.reset();
-                            // TODO: print error
+                            printError("Invalid token \"" + c + "\". \".\" expects following digit", filename, lineNum);
                             return null;
                         }
                         // continue
@@ -125,7 +125,7 @@ public class JottTokenizer {
                             tokens.add(string.toString(), lineNum, TokenType.STRING);
                         } else {
                             in.reset();
-                            // TODO: print error
+                            printError("Invalid token \"" + c + "\". \'\"\' expects following \'\"\'", filename, lineNum);
                             return null;
                         }
                     }
@@ -166,7 +166,7 @@ public class JottTokenizer {
                             in.reset();
                             tokens.add(idKeyword.toString(), lineNum, TokenType.ID_KEYWORD);
                         } else {
-                            // TODO: print error
+                            printError("Invalid token \"" + c + "\".", filename, lineNum);
                             return null;
                         }
                     }
@@ -182,6 +182,13 @@ public class JottTokenizer {
             // TODO: does this even hit
             System.err.println("TODO: bru"); return null;
         }
+    }
+
+
+    public static void printError(String msg, String filename, int lineNum) {
+        System.out.println("Syntax Error");
+        System.out.println(msg);
+        System.out.println(filename + ":" + lineNum);
     }
 
     

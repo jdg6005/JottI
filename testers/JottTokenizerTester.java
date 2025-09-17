@@ -138,6 +138,8 @@ public class JottTokenizerTester {
         filename = "tokenizerTestCases/phase1ErrorExample.jott";
         testCases.add(new TestCase("Phase1ErrorExampleTest", filename, null, true));
 
+        filename = "tokenizerTestCases/!!.jott";
+        testCases.add(new TestCase("!!", filename, null, true));
     }
 
     private String tokenToString(Token t){
