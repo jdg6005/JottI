@@ -6,8 +6,6 @@ package provided;
  * @author
  **/
 
-import jdk.jshell.spi.ExecutionControl;
-
 import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -80,8 +78,9 @@ public class JottTokenizer {
                         if(c == '=') tokens.add("!=", lineNum, TokenType.REL_OP);
                         else {
                             in.reset();
-                            throw new ExecutionControl.NotImplementedException("TODO");
-                        } // TODO: error
+                            // TODO: print error
+                            return null;
+                        }
                     }
                     case ':' -> {
                         in.mark(1);
@@ -100,7 +99,8 @@ public class JottTokenizer {
                         c = (char)in.read();
                         if(!Character.isDigit(c)) {
                             in.reset();
-                            throw new ExecutionControl.NotImplementedException("");
+                            // TODO: print error
+                            return null;
                         }
                         // continue
                         while(Character.isDigit(c)) {
@@ -125,8 +125,9 @@ public class JottTokenizer {
                             tokens.add(string.toString(), lineNum, TokenType.STRING);
                         } else {
                             in.reset();
-                            throw new ExecutionControl.NotImplementedException("TODO");
-                        }  // TODO: error
+                            // TODO: print error
+                            return null;
+                        }
                     }
                     default -> {
                         if(Character.isWhitespace(c)) {
@@ -165,7 +166,8 @@ public class JottTokenizer {
                             in.reset();
                             tokens.add(idKeyword.toString(), lineNum, TokenType.ID_KEYWORD);
                         } else {
-                            return tokens;  // TODO: error
+                            // TODO: print error
+                            return null;
                         }
                     }
                 }
@@ -177,6 +179,7 @@ public class JottTokenizer {
             return tokens;
 
         } catch(Exception e) {
+            // TODO: does this even hit
             System.err.println("TODO: bru"); return null;
         }
     }
@@ -192,7 +195,7 @@ public class JottTokenizer {
         // shortens: tokens.add(new Token(";", filename, lineNum, TokenType.SEMICOLON));
         // to:       tokens.add(";", lineNum, TokenType.SEMICOLON);
         public void add(String token, int lineNum, TokenType type) {
-                super.add(new Token(token, filename, lineNum, type));
+            super.add(new Token(token, filename, lineNum, type));
         }
     }
 
