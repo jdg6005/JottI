@@ -1,5 +1,5 @@
 package provided;
-//test test
+
 /**
  * This class is responsible for tokenizing Jott code.
  *
