@@ -129,7 +129,9 @@ public class JottTokenizer {
                             tokens.add(string.toString(), lineNum, TokenType.STRING);
                         } else {
                             in.reset();
-                            // TODO: print error
+                            System.err.println("Syntax Error:");
+                            System.err.println("Unterminated string literal. Missing closing '\"'");
+                            System.err.println(filename + ":" + lineNum);
                             return null;
                         }
                     }
