@@ -78,7 +78,9 @@ public class JottTokenizer {
                         if(c == '=') tokens.add("!=", lineNum, TokenType.REL_OP);
                         else {
                             in.reset();
-                            // TODO: print error
+                            System.err.println("Syntax Error:");
+                            System.err.println("Invalid token \"!\". \"!\" expects following \"=\"");
+                            System.err.println(filename + ":" + lineNum);
                             return null;
                         }
                     }
