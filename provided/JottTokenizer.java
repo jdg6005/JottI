@@ -101,7 +101,9 @@ public class JottTokenizer {
                         c = (char)in.read();
                         if(!Character.isDigit(c)) {
                             in.reset();
-                            // TODO: print error
+                            System.err.println("Syntax Error:");
+                            System.err.println("Invalid token \".\". \".\" expects following digit");
+                            System.err.println(filename + ":" + lineNum);
                             return null;
                         }
                         // continue
