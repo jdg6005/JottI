@@ -17,7 +17,7 @@ public class JottParser {
      * @return the root of the Jott Parse Tree represented by the tokens.
      *         or null upon an error in parsing.
      */
-    public static JottTree parse(ArrayList<Token> tokens){
+    public static JottTree parse(ArrayList<Token> tokens) {
 		return null;
     }
 }
