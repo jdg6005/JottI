@@ -44,8 +44,9 @@ public class JottTokenizer {
                     case '/' -> tokens.add("/", lineNum, TokenType.MATH_OP);
                     case ';' -> tokens.add(";", lineNum, TokenType.SEMICOLON);
                     case '#' -> {
-                        while((char)in.read() != '\n') { }
-                        lineNum++;
+                        int r;
+                        while ((r = in.read()) != -1 && r != '\n') { /* skip */ }
+                        if (r == '\n') lineNum++;
                     }
                     case '=' -> {
                         c = (char) in.read();
