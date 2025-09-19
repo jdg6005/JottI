@@ -28,7 +28,6 @@ public class JottTokenizer {
             int cInt = in.read();
 
             while(cInt != -1) {
-                cInt = in.read();
                 char c = (char)cInt;
 
                 switch(c) {
@@ -97,9 +96,10 @@ public class JottTokenizer {
                         StringBuilder number = new StringBuilder(".");
                         // check we have at least one digit
                         in.mark(1);
-                        c = (char)in.read();
+                        cInt = in.read();
+                        c = (char)cInt;
                         if(!Character.isDigit(c)) {
-                            String msg = "Invalid token \"" + addEscapeChars(c, cInt != -1) + "\".\". \".\" expects following digit";
+                            String msg = "Invalid token \"" + addEscapeChars(c, cInt == -1) + "\". \".\" expects following digit";
                             printError(msg, filename, lineNum);
                             in.reset();
                             return null;
@@ -173,7 +173,9 @@ public class JottTokenizer {
                         }
                     }
                 }
-            };
+
+                cInt = in.read();
+            }
 
             return tokens;
 
