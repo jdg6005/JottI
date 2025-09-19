@@ -77,10 +77,9 @@ public class JottTokenizer {
                         c = (char)in.read();
                         if(c == '=') tokens.add("!=", lineNum, TokenType.REL_OP);
                         else {
+                            String msg = "Invalid token \"" + c + "\". \"!\" expects following \"=\"";
+                            printError(msg, filename, lineNum);
                             in.reset();
-                            System.err.println("Syntax Error:");
-                            System.err.println("Invalid token \"!\". \"!\" expects following \"=\"");
-                            System.err.println(filename + ":" + lineNum);
                             return null;
                         }
                     }
@@ -100,10 +99,9 @@ public class JottTokenizer {
                         in.mark(1);
                         c = (char)in.read();
                         if(!Character.isDigit(c)) {
+                            String msg = "Invalid token \"" + c + "\".\". \".\" expects following digit";
+                            printError(msg, filename, lineNum);
                             in.reset();
-                            System.err.println("Syntax Error:");
-                            System.err.println("Invalid token \".\". \".\" expects following digit");
-                            System.err.println(filename + ":" + lineNum);
                             return null;
                         }
                         // continue
@@ -129,9 +127,8 @@ public class JottTokenizer {
                             tokens.add(string.toString(), lineNum, TokenType.STRING);
                         } else {
                             in.reset();
-                            System.err.println("Syntax Error:");
-                            System.err.println("Unterminated string literal. Missing closing '\"'");
-                            System.err.println(filename + ":" + lineNum);
+                            String msg = "Unterminated string literal. Missing closing '\"'";
+                            printError(msg, filename, lineNum);
                             return null;
                         }
                     }
@@ -160,7 +157,6 @@ public class JottTokenizer {
                             }
                             in.reset(); // unread the non-digit/non-period character
 
-                            System.out.println("number: " + number);
                             tokens.add(number.toString(), lineNum, TokenType.NUMBER);
                         } else if(Character.isAlphabetic(c)) {
                             StringBuilder idKeyword = new StringBuilder();
@@ -188,6 +184,12 @@ public class JottTokenizer {
             // TODO: does this even hit
             System.err.println("TODO: bru"); return null;
         }
+    }
+
+    private static void printError(String msg, String filename, int lineNum) {
+        System.err.println("Syntax Error:");
+        System.err.println(msg);
+        System.err.println(filename + ":" + lineNum);
     }
 
     
