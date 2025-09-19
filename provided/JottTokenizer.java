@@ -28,7 +28,7 @@ public class JottTokenizer {
             int cInt = in.read();
 
             while(cInt != -1) {
-
+                cInt = in.read();
                 char c = (char)cInt;
 
                 switch(c) {
@@ -77,7 +77,7 @@ public class JottTokenizer {
                         c = (char)in.read();
                         if(c == '=') tokens.add("!=", lineNum, TokenType.REL_OP);
                         else {
-                            String msg = "Invalid token \"" + c + "\". \"!\" expects following \"=\"";
+                            String msg = "Invalid token \"" + addEscapeChars(c, cInt != -1) + "\". \"!\" expects following \"=\"";
                             printError(msg, filename, lineNum);
                             in.reset();
                             return null;
@@ -99,7 +99,7 @@ public class JottTokenizer {
                         in.mark(1);
                         c = (char)in.read();
                         if(!Character.isDigit(c)) {
-                            String msg = "Invalid token \"" + c + "\".\". \".\" expects following digit";
+                            String msg = "Invalid token \"" + addEscapeChars(c, cInt != -1) + "\".\". \".\" expects following digit";
                             printError(msg, filename, lineNum);
                             in.reset();
                             return null;
@@ -173,10 +173,7 @@ public class JottTokenizer {
                         }
                     }
                 }
-
-                cInt = in.read();
-
-            }
+            };
 
             return tokens;
 
@@ -190,6 +187,20 @@ public class JottTokenizer {
         System.err.println("Syntax Error:");
         System.err.println(msg);
         System.err.println(filename + ":" + lineNum);
+    }
+
+
+    // replaces, for example, tabs with "\t"
+    private static String addEscapeChars(String str) {
+        String result = str.replaceAll("\t", "\\\\t");
+        result = result.replaceAll("\b", "\\\\b");
+        result = result.replaceAll("\n", "\\\\n");
+        result = result.replaceAll("\r", "\\\\r");
+        result = result.replaceAll("\f", "\\\\f");
+        return result;
+    }
+    private static String addEscapeChars(char c, boolean isEOF) {
+        return isEOF? "EOF" : addEscapeChars(String.valueOf(c));
     }
 
     
