@@ -159,8 +159,6 @@ public class JottTokenizer {
                                 }
                             }
                             in.reset(); // unread the non-digit/non-period character
-
-                            System.out.println("number: " + number);
                             tokens.add(number.toString(), lineNum, TokenType.NUMBER);
                         } else if(Character.isAlphabetic(c)) {
                             StringBuilder idKeyword = new StringBuilder();
@@ -172,7 +170,9 @@ public class JottTokenizer {
                             in.reset();
                             tokens.add(idKeyword.toString(), lineNum, TokenType.ID_KEYWORD);
                         } else {
-                            // TODO: print error
+                            System.err.println("Syntax Error:");
+                            System.err.println("Invalid token \"" + c + "\"");
+                            System.err.println(filename + ":" + lineNum);
                             return null;
                         }
                     }
@@ -185,8 +185,10 @@ public class JottTokenizer {
             return tokens;
 
         } catch(Exception e) {
-            // TODO: does this even hit
-            System.err.println("TODO: bru"); return null;
+            System.err.println("Syntax Error:");
+            System.err.println("Unexpected read error: " + e.getMessage());
+            System.err.println(filename + ":" + lineNum);
+            return null;
         }
     }
 
