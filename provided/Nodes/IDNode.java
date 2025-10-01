@@ -1,8 +1,11 @@
-package provided;
+package provided.Nodes;
+
+import provided.Token;
+import provided.TokenType;
 
 import java.util.ArrayList;
 
-public class IDNode implements JottTree{
+public class IDNode implements OperandNode{
     private final Token id;
 
     private IDNode(Token id) {

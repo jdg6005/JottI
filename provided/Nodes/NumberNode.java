@@ -1,9 +1,12 @@
-package provided;
+package provided.Nodes;
+
+import provided.Token;
+import provided.TokenType;
 
 import java.util.ArrayList;
 import java.lang.Integer;
 
-public class NumberNode {
+public class NumberNode implements OperandNode {
 
     private final int number;
 
@@ -22,6 +25,26 @@ public class NumberNode {
 
     public String convertToJott() {
         return Integer.toString(this.number);
+    }
+
+    @Override
+    public String convertToJava(String className) {
+        return "";
+    }
+
+    @Override
+    public String convertToC() {
+        return "";
+    }
+
+    @Override
+    public String convertToPython() {
+        return "";
+    }
+
+    @Override
+    public boolean validateTree() {
+        return false;
     }
 
 }

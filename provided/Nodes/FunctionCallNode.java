@@ -1,4 +1,8 @@
-package provided;
+package provided.Nodes;
+
+import provided.JottTree;
+import provided.Token;
+import provided.TokenType;
 
 import java.util.ArrayList;
 
@@ -8,7 +12,7 @@ import java.util.ArrayList;
  * @author Matthew Fiedler, Miles Todtfeld
  **/
 
-public class FunctionCallNode implements JottTree {
+public class FunctionCallNode implements OperandNode {
     private IDNode id;
     private ParamsNode params;
 
