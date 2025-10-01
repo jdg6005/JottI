@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class ParamsNode implements JottTree {
 
-	private ExprNode exprNode = null;
-	private ArrayList<ParamsTNode> paramsTNodes = new ArrayList<ParamsNode>();
+	private final ExprNode exprNode = null;
+	private final ArrayList<ParamsTNode> paramsTNodes = new ArrayList<ParamsNode>();
 
 
 	public static ParamsNode parseParamsNode(ArrayList<Token> tokens) {
