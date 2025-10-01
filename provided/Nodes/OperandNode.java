@@ -1,7 +1,15 @@
-package provided;
+package provided.Nodes;
 
+
+import provided.JottTree;
+import provided.Token;
+import provided.TokenType;
 
 import java.util.ArrayList;
+
+import static provided.Nodes.FunctionCallNode.parseFunctionCallNode;
+import static provided.Nodes.IDNode.parseIDNode;
+import static provided.Nodes.NumberNode.parseNumberNode;
 
 public interface OperandNode extends JottTree {
 
@@ -20,5 +28,6 @@ public interface OperandNode extends JottTree {
             tokens.removeLast();
             return parseFunctionCallNode(tokens);
         }
+        return null;
     }
 }
