@@ -13,15 +13,19 @@ public class IDNode implements OperandNode{
     }
 
     public static IDNode parseIDNode(ArrayList<Token> tokens) {
-        Token token = tokens.remove(0);
-        if (token == null) {
-            System.err.println("Syntax Error:");
-            System.err.println("Invalid token");
-        } else if (token.getTokenType() != TokenType.ID_KEYWORD) {
-            System.err.println("Syntax Error:");
-            System.err.println("Invalid token");
+        if (tokens.isEmpty()) {
+            return null;
         }
 
+        Token token = tokens.get(0);
+        if (token.getTokenType() != TokenType.ID_KEYWORD) {
+            System.err.println("Syntax Error:");
+            System.err.println("Expected identifier");
+            System.err.println(token.getFilename() + ":" + token.getLineNum());
+            return null;
+        }
+
+        tokens.remove(0);
         return new IDNode(token);
     }
 
