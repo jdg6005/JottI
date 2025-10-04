@@ -1,8 +1,8 @@
 package provided.Nodes;
 
-import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
+import provided.ParamsNode;
 
 import java.util.ArrayList;
 
@@ -20,13 +20,13 @@ public class FunctionCallNode implements OperandNode {
         FunctionCallNode self = new FunctionCallNode();
 
         // :
-        Token currToken = tokens.remove(0);
+        Token currToken = tokens.removeFirst();
         if(!currToken.getTokenType().equals(TokenType.SEMICOLON)) {
             throw new Error("Function call should start with semicolon!");
         }
 
         // : (second)
-        currToken = tokens.remove(0);
+        currToken = tokens.removeFirst();
         if(!currToken.getTokenType().equals(TokenType.SEMICOLON)) {
             throw new Error("Function call should start with two semicolons!");
         }
@@ -35,16 +35,16 @@ public class FunctionCallNode implements OperandNode {
         self.id = IDNode.parseIDNode(tokens);
 
         // [
-        currToken = tokens.remove(0);
+        currToken = tokens.removeFirst();
         if(!currToken.getTokenType().equals(TokenType.L_BRACKET)) {
             throw new Error("Function name should be followed by a left bracket!");
         }
 
         // <params>
-        self.params = ParamsNode.parseParamsNode(params);
+        self.params = ParamsNode.parseParamsNode(tokens);
 
         // ]
-        currToken = tokens.remove(0);
+        currToken = tokens.removeFirst();
         if(!currToken.getTokenType().equals(TokenType.R_BRACKET)) {
             throw new Error("Function parameters should be followed by a right bracket!");
         }
@@ -54,13 +54,12 @@ public class FunctionCallNode implements OperandNode {
 
     @Override
     public String convertToJott() {
-        StringBuilder str = new StringBuilder("::");
-        str.append(this.id.convertToJott());
-        str.append('[');
-        str.append(this.params.convertToJott());
-        str.append(']');
+        String str = "::" + this.id.convertToJott() +
+                '[' +
+                this.params.convertToJott() +
+                ']';
 
-        return str.toString();
+        return str;
     }
 
     @Override
