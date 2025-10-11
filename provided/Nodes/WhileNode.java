@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * @author Elijah Lederman
  **/
 
-public class WhileNode implements JottTree {
+public class WhileNode {
     private BodyNode body;
     private ExprNode expr;
 
