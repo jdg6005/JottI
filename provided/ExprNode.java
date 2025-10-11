@@ -7,6 +7,12 @@ import java.util.ArrayList;
 import static provided.Nodes.OperandNode.parseOperandNode;
 import static provided.TokenType.*;
 
+/**
+ * This class is responsible for parsing expression calls
+ *
+ * @author Elijah Lederman
+ **/
+
 public class ExprNode implements JottTree {
     private OperandNode operand1;
     private RelopNode relop;
