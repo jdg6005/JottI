@@ -13,7 +13,7 @@ public class IDNode implements OperandNode{
     }
 
     public static IDNode parseIDNode(ArrayList<Token> tokens) {
-        Token token = tokens.remove(0);
+        Token token = tokens.removeFirst();
         if (token == null) {
             System.err.println("Syntax Error:");
             System.err.println("Invalid token");
