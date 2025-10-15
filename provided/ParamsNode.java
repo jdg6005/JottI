@@ -4,22 +4,32 @@ import java.util.ArrayList;
 
 public class ParamsNode implements JottTree {
 
-	private ExprNode exprNode = null;
+	private ExprNode exprNode;
 	private ArrayList<ParamsTNode> paramsTNodes = new ArrayList<ParamsNode>();
 
 
 	public static ParamsNode parseParamsNode(ArrayList<Token> tokens) {
 		ParamsNode paramsNode = new ParamsNode();
-		paramsNode.exprNode = ExprNode.parseExprNode(tokens);
-		while(tokens.get(0).getTokenType() == TokenType.COMMA) {
-			paramsNode.paramsTNodes.add(ParamsTNode.parseParamsTNode(paramsTNodes));
-		}
+
+        if (!(tokens.getFirst().getTokenType() == TokenType.L_BRACKET)) {
+            paramsNode.exprNode = ExprNode.parseExprNode(tokens);
+            while (tokens.getFirst().getTokenType() == TokenType.COMMA) {
+                paramsNode.paramsTNodes.add(ParamsTNode.parseParamsTNode(paramsTNodes));
+            }
+        }
 		return paramsNode;
 	}
 
 	@Override
 	public String convertToJott() {
-		return null;
+		if (this.exprNode != null) {
+            StringBuilder str = new StringBuilder(this.exprNode.convertToJott());
+            for (ParamsTNode pt : paramsTNodes) {
+                str.append(pt);
+            }
+            return str;
+        }
+        return "";
 	}
 
 	// ------------------------------------

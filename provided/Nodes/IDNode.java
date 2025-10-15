@@ -6,11 +6,7 @@ import provided.TokenType;
 import java.util.ArrayList;
 
 public class IDNode implements OperandNode{
-    private final Token id;
-
-    private IDNode(Token id) {
-        this.id = id;
-    }
+    private Token id;
 
     public static IDNode parseIDNode(ArrayList<Token> tokens) {
         if (tokens.isEmpty()) {
@@ -29,27 +25,28 @@ public class IDNode implements OperandNode{
         return new IDNode(token);
     }
 
+    @Override
     public String convertToJott() {
         return this.id.getToken();
     }
 
+    @Override
     public String convertToJava(String className) {
         return this.id.getToken();
     }
 
+    @Override
     public String convertToC() {
         return this.id.getToken();
     }
 
+    @Override
     public String convertToPython() {
         return this.id.getToken();
     }
 
+    @Override
     public boolean validateTree() {
         return true;
-    }
-
-    public Token getId() {
-        return id;
     }
 }
