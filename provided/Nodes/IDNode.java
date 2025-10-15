@@ -9,11 +9,9 @@ public class IDNode implements OperandNode{
     private Token id;
 
     public static IDNode parseIDNode(ArrayList<Token> tokens) {
-        if (tokens.isEmpty()) {
-            return null;
-        }
+        IDNode idNode = new IDNode();
+        Token token = tokens.remove(0);
 
-        Token token = tokens.get(0);
         if (token.getTokenType() != TokenType.ID_KEYWORD) {
             System.err.println("Syntax Error:");
             System.err.println("Expected identifier");
@@ -21,8 +19,8 @@ public class IDNode implements OperandNode{
             return null;
         }
 
-        tokens.remove(0);
-        return new IDNode(token);
+        idNode.id = token;
+        return idNode;
     }
 
     @Override
