@@ -58,13 +58,13 @@ public class IfStmtNode implements JottTree {
             throw new Error("Was expecting '}'!");
         }
 
-        // <elseif_lst>
+        // <elseif_lst>*
         while(tokens.getFirst().getToken().equals("Else")) {
             self.elseIfLst.add(ElseIfNode.parseElseIfNode(tokens));
         }
 
         // <else>
-        self.else = ElseNode.parseElseNode(tokens);
+        self.elseNode = ElseNode.parseElseNode(tokens);
 
         return self;
     }

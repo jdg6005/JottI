@@ -24,8 +24,20 @@ public class ElseNode implements JottTree {
             throw new Error("Was expecting 'Else'!");
         }
 
+        // {
+        token = tokens.removeFirst();
+        if(token.getTokenType() != TokenType.L_BRACE) {
+            throw new Error("Was expecting '{'!");
+        }
+
         // <body>
         self.body = BodyNode.parseBodyNode(tokens);
+
+        // }
+        token = tokens.removeFirst();
+        if(token.getTokenType() != TokenType.L_BRACE) {
+            throw new Error("Was expecting '{'!");
+        }
 
         return self;
     }
