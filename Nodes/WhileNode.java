@@ -1,4 +1,6 @@
 package Nodes;
+
+import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
 
@@ -10,7 +12,7 @@ import java.util.ArrayList;
  * @author Elijah Lederman
  **/
 
-public class WhileNode {
+public class WhileNode implements JottTree {
     private BodyNode body;
     private ExprNode expr;
 

@@ -17,7 +17,7 @@ public class BoolNode implements JottTree {
 
     public static BoolNode parseBoolNode(ArrayList<Token> tokens) {
         BoolNode self = new BoolNode();
-        Token token = tokens.remove(0);
+        Token token = tokens.removeFirst();
 
         // not a id/keyword
         if(token.getTokenType() != TokenType.ID_KEYWORD) {

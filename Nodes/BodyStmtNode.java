@@ -26,7 +26,7 @@ public class BodyStmtNode implements JottTree {
                 else if (currToken.getToken().equals("While"))
                     self.whileNode = parseWhileNode(tokens);
             case ID_KEYWORD:
-                self.asmtNode = AssignmentNode.Parse(tokens);
+                self.asmtNode = AssignmentNode.parseAssignmentNode(tokens);
             case COLON:
                 self.functionCallNode = parseFunctionCallNode(tokens);
             default:

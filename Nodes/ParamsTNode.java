@@ -8,14 +8,14 @@ import java.util.ArrayList;
 
 public class ParamsTNode implements JottTree {
 
-	private final ExprNode exprNode = null;
+	private ExprNode exprNode = null;
 
 	public static ParamsTNode parseParamsTNode(ArrayList<Token> tokens) {
 		ParamsTNode paramsTNode = new ParamsTNode();
 		paramsTNode.exprNode = ExprNode.parseExprNode(tokens);
-		if(tokens.get(0).getTokenType() != TokenType.COMMA)
+		if(tokens.getFirst().getTokenType() != TokenType.COMMA)
 			throw new Error("Expected comma before next function parameter");
-		tokens.remove(0);
+		tokens.removeFirst();
 		return paramsTNode;
 	}
 

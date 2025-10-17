@@ -14,13 +14,13 @@ public class VarDecNode implements JottTree {
     public static VarDecNode parseVarDecNode(ArrayList<Token> tokens) {
         VarDecNode varDecNode = new VarDecNode();
 
-        if (tokens.get(0).getTokenType() != TokenType.ID_KEYWORD) {
+        if (tokens.getFirst().getTokenType() != TokenType.ID_KEYWORD) {
             System.err.println(":(");
             return null;
         }
         varDecNode.typeNode = TypeNode.parseTypeNode(tokens);
 
-        if (tokens.get(0).getTokenType() != TokenType.ID_KEYWORD) {
+        if (tokens.getFirst().getTokenType() != TokenType.ID_KEYWORD) {
             System.err.println(":(");
             return null;
         }

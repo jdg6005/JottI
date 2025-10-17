@@ -19,8 +19,8 @@ public class ExprNode implements JottTree {
     private RelopNode relop;
     private MathopNode mathop;
     private OperandNode operand2;
-    private StringNode string;
-    private BooleanNode bool;
+    private StringLiteralNode string;
+    private BoolNode bool;
 
     public static ExprNode parseExprNode(ArrayList<Token> tokens) {
         ExprNode self = new ExprNode();
@@ -28,9 +28,9 @@ public class ExprNode implements JottTree {
         if (tokens.getFirst().getTokenType() == STRING) {
             Token t = tokens.removeFirst();
             if (t.getToken().equals("True") || t.getToken().equals("False")) {
-                self.bool = parseBooleanNode(tokens);
+                self.bool = BoolNode.parseBoolNode(tokens);
             } else {
-                self.string = parseStringNode(tokens);
+                self.string = StringLiteralNode.parseStringLiteralNode(tokens);
             }
             return self;
         } else {

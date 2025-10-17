@@ -8,8 +8,8 @@ import java.util.ArrayList;
 
 public class ParamsNode implements JottTree {
 
-  private final ExprNode exprNode = null;
-	private final ArrayList<ParamsTNode> paramsTNodes = new ArrayList<ParamsNode>();
+  private ExprNode exprNode = null;
+	private final ArrayList<ParamsTNode> paramsTNodes = new ArrayList<ParamsTNode>();
 
 
 	public static ParamsNode parseParamsNode(ArrayList<Token> tokens) {
@@ -18,7 +18,7 @@ public class ParamsNode implements JottTree {
         if (!(tokens.getFirst().getTokenType() == TokenType.L_BRACKET)) {
             paramsNode.exprNode = ExprNode.parseExprNode(tokens);
             while (tokens.getFirst().getTokenType() == TokenType.COMMA) {
-                paramsNode.paramsTNodes.add(ParamsTNode.parseParamsTNode(paramsTNodes));
+                paramsNode.paramsTNodes.add(ParamsTNode.parseParamsTNode(tokens));
             }
         }
 		return paramsNode;
@@ -31,7 +31,7 @@ public class ParamsNode implements JottTree {
             for (ParamsTNode pt : paramsTNodes) {
                 str.append(pt);
             }
-            return str;
+            return str.toString();
         }
         return "";
 	}
