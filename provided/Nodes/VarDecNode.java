@@ -37,6 +37,7 @@ public class VarDecNode implements JottTree {
         str.append(typeNode.convertToJott());
         str.append(" ");
         str.append(idNode.convertToJott());
+        str.append(";");
 
         return str.toString();
     }
