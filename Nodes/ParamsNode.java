@@ -7,19 +7,19 @@ import provided.TokenType;
 import java.util.ArrayList;
 
 public class ParamsNode implements JottTree {
-
-  private ExprNode exprNode = null;
+    private ExprNode exprNode = null;
 	private final ArrayList<ParamsTNode> paramsTNodes = new ArrayList<ParamsTNode>();
 
 
 	public static ParamsNode parseParamsNode(ArrayList<Token> tokens) {
 		ParamsNode paramsNode = new ParamsNode();
 
-        if (!(tokens.getFirst().getTokenType() == TokenType.L_BRACKET)) {
-            paramsNode.exprNode = ExprNode.parseExprNode(tokens);
-            while (tokens.getFirst().getTokenType() == TokenType.COMMA) {
-                paramsNode.paramsTNodes.add(ParamsTNode.parseParamsTNode(tokens));
-            }
+        // <expr>
+        paramsNode.exprNode = ExprNode.parseExprNode(tokens);
+
+        // <params_t>
+        while (tokens.getFirst().getTokenType() == TokenType.COMMA) {
+            paramsNode.paramsTNodes.add(ParamsTNode.parseParamsTNode(tokens));
         }
 		return paramsNode;
 	}

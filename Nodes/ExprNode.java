@@ -26,30 +26,29 @@ public class ExprNode implements JottTree {
     public static ExprNode parseExprNode(ArrayList<Token> tokens) {
         ExprNode self = new ExprNode();
 
+        // <string>
         if (tokens.getFirst().getTokenType() == STRING) {
-            Token t = tokens.removeFirst();
-            if (t.getToken().equals("True") || t.getToken().equals("False")) {
-                self.bool = BoolNode.parseBoolNode(tokens);
-            } else {
-                self.string = StringLiteralNode.parseStringLiteralNode(tokens);
-            }
-            return self;
+            self.string = StringLiteralNode.parseStringLiteralNode(tokens);
+        // <bool>
+        } else if(tokens.getFirst().getToken().equals("True") || tokens.getFirst().getToken().equals("False")) {
+            self.bool = BoolNode.parseBoolNode(tokens);
         } else {
             self.operand1 = parseOperandNode(tokens);
-            Token currentToken = tokens.removeFirst();
+            // check if next is math_op or rel_op
+            Token currentToken = tokens.getFirst();
+            // <operand> <relop> <operand>
             if (currentToken.getTokenType() == REL_OP) {
-                self.relop = tokens.getFirst();
-                if(self.relop.getTokenType() != REL_OP) {
-                    throw new Error("Syntax Error\nExpect relop!\n" + self.relop.getFilename() + ":" + self.relop.getLineNum());
-                }
-                self.operand2 = parseOperandNode(tokens);
+                self.relop = tokens.removeFirst();
+                // <operand> <mathop> <operand>
             } else if (currentToken.getTokenType() == MATH_OP) {
-                self.mathop = tokens.getFirst();
-                if(self.mathop.getTokenType() != MATH_OP) {
-                    throw new Error("Syntax Error\nExpect mathop!\n" + self.mathop.getFilename() + ":" + self.mathop.getLineNum());
-                }
-                self.operand2 = parseOperandNode(tokens);
+                self.mathop = tokens.removeFirst();
+            // <operand>
+            } else {
+                return self;
             }
+
+            // the second <operand> for <relop> and <mathop>
+            self.operand2 = parseOperandNode(tokens);
         }
 
         return self;
@@ -63,15 +62,17 @@ public class ExprNode implements JottTree {
             return this.string.convertToJott();
         } else {
             String operand1 = this.operand1.convertToJott();
+            if(operand2 == null) { return operand1; }
+
+            String operand2 = this.operand2.convertToJott();
+
             String operation = "";
-            String operand2 = "";
             if (this.relop != null) {
                 operation = this.relop.getToken();
-                operand2 = this.operand2.convertToJott();
             } else if (this.mathop != null) {
                 operation = this.mathop.getToken();
-                operand2 = this.operand2.convertToJott();
             }
+
             return operand1 + " " + operation + " " + operand2;
         }
     }

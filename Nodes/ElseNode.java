@@ -21,13 +21,13 @@ public class ElseNode implements JottTree {
 
         // "Else"
         if(token.getTokenType() != TokenType.ID_KEYWORD || !token.getToken().equals("Else")) {
-            throw new Error("Was expecting 'Else'!");
+            throw new Error("Syntax Error\nWas expecting 'Else'!\n" +  token.getFilename() + ":" + token.getLineNum());
         }
 
         // {
         token = tokens.removeFirst();
         if(token.getTokenType() != TokenType.L_BRACE) {
-            throw new Error("Was expecting '{'!");
+            throw new Error("Syntax Error\nWas expecting '{'!\n" + token.getFilename() + ":" + token.getLineNum());
         }
 
         // <body>
@@ -35,8 +35,8 @@ public class ElseNode implements JottTree {
 
         // }
         token = tokens.removeFirst();
-        if(token.getTokenType() != TokenType.L_BRACE) {
-            throw new Error("Was expecting '{'!");
+        if(token.getTokenType() != TokenType.R_BRACE) {
+            throw new Error("Syntax Error\nWas expecting '}'!\n" + token.getFilename() + ":" + token.getLineNum());
         }
 
         return self;

@@ -24,13 +24,13 @@ public class IfStmtNode implements JottTree {
 
         // "If"
         if(token.getTokenType() != TokenType.ID_KEYWORD || !token.getToken().equals("If")) {
-            throw new Error("Was expecting 'If'!");
+            throw new Error("Syntax Error\nWas expecting 'If'!\n" + token.getFilename() + ":" + token.getLineNum());
         }
 
         // [
         token = tokens.removeFirst();
         if(token.getTokenType() != TokenType.L_BRACKET) {
-            throw new Error("Was expecting '['!");
+            throw new Error("Syntax Error\nWas expecting '['!\n"  + token.getFilename() + ":" + token.getLineNum());
         }
 
         // <expr>
@@ -39,13 +39,13 @@ public class IfStmtNode implements JottTree {
         // ]
         token = tokens.removeFirst();
         if(token.getTokenType() != TokenType.R_BRACKET) {
-            throw new Error("Was expecting ']'!");
+            throw new Error("Syntax Error\nWas expecting ']'!\n" + token.getFilename() + ":" + token.getLineNum());
         }
 
         // {
         token = tokens.removeFirst();
         if(token.getTokenType() != TokenType.L_BRACE) {
-            throw new Error("Was expecting '{'!");
+            throw new Error("Syntax Error\nWas expecting '{'!\n" + token.getFilename() + ":" + token.getLineNum());
         }
 
         // <body>
@@ -54,11 +54,11 @@ public class IfStmtNode implements JottTree {
         // }
         token = tokens.removeFirst();
         if(token.getTokenType() != TokenType.R_BRACE) {
-            throw new Error("Was expecting '}'!");
+            throw new Error("Syntax Error\nWas expecting '}'!\n" + token.getFilename() + ":" + token.getLineNum());
         }
 
         // <elseif_lst>*
-        while(tokens.getFirst().getToken().equals("Else")) {
+        while(!tokens.getFirst().getToken().equals("Else")) {
             self.elseIfLst.add(ElseIfNode.parseElseIfNode(tokens));
         }
 
@@ -70,13 +70,16 @@ public class IfStmtNode implements JottTree {
 
     @Override
     public String convertToJott() {
+        String elseifs = "";
         StringBuilder sb = new StringBuilder();
-        for(ElseIfNode elseIfLst : elseIfLst) {
-            sb.append(elseIfLst.convertToJott()).append(" ");
+        if(elseIfLst != null) {
+            for(ElseIfNode elseIfLst : elseIfLst) {
+                sb.append(elseIfLst.convertToJott()).append(" ");
+            }
+            elseifs = sb.toString();
         }
-        String elseifs = sb.toString();
 
-        return "If [" + this.expr.convertToJott() + " ] { " + this.body + " } " + elseifs + this.elseNode.convertToJott();
+        return "If [" + this.expr.convertToJott() + " ] { " + this.body.convertToJott() + " } " + elseifs + this.elseNode.convertToJott();
     }
 
     @Override

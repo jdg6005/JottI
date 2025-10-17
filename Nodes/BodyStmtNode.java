@@ -6,9 +6,6 @@ import provided.TokenType;
 
 import java.util.ArrayList;
 
-import static Nodes.FunctionCallNode.parseFunctionCallNode;
-import static Nodes.WhileNode.parseWhileNode;
-
 public class BodyStmtNode implements JottTree {
     private WhileNode whileNode;
     private IfStmtNode ifStmtNode;
@@ -19,36 +16,44 @@ public class BodyStmtNode implements JottTree {
         BodyStmtNode self = new BodyStmtNode();
 
         Token currToken = tokens.getFirst();
-        switch (tokens.getFirst().getTokenType()) {
-            case STRING:
+        switch (currToken.getTokenType()) {
+            case ID_KEYWORD:
+                // <if>
                 if (currToken.getToken().equals("If"))
                     self.ifStmtNode = IfStmtNode.parseIfStmtNode(tokens);
+                // <while>
                 else if (currToken.getToken().equals("While"))
-                    self.whileNode = parseWhileNode(tokens);
-            case ID_KEYWORD:
-                self.asmtNode = AssignmentNode.parseAssignmentNode(tokens);
-            case COLON:
-                self.functionCallNode = parseFunctionCallNode(tokens);
+                    self.whileNode = WhileNode.parseWhileNode(tokens);
+                // <asmt>
+                else
+                    self.asmtNode = AssignmentNode.parseAssignmentNode(tokens);
+                break;
+            // <func_call>
+            case FC_HEADER:
+                self.functionCallNode = FunctionCallNode.parseFunctionCallNode(tokens);
+                currToken = tokens.removeFirst();
+                if(currToken.getTokenType() != TokenType.SEMICOLON) {
+                    throw new Error("Syntax Error\nWas expecting ';'\n" + currToken.getFilename() + ":" + currToken.getLineNum());
+                }
+                break;
             default:
-        };
-
-        currToken = tokens.removeFirst();
-        if(!currToken.getTokenType().equals(TokenType.SEMICOLON)) {
-            throw new Error("Body statement should end with ';'!");
+                throw new Error("Syntax Error\nWas expecting 'If', 'While', an assignment, or a function call\n" + currToken.getFilename() + ":" + currToken.getLineNum());
         }
+
+
         return self;
     }
 
     @Override
     public String convertToJott() {
         if (whileNode != null) {
-            return whileNode.convertToJott() + ";";
+            return whileNode.convertToJott();
         } else if (ifStmtNode != null) {
-            return ifStmtNode.convertToJott() + ";";
+            return ifStmtNode.convertToJott();
         } else if (functionCallNode != null) {
             return functionCallNode.convertToJott() + ";";
         } else {
-            return asmtNode.convertToJott() + ";";
+            return asmtNode.convertToJott();
         }
     }
 

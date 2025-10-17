@@ -18,16 +18,10 @@ public class FunctionCallNode implements OperandNode {
     public static FunctionCallNode parseFunctionCallNode(ArrayList<Token> tokens) {
         FunctionCallNode self = new FunctionCallNode();
 
-        // :
+        // ::
         Token currToken = tokens.removeFirst();
-        if(!currToken.getTokenType().equals(TokenType.SEMICOLON)) {
-            throw new Error("Function call should start with semicolon!");
-        }
-
-        // : (second)
-        currToken = tokens.removeFirst();
-        if(!currToken.getTokenType().equals(TokenType.SEMICOLON)) {
-            throw new Error("Function call should start with two semicolons!");
+        if(!currToken.getTokenType().equals(TokenType.FC_HEADER)) {
+            throw new Error("Syntax Error\nFunction call should start with '::'!\n" + currToken.getFilename() + ":" + currToken.getLineNum());
         }
 
         // <id>
@@ -53,12 +47,7 @@ public class FunctionCallNode implements OperandNode {
 
     @Override
     public String convertToJott() {
-        String str = "::" + this.id.convertToJott() +
-                '[' +
-                this.params.convertToJott() +
-                ']';
-
-        return str;
+        return "::" + this.id.convertToJott() + '[' + this.params.convertToJott() + ']';
     }
 
     @Override

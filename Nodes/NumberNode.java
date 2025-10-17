@@ -14,18 +14,21 @@ import java.lang.Integer;
 
 public class NumberNode implements OperandNode {
 
-    private int number;
+    private int intNumber;
+    private double doubleNumber;
+    private boolean isInt;
 
     public static NumberNode parseNumberNode(ArrayList<Token> tokens) {
         NumberNode self = new NumberNode();
 
         if (tokens.getFirst().getTokenType() == TokenType.NUMBER) {
             Token t = tokens.removeFirst();
-            self.number = Integer.parseInt(t.getToken());
-        } else if (tokens.getFirst().getTokenType() == TokenType.MATH_OP) {
-            Token t = tokens.removeFirst();
-            if (t.getToken().equals("-")) {
-                self.number = -Integer.parseInt(t.getToken());
+            if(t.getToken().contains(".")) {
+                self.doubleNumber = Double.parseDouble(t.getToken());
+                self.isInt = false;
+            } else {
+                self.intNumber = Integer.parseInt(t.getToken());
+                self.isInt = true;
             }
         } else {
             System.err.println("Bro that aint a damn number");
@@ -35,7 +38,8 @@ public class NumberNode implements OperandNode {
     }
 
     public String convertToJott() {
-        return Integer.toString(this.number);
+        if(isInt) { return Integer.toString(intNumber); }
+        else      { return Double.toString(doubleNumber); }
     }
 
     @Override

@@ -12,10 +12,16 @@ public class ParamsTNode implements JottTree {
 
 	public static ParamsTNode parseParamsTNode(ArrayList<Token> tokens) {
 		ParamsTNode paramsTNode = new ParamsTNode();
+
+        // ,
+        Token token = tokens.removeFirst();
+        if(!token.getTokenType().equals(TokenType.COMMA)) {
+            throw new Error("Syntax Error\nExpected ','\n" + token.getFilename() + ":" + token.getLineNum());
+        }
+
+        // <expr>
 		paramsTNode.exprNode = ExprNode.parseExprNode(tokens);
-		if(tokens.getFirst().getTokenType() != TokenType.COMMA)
-			throw new Error("Expected comma before next function parameter");
-		tokens.removeFirst();
+
 		return paramsTNode;
 	}
 
@@ -23,7 +29,7 @@ public class ParamsTNode implements JottTree {
 
 	@Override
 	public String convertToJott() {
-		return null;
+        return ", " + exprNode.convertToJott();
 	}
 
 	@Override
