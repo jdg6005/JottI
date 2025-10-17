@@ -32,7 +32,7 @@ public class ReturnStmtNode implements JottTree {
         // ;
         currToken = tokens.removeFirst();
         if (!currToken.getTokenType().equals(TokenType.SEMICOLON)) {
-            throw new Error("Syntax Error\nReturn statement should end with ';'!\n" + currToken.getFilename() + ":" + currToken.getLineNum());
+            throw new Error("Syntax Error\nReturn statement should end with ';'(got " + currToken.toString() + ")\n" + currToken.getFilename() + ":" + currToken.getLineNum());
         }
 
         return self;

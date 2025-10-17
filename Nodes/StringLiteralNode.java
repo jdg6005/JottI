@@ -13,7 +13,7 @@ public class StringLiteralNode implements JottTree {
 	public static StringLiteralNode parseStringLiteralNode(ArrayList<Token> tokens) {
 		StringLiteralNode stringLiteralNode = new StringLiteralNode();
 		if(tokens.getFirst().getTokenType() != TokenType.STRING)
-			throw new Error("Expected a string at" + tokens.getFirst().getLineNum());
+			throw new Error("Syntax Error\nExpected string got " + tokens.getFirst().toString() + "\n" + tokens.getFirst().getFilename() + ":" + tokens.getFirst().getLineNum());
 		stringLiteralNode.stringToken = tokens.removeFirst();
 		return stringLiteralNode;
 	}

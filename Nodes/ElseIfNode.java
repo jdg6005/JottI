@@ -22,13 +22,13 @@ public class ElseIfNode implements JottTree {
 
         // "Elseif"
         if(token.getTokenType() != TokenType.ID_KEYWORD || !token.getToken().equals("Elseif")) {
-            throw new Error("Syntax Error\nWas expecting 'Elseif'!\n" + token.getFilename() + ":" + token.getLineNum());
+            throw new Error("Syntax Error\nWas expecting 'Elseif' got " + token.toString() + "\n" + token.getFilename() + ":" + token.getLineNum());
         }
 
         // [
         token = tokens.removeFirst();
         if(token.getTokenType() != TokenType.L_BRACKET) {
-            throw new Error("Syntax Error\nWas expecting '['!\n" + token.getFilename() + ":" + token.getLineNum());
+            throw new Error("Syntax Error\nWas expecting '[' got " + token.toString() + "\n" + token.getFilename() + ":" + token.getLineNum());
         }
 
         // <expr>
@@ -37,13 +37,13 @@ public class ElseIfNode implements JottTree {
         // ]
         token = tokens.removeFirst();
         if(token.getTokenType() != TokenType.R_BRACKET) {
-            throw new Error("Syntax Error\nWas expecting ']'!\n" + token.getFilename() + ":" + token.getLineNum());
+            throw new Error("Syntax Error\nWas expecting ']' got " + token.toString() + "\n" + token.getFilename() + ":" + token.getLineNum());
         }
 
         // {
         token = tokens.removeFirst();
         if(token.getTokenType() != TokenType.L_BRACE) {
-            throw new Error("Syntax Error\nWas expecting '{'!\n"  + token.getFilename() + ":" + token.getLineNum());
+            throw new Error("Syntax Error\nWas expecting '{' got " + token.toString() + "\n"  + token.getFilename() + ":" + token.getLineNum());
         }
 
         // <body>
@@ -52,7 +52,7 @@ public class ElseIfNode implements JottTree {
         // }
         token = tokens.removeFirst();
         if(token.getTokenType() != TokenType.R_BRACE) {
-            throw new Error("Syntax Error\nWas expecting '}'!\n" + token.getFilename() + ":" + token.getLineNum());
+            throw new Error("Syntax Error\nWas expecting '}' got " + token.toString() + "\n" + token.getFilename() + ":" + token.getLineNum());
         }
 
         return self;

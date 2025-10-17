@@ -23,7 +23,7 @@ public class VarDecNode implements JottTree {
         // ;
         Token token = tokens.removeFirst();
         if(token.getTokenType() != TokenType.SEMICOLON) {
-            throw new Error("Syntax Error\nExpected ';'\n" + token.getFilename() + ":" + token.getLineNum());
+            throw new Error("Syntax Error\nExpected ';' got " + token.toString() + "\n" + token.getFilename() + ":" + token.getLineNum());
         }
 
         return varDecNode;
