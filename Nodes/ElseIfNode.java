@@ -1,6 +1,5 @@
-package provided.Nodes;
+package Nodes;
 
-import provided.ExprNode;
 import provided.JottTree;
 import provided.Token;
 import provided.TokenType;

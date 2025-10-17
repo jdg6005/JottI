@@ -1,10 +1,8 @@
-package provided.Nodes;
+package Nodes;
 
 import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
-import provided.Nodes.IDNode;
-import provided.Nodes.TypeNode;
 
 import java.util.ArrayList;
 

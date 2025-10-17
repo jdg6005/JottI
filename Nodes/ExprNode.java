@@ -1,10 +1,11 @@
-package provided;
+package Nodes;
 
-import provided.Nodes.OperandNode;
+import provided.JottTree;
+import provided.Token;
 
 import java.util.ArrayList;
 
-import static provided.Nodes.OperandNode.parseOperandNode;
+import static Nodes.OperandNode.parseOperandNode;
 import static provided.TokenType.*;
 
 /**

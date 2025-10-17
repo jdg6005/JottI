@@ -1,4 +1,8 @@
-package provided;
+package Nodes;
+
+import provided.JottTree;
+import provided.Token;
+import provided.TokenType;
 
 import java.util.ArrayList;
 

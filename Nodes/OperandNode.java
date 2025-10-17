@@ -1,13 +1,13 @@
-package provided.Nodes;
+package Nodes;
 
 
 import provided.JottTree;
 import provided.Token;
 import java.util.ArrayList;
 
-import static provided.Nodes.FunctionCallNode.parseFunctionCallNode;
-import static provided.Nodes.IDNode.parseIDNode;
-import static provided.Nodes.NumberNode.parseNumberNode;
+import static Nodes.FunctionCallNode.parseFunctionCallNode;
+import static Nodes.IDNode.parseIDNode;
+import static Nodes.NumberNode.parseNumberNode;
 
 public interface OperandNode extends JottTree {
 
