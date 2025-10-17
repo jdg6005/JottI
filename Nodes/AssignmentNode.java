@@ -19,11 +19,17 @@ public class AssignmentNode implements JottTree {
         // =
         Token token = tokens.removeFirst();
         if(token.getTokenType() != TokenType.ASSIGN) {
-            throw new Error("Syntax Error\nExpected equals sign in assignment\n" + token.getFilename() + ":" + token.getLineNum());
+            throw new Error("Syntax Error\nExpected '='\n" + token.getFilename() + ":" + token.getLineNum());
         }
 
         // <expr>
         self.rhs = ExprNode.parseExprNode(tokens);
+
+        // ;
+        token = tokens.removeFirst();
+        if(token.getTokenType() != TokenType.SEMICOLON) {
+            throw new Error("Syntax Error\nExpected ';'\n" + token.getFilename() + ":" + token.getLineNum());
+        }
 
         return self;
     }
