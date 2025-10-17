@@ -18,7 +18,7 @@ public class ReturnStmtNode implements JottTree {
         ReturnStmtNode self = new ReturnStmtNode();
 
         Token currToken = tokens.removeFirst();
-        if (!currToken.getTokenType().equals(TokenType.STRING) || !currToken.getToken().equals("Return")) {
+        if (!currToken.getTokenType().equals(TokenType.ID_KEYWORD) || !currToken.getToken().equals("Return")) {
             throw new Error("Return statement should start with 'Return'!");
         }
 

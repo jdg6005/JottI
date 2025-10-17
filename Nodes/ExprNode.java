@@ -2,6 +2,7 @@ package Nodes;
 
 import provided.JottTree;
 import provided.Token;
+import provided.TokenType;
 
 import java.util.ArrayList;
 
@@ -16,8 +17,8 @@ import static provided.TokenType.*;
 
 public class ExprNode implements JottTree {
     private OperandNode operand1;
-    private RelopNode relop;
-    private MathopNode mathop;
+    private Token relop;
+    private Token mathop;
     private OperandNode operand2;
     private StringLiteralNode string;
     private BoolNode bool;
@@ -37,10 +38,16 @@ public class ExprNode implements JottTree {
             self.operand1 = parseOperandNode(tokens);
             Token currentToken = tokens.removeFirst();
             if (currentToken.getTokenType() == REL_OP) {
-                self.relop = parseRelopNode(tokens);
+                self.relop = tokens.getFirst();
+                if(self.relop.getTokenType() != REL_OP) {
+                    throw new Error("Syntax Error\nExpect relop!\n" + self.relop.getFilename() + ":" + self.relop.getLineNum());
+                }
                 self.operand2 = parseOperandNode(tokens);
             } else if (currentToken.getTokenType() == MATH_OP) {
-                self.mathop = parseMathopNode(tokens);
+                self.mathop = tokens.getFirst();
+                if(self.mathop.getTokenType() != MATH_OP) {
+                    throw new Error("Syntax Error\nExpect mathop!\n" + self.mathop.getFilename() + ":" + self.mathop.getLineNum());
+                }
                 self.operand2 = parseOperandNode(tokens);
             }
         }
@@ -53,16 +60,16 @@ public class ExprNode implements JottTree {
         if (this.bool != null) {
             return this.bool.convertToJott();
         } else if (this.string != null) {
-            return this.string.converToJott();
+            return this.string.convertToJott();
         } else {
             String operand1 = this.operand1.convertToJott();
             String operation = "";
             String operand2 = "";
             if (this.relop != null) {
-                operation = this.relop.convertToJott();
+                operation = this.relop.getToken();
                 operand2 = this.operand2.convertToJott();
             } else if (this.mathop != null) {
-                operation = this.mathop.convertToJott();
+                operation = this.mathop.getToken();
                 operand2 = this.operand2.convertToJott();
             }
             return operand1 + " " + operation + " " + operand2;

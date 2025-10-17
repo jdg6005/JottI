@@ -22,7 +22,7 @@ public class StringLiteralNode implements JottTree {
 
 	@Override
 	public String convertToJott() {
-		return null;
+        return "\"" + stringToken.getToken() + "\"";
 	}
 
 	@Override

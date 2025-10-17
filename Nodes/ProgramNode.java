@@ -4,15 +4,24 @@ import provided.JottTree;
 import provided.Token;
 
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 
 public class ProgramNode implements JottTree {
-    ArrayList<FunctionDefNode> funcDefNodes;
+    ArrayList<FunctionDefNode> funcDefNodes = new ArrayList<>();
 
     public static ProgramNode parseProgramNode(ArrayList<Token> tokens) {
         ProgramNode self = new ProgramNode();
 
         while(!tokens.isEmpty()) {
-            self.funcDefNodes.add(FunctionDefNode.parseFunctionDefNode(tokens));
+            try {
+                self.funcDefNodes.add(FunctionDefNode.parseFunctionDefNode(tokens));
+            } catch(NoSuchElementException e) {
+                System.err.println("Syntax Error\nReached unexpected EOF");
+                break;
+            } catch(Error e) {
+                System.err.println(e.toString());
+                break;
+            }
         }
 
         return self;
@@ -20,6 +29,8 @@ public class ProgramNode implements JottTree {
 
     @Override
     public String convertToJott() {
+        if(funcDefNodes.isEmpty())  { return ""; }
+
         StringBuilder sb = new StringBuilder();
         for(FunctionDefNode funcDefNode : funcDefNodes) {
             sb.append(funcDefNode.convertToJott()).append("\n");
