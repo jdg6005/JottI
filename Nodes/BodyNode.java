@@ -1,4 +1,4 @@
-package provided.Nodes;
+package Nodes;
 
 import provided.JottTree;
 import provided.Token;
@@ -15,8 +15,8 @@ public class BodyNode implements JottTree {
     public static BodyNode parseBodyNode(ArrayList<Token> tokens) {
         BodyNode bodyNode = new BodyNode();
 
-        while (!tokens.get(0).getToken().equals("Return")) {
-            bodyNode.bodyStmtNodes.add(parseBodyStmtNode(tokens));
+        while (!tokens.getFirst().getToken().equals("Return")) {
+            bodyNode.bodyStmtNodes.add(BodyStmtNode.parseBodyStmtNode(tokens));
         }
         bodyNode.returnNode = ReturnStmtNode.parseReturnStmtNode(tokens);
 

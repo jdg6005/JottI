@@ -1,4 +1,4 @@
-package provided.Nodes;
+package Nodes;
 
 import provided.JottTree;
 import provided.Token;
@@ -9,7 +9,7 @@ public class TypeNode implements JottTree {
     private Token type;
 
     public static TypeNode parseTypeNode(ArrayList<Token> tokens) {
-        Token token = tokens.remove(0);
+        Token token = tokens.removeFirst();
         String type = token.getToken();
 
         if (type.equals("Double") || type.equals("Integer") || type.equals("String") || type.equals("Boolean")) {

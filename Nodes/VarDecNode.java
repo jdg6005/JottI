@@ -1,10 +1,8 @@
-package provided.Nodes;
+package Nodes;
 
 import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
-import provided.Nodes.IDNode;
-import provided.Nodes.TypeNode;
 
 import java.util.ArrayList;
 
@@ -16,30 +14,24 @@ public class VarDecNode implements JottTree {
     public static VarDecNode parseVarDecNode(ArrayList<Token> tokens) {
         VarDecNode varDecNode = new VarDecNode();
 
-        if (tokens.get(0).getTokenType() != TokenType.ID_KEYWORD) {
-            System.err.println(":(");
-            return null;
-        }
+        // <type>
         varDecNode.typeNode = TypeNode.parseTypeNode(tokens);
 
-        if (tokens.get(0).getTokenType() != TokenType.ID_KEYWORD) {
-            System.err.println(":(");
-            return null;
-        }
+        // <id>
         varDecNode.idNode = IDNode.parseIDNode(tokens);
+
+        // ;
+        Token token = tokens.removeFirst();
+        if(token.getTokenType() != TokenType.SEMICOLON) {
+            throw new Error("Syntax Error\nExpected ';'\n" + token.getFilename() + ":" + token.getLineNum());
+        }
 
         return varDecNode;
     }
 
     @Override
     public String convertToJott() {
-        StringBuilder str = new StringBuilder();
-        str.append(typeNode.convertToJott());
-        str.append(" ");
-        str.append(idNode.convertToJott());
-        str.append(";");
-
-        return str.toString();
+        return typeNode.convertToJott() + " " + idNode.convertToJott() + ";";
     }
 
     @Override

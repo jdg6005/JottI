@@ -1,4 +1,8 @@
-package provided;
+package Nodes;
+
+import provided.JottTree;
+import provided.Token;
+import provided.TokenType;
 
 import java.util.ArrayList;
 
@@ -8,9 +12,9 @@ public class StringLiteralNode implements JottTree {
 
 	public static StringLiteralNode parseStringLiteralNode(ArrayList<Token> tokens) {
 		StringLiteralNode stringLiteralNode = new StringLiteralNode();
-		if(tokens.get(0).getTokenType() != TokenType.STRING)
-			throw new Error("Expected a string at" + tokens.get(0).getLineNum());
-		stringLiteralNode.stringToken = tokens.remove(0);
+		if(tokens.getFirst().getTokenType() != TokenType.STRING)
+			throw new Error("Expected a string at" + tokens.getFirst().getLineNum());
+		stringLiteralNode.stringToken = tokens.removeFirst();
 		return stringLiteralNode;
 	}
 

@@ -1,5 +1,5 @@
-package provided.Nodes;
-import provided.ExprNode;
+package Nodes;
+import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
 
@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * @author Elijah Lederman
  **/
 
-public class ReturnStmtNode implements BodyStmt {
+public class ReturnStmtNode implements JottTree {
     private ExprNode expr;
 
     public static ReturnStmtNode parseReturnStmtNode(ArrayList<Token> tokens) {
@@ -30,5 +30,30 @@ public class ReturnStmtNode implements BodyStmt {
         }
 
         return self;
+    }
+
+    @Override
+    public String convertToJott() {
+        return "";
+    }
+
+    @Override
+    public String convertToJava(String className) {
+        return "";
+    }
+
+    @Override
+    public String convertToC() {
+        return "";
+    }
+
+    @Override
+    public String convertToPython() {
+        return "";
+    }
+
+    @Override
+    public boolean validateTree() {
+        return false;
     }
 }

@@ -1,5 +1,5 @@
-package provided.Nodes;
-import provided.ExprNode;
+package Nodes;
+
 import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * @author Elijah Lederman
  **/
 
-public class WhileNode {
+public class WhileNode implements JottTree {
     private BodyNode body;
     private ExprNode expr;
 
@@ -53,7 +53,7 @@ public class WhileNode {
 
     @Override
     public String convertToJott() {
-        return "While [" + this.expr.convertToJott() + "]{" | this.body.convertToJott() + "}";
+        return "While [" + this.expr.convertToJott() + "]{" + this.body.convertToJott() + "}";
     }
 
     @Override

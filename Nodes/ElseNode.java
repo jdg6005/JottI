@@ -1,4 +1,4 @@
-package provided.Nodes;
+package Nodes;
 
 import provided.JottTree;
 import provided.Token;

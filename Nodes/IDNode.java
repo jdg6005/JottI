@@ -1,4 +1,4 @@
-package provided.Nodes;
+package Nodes;
 
 import provided.Token;
 import provided.TokenType;
@@ -10,7 +10,7 @@ public class IDNode implements OperandNode{
 
     public static IDNode parseIDNode(ArrayList<Token> tokens) {
         IDNode idNode = new IDNode();
-        Token token = tokens.remove(0);
+        Token token = tokens.removeFirst();
 
         if (token.getTokenType() != TokenType.ID_KEYWORD) {
             System.err.println("Syntax Error:");

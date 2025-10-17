@@ -1,11 +1,14 @@
-package provided.Nodes;
+package Nodes;
 
+import Nodes.FunctionDefNode;
+import Nodes.VarDecNode;
+import provided.JottTree;
 import provided.Token;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class FBodyNode implements FunctionDefNode{
+public class FBodyNode implements JottTree {
     private final ArrayList<VarDecNode> varDecNodes= new ArrayList<>();
     private BodyNode bodyNode;
 

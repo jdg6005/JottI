@@ -1,8 +1,7 @@
-package provided.Nodes;
+package Nodes;
 
 import provided.Token;
 import provided.TokenType;
-import provided.ParamsNode;
 
 import java.util.ArrayList;
 

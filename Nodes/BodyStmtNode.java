@@ -1,33 +1,32 @@
-package provided.Nodes;
+package Nodes;
 
 import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
 
 import java.util.ArrayList;
-import java.util.function.Function;
 
-import static provided.Nodes.FunctionCallNode.parseFunctionCallNode;
-import static provided.Nodes.WhileNode.parseWhileNode;
+import static Nodes.FunctionCallNode.parseFunctionCallNode;
+import static Nodes.WhileNode.parseWhileNode;
 
 public class BodyStmtNode implements JottTree {
     private WhileNode whileNode;
     private IfStmtNode ifStmtNode;
     private FunctionCallNode functionCallNode;
-    private AsmtNode asmtNode;
+    private AssignmentNode asmtNode;
 
-    public static JottTree parseBodyStmtNode(ArrayList<Token> tokens) {
+    public static BodyStmtNode parseBodyStmtNode(ArrayList<Token> tokens) {
         BodyStmtNode self = new BodyStmtNode();
 
         Token currToken = tokens.getFirst();
         switch (tokens.getFirst().getTokenType()) {
             case STRING:
                 if (currToken.getToken().equals("If"))
-                    self.ifStmtNode = parseIfStmtNode(tokens);
+                    self.ifStmtNode = IfStmtNode.parseIfStmtNode(tokens);
                 else if (currToken.getToken().equals("While"))
                     self.whileNode = parseWhileNode(tokens);
             case ID_KEYWORD:
-                self.asmtNode = parseAsmtNode(tokens);
+                self.asmtNode = AssignmentNode.parseAssignmentNode(tokens);
             case COLON:
                 self.functionCallNode = parseFunctionCallNode(tokens);
             default:
