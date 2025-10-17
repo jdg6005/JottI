@@ -31,12 +31,7 @@ public class VarDecNode implements JottTree {
 
     @Override
     public String convertToJott() {
-        StringBuilder str = new StringBuilder();
-        str.append(typeNode.convertToJott());
-        str.append(" ");
-        str.append(idNode.convertToJott());
-
-        return str.toString();
+        return typeNode.convertToJott() + " " + idNode.convertToJott() + ";";
     }
 
     @Override

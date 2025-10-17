@@ -15,7 +15,7 @@ public class BodyStmtNode implements JottTree {
     private FunctionCallNode functionCallNode;
     private AssignmentNode asmtNode;
 
-    public static JottTree parseBodyStmtNode(ArrayList<Token> tokens) {
+    public static BodyStmtNode parseBodyStmtNode(ArrayList<Token> tokens) {
         BodyStmtNode self = new BodyStmtNode();
 
         Token currToken = tokens.getFirst();
