@@ -33,11 +33,11 @@ public class BodyStmtNode implements JottTree {
                 self.functionCallNode = FunctionCallNode.parseFunctionCallNode(tokens);
                 currToken = tokens.removeFirst();
                 if(currToken.getTokenType() != TokenType.SEMICOLON) {
-                    throw new Error("Syntax Error\nWas expecting ';'\n" + currToken.getFilename() + ":" + currToken.getLineNum());
+                    throw new Error("Syntax Error\nWas expecting ';' got " + currToken.toString() + "\n" + currToken.getFilename() + ":" + currToken.getLineNum());
                 }
                 break;
             default:
-                throw new Error("Syntax Error\nWas expecting 'If', 'While', an assignment, or a function call\n" + currToken.getFilename() + ":" + currToken.getLineNum());
+                throw new Error("Syntax Error\nWas expecting 'If', 'While', an assignment, or a function call got " + currToken.toString() + "\n" + currToken.getFilename() + ":" + currToken.getLineNum());
         }
 
 

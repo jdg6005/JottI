@@ -21,12 +21,12 @@ public class BoolNode implements JottTree {
 
         // not a id/keyword
         if(token.getTokenType() != TokenType.ID_KEYWORD) {
-            throw new Error("Was expecting a bool!");
+            throw new Error("Syntax Error\nWas expecting a bool got " + token.toString() + "\n" + token.getFilename() + ":" + token.getLineNum());
         }
 
         // not a valid boolean value
         if(!token.getToken().equals("True") &&  !token.getToken().equals("False")) {
-            throw new Error("Was expecting a bool!");
+            throw new Error("Syntax Error\nWas expecting a bool got " + token.toString() + "\n" + token.getFilename() + ":" + token.getLineNum());
         }
 
         self.bool = token.getToken().equals("True");

@@ -54,4 +54,9 @@ public class Token {
     public TokenType getTokenType() {
         return type;
     }
+
+    @Override
+    public String toString() {
+        return "<" + this.type.toString() + ": `" + this.token + "`>";
+    }
 }

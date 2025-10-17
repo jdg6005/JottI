@@ -22,7 +22,7 @@ public class FuncDefParamsTNode implements JottTree {
         // ,
         Token token = tokens.removeFirst();
         if(token.getTokenType() != TokenType.COMMA) {
-            throw new Error("Syntax Error\nExpected ','\n" + token.getFilename() + ":" + token.getLineNum());
+            throw new Error("Syntax Error\nExpected ',' got " + token.toString() + "\n" + token.getFilename() + ":" + token.getLineNum());
         }
 
         // <id>
@@ -31,7 +31,7 @@ public class FuncDefParamsTNode implements JottTree {
         // :
         token = tokens.removeFirst();
         if(token.getTokenType() != TokenType.COLON) {
-            throw new Error("Syntax Error\nExpected ':'\n" + token.getFilename() + ":" + token.getLineNum());
+            throw new Error("Syntax Error\nExpected ':' got " + token.toString() + "\n" + token.getFilename() + ":" + token.getLineNum());
         }
 
         // <type>

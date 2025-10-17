@@ -21,12 +21,12 @@ public class WhileNode implements JottTree {
 
         Token currToken = tokens.removeFirst();
         if(!currToken.getTokenType().equals(TokenType.ID_KEYWORD) || !currToken.getToken().equals("While")) {
-            throw new Error("While loop should start with 'While'!");
+            throw new Error("Syntax Error\nWhile loop should start with 'While' (got " + currToken.toString() + "\n" + currToken.getFilename() + ":" + currToken.getLineNum());
         }
 
         currToken = tokens.removeFirst();
         if(!currToken.getTokenType().equals(TokenType.L_BRACKET)) {
-            throw new Error("'While' should be followed by a '['!");
+            throw new Error("Syntax Error\n'While' should be followed by a '[' (got " + currToken.toString() + ")\n" + currToken.getFilename() + ":" + currToken.getLineNum());
         }
 
         self.expr = ExprNode.parseExprNode(tokens);
