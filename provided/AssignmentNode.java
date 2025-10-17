@@ -11,6 +11,9 @@ public class AssignmentNode implements BodyStmtNode {
     public AssignmentNode parseAsmtNode(ArrayList<Token> tokens) {
         AssignmentNode assignmentNode = new AssignmentNode();
         assignmentNode.idNode = IDNode.parseIDNode(tokens);
+        if (tokens.remove(0).getTokenType() != TokenType.ASSIGN) {
+            throw new Error("Expected assignment after id");
+        }
         assignmentNode.exprNode = ExprNode.parseExprNode(tokens);
         return assignmentNode;
     }
