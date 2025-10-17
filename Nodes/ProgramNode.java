@@ -12,11 +12,15 @@ public class ProgramNode implements JottTree {
     public static ProgramNode parseProgramNode(ArrayList<Token> tokens) {
         ProgramNode self = new ProgramNode();
 
+        // in case of EOF, keep track to properly
+        // print filename and line number
+        Token lastToken = tokens.getLast();
+
         while(!tokens.isEmpty()) {
             try {
                 self.funcDefNodes.add(FunctionDefNode.parseFunctionDefNode(tokens));
             } catch(NoSuchElementException e) {
-                System.err.println("Syntax Error\nReached unexpected EOF");
+                System.err.println("Syntax Error\nReached unexpected EOF\n" + lastToken.getFilename() + ":" + lastToken.getLineNum());
                 return null;
             } catch(Error e) {
                 System.err.println(e.toString());
