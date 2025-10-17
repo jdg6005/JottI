@@ -1,17 +1,23 @@
 package provided;
 
-public class AssignmentNode implements JottTree {
-    private final Token idTok;
-    private final JottTree rhs;
+import provided.Nodes.IDNode;
 
-    public AssignmentNode(Token idTok, JottTree rhs) {
-        this.idTok = idTok;
-        this.rhs = rhs;
+import java.util.ArrayList;
+
+public class AssignmentNode implements BodyStmtNode {
+    private IDNode idNode;
+    private ExprNode exprNode;
+
+    public AssignmentNode parseAsmtNode(ArrayList<Token> tokens) {
+        AssignmentNode assignmentNode = new AssignmentNode();
+        assignmentNode.idNode = IDNode.parseIDNode(tokens);
+        assignmentNode.exprNode = ExprNode.parseExprNode(tokens);
+        return assignmentNode;
     }
 
     @Override
     public String convertToJott() {
-        return idTok.getToken() + "=" + rhs.convertToJott() + ";";
+        return idNode.convertToJott() + "=" + exprNode.convertToJott() + ";";
     }
 
     @Override

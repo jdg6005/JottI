@@ -5,7 +5,7 @@ import provided.TokenType;
 
 import java.util.ArrayList;
 
-public class IDNode implements OperandNode{
+public class IDNode implements JottTree {
     private Token id;
 
     public static IDNode parseIDNode(ArrayList<Token> tokens) {
