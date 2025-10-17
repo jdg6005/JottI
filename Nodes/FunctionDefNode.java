@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class FunctionDefNode implements JottTree {
     IDNode id;
     FuncDefParamsNode funcDefParams = null;
-    ReturnStmtNode returnStmt;
+    FunctionReturnNode returnType;
     FBodyNode fBody;
 
     public static FunctionDefNode parseFunctionDefNode(ArrayList<Token> tokens) {
@@ -54,7 +54,7 @@ public class FunctionDefNode implements JottTree {
         }
 
         // <function_return>
-        self.returnStmt = ReturnStmtNode.parseReturnStmtNode(tokens);
+        self.returnType = FunctionReturnNode.parseFunctionReturnNode(tokens);
 
         // {
         token = tokens.removeFirst();
@@ -76,7 +76,7 @@ public class FunctionDefNode implements JottTree {
 
     @Override
     public String convertToJott() {
-        return "Def " + id.convertToJott() + " [ " + funcDefParams.convertToJott() + " ]: " + returnStmt.convertToJott() + " { " + fBody.convertToJott() + " }";
+        return "Def " + id.convertToJott() + " [ " + (funcDefParams == null ? "" : funcDefParams.convertToJott()) + " ]: " + returnType.convertToJott() + " { " + fBody.convertToJott() + " }";
     }
 
     @Override

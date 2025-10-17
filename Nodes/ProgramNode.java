@@ -17,10 +17,10 @@ public class ProgramNode implements JottTree {
                 self.funcDefNodes.add(FunctionDefNode.parseFunctionDefNode(tokens));
             } catch(NoSuchElementException e) {
                 System.err.println("Syntax Error\nReached unexpected EOF");
-                break;
+                return null;
             } catch(Error e) {
                 System.err.println(e.toString());
-                break;
+                return null;
             }
         }
 

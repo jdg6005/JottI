@@ -12,11 +12,12 @@ import static Nodes.NumberNode.parseNumberNode;
 public interface OperandNode extends JottTree {
 
     public static OperandNode parseOperandNode(ArrayList<Token> tokens) {
-        return switch (tokens.getFirst().getTokenType()) {
+        Token token = tokens.getFirst();
+        return switch (token.getTokenType()) {
             case NUMBER, MATH_OP -> parseNumberNode(tokens);
             case ID_KEYWORD -> parseIDNode(tokens);
-            case SEMICOLON -> parseFunctionCallNode(tokens);
-            default -> null;
+            case FC_HEADER -> parseFunctionCallNode(tokens);
+            default -> throw new Error("Syntax Error\nExpeted operand\n" + token.getFilename() + ":" + token.getLineNum());
         };
     }
 }

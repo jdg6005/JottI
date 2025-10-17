@@ -20,7 +20,7 @@ public class WhileNode implements JottTree {
         WhileNode self = new WhileNode();
 
         Token currToken = tokens.removeFirst();
-        if(!currToken.getTokenType().equals(TokenType.STRING) || !currToken.getToken().equals("While")) {
+        if(!currToken.getTokenType().equals(TokenType.ID_KEYWORD) || !currToken.getToken().equals("While")) {
             throw new Error("While loop should start with 'While'!");
         }
 

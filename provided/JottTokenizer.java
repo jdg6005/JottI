@@ -47,9 +47,13 @@ public class JottTokenizer {
                         lineNum++;
                     }
                     case '=' -> {
+                        in.mark(1);
                         c = (char) in.read();
                         if (c == '=') tokens.add("==", lineNum, TokenType.REL_OP);
-                        else tokens.add("=", lineNum, TokenType.ASSIGN);
+                        else {
+                            tokens.add("=", lineNum, TokenType.ASSIGN);
+                            in.reset();
+                        }
                     }
                     case '<' -> {
                         in.mark(1);

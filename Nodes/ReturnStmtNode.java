@@ -17,16 +17,22 @@ public class ReturnStmtNode implements JottTree {
     public static ReturnStmtNode parseReturnStmtNode(ArrayList<Token> tokens) {
         ReturnStmtNode self = new ReturnStmtNode();
 
-        Token currToken = tokens.removeFirst();
+        // check epsilon
+        Token currToken = tokens.getFirst();
         if (!currToken.getTokenType().equals(TokenType.ID_KEYWORD) || !currToken.getToken().equals("Return")) {
-            throw new Error("Return statement should start with 'Return'!");
+            return self;
         }
 
+        // not epsilon
+        tokens.removeFirst();
+
+        // <expr>
         self.expr = ExprNode.parseExprNode(tokens);
 
+        // ;
         currToken = tokens.removeFirst();
         if (!currToken.getTokenType().equals(TokenType.SEMICOLON)) {
-            throw new Error("Return statement should end with ';'!");
+            throw new Error("Syntax Error\nReturn statement should end with ';'!\n" + currToken.getFilename() + ":" + currToken.getLineNum());
         }
 
         return self;
@@ -34,7 +40,8 @@ public class ReturnStmtNode implements JottTree {
 
     @Override
     public String convertToJott() {
-        return "";
+        if(expr == null) { return ""; }
+        else             { return "Return " + expr.convertToJott() + ";"; }
     }
 
     @Override
