@@ -21,7 +21,7 @@ public class FunctionCallNode implements OperandNode {
         // ::
         Token currToken = tokens.removeFirst();
         if(!currToken.getTokenType().equals(TokenType.FC_HEADER)) {
-            throw new Error("Syntax Error\nFunction call should start with '::'!\n" + currToken.getFilename() + ":" + currToken.getLineNum());
+            throw new Error("Syntax Error\nFunction call should start with '::' got " + currToken.toString() + "\n" + currToken.getFilename() + ":" + currToken.getLineNum());
         }
 
         // <id>
@@ -30,7 +30,7 @@ public class FunctionCallNode implements OperandNode {
         // [
         currToken = tokens.removeFirst();
         if(!currToken.getTokenType().equals(TokenType.L_BRACKET)) {
-            throw new Error("Function name should be followed by a left bracket!");
+            throw new Error("Syntax Error\nFunction name should be followed by a left bracket (got " + currToken.toString() + ")\n" + currToken.getFilename() + ":" + currToken.getLineNum());
         }
 
         // <params>
@@ -39,7 +39,7 @@ public class FunctionCallNode implements OperandNode {
         // ]
         currToken = tokens.removeFirst();
         if(!currToken.getTokenType().equals(TokenType.R_BRACKET)) {
-            throw new Error("Function parameters should be followed by a right bracket!");
+            throw new Error("Syntax Error\nFunction parameters should be followed by a right bracket (got " + currToken.toString() + ")\n" + currToken.getFilename() + ":" + currToken.getLineNum());
         }
 
         return self;

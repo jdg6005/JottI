@@ -21,13 +21,13 @@ public class ElseNode implements JottTree {
 
         // "Else"
         if(token.getTokenType() != TokenType.ID_KEYWORD || !token.getToken().equals("Else")) {
-            throw new Error("Syntax Error\nWas expecting 'Else'!\n" +  token.getFilename() + ":" + token.getLineNum());
+            throw new Error("Syntax Error\nWas expecting 'Else' got " + token.toString() + "\n" +  token.getFilename() + ":" + token.getLineNum());
         }
 
         // {
         token = tokens.removeFirst();
         if(token.getTokenType() != TokenType.L_BRACE) {
-            throw new Error("Syntax Error\nWas expecting '{'!\n" + token.getFilename() + ":" + token.getLineNum());
+            throw new Error("Syntax Error\nWas expecting '{' got " + token.toString() + "\n" + token.getFilename() + ":" + token.getLineNum());
         }
 
         // <body>
@@ -36,7 +36,7 @@ public class ElseNode implements JottTree {
         // }
         token = tokens.removeFirst();
         if(token.getTokenType() != TokenType.R_BRACE) {
-            throw new Error("Syntax Error\nWas expecting '}'!\n" + token.getFilename() + ":" + token.getLineNum());
+            throw new Error("Syntax Error\nWas expecting '}' got " + token.toString() + "\n" + token.getFilename() + ":" + token.getLineNum());
         }
 
         return self;

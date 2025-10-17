@@ -31,8 +31,7 @@ public class NumberNode implements OperandNode {
                 self.isInt = true;
             }
         } else {
-            System.err.println("Bro that aint a damn number");
-            return null;
+            throw new Error("Syntax Error\nWas expecting number got " + tokens.getFirst().toString() + "\n" + tokens.getFirst().getFilename() + ":" + tokens.getFirst().getLineNum());
         }
         return self;
     }

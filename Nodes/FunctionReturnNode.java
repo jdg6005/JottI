@@ -15,7 +15,7 @@ public class FunctionReturnNode implements JottTree {
 
         Token token = tokens.removeFirst();
         if(!Arrays.asList(validTypes).contains(token.getToken())) {
-            throw new Error("Syntax Error\nExpected a valid return type!\n" + token.getFilename() + ":" + token.getLineNum());
+            throw new Error("Syntax Error\nExpected a valid return type (got " + token.toString() + ")\n" + token.getFilename() + ":" + token.getLineNum());
         }
 
         self.type = token;

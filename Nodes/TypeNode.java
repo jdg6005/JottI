@@ -18,7 +18,7 @@ public class TypeNode implements JottTree {
             return typeNode;
         }
 
-        throw new Error("Not a valid type");
+        throw new Error("Syntax Error\nExpected Double, Integer, String, or Boolean got " + token.toString() + "\n" + token.getFilename() + ":" + token.getLineNum());
     }
 
     @Override

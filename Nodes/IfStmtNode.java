@@ -24,13 +24,13 @@ public class IfStmtNode implements JottTree {
 
         // "If"
         if(token.getTokenType() != TokenType.ID_KEYWORD || !token.getToken().equals("If")) {
-            throw new Error("Syntax Error\nWas expecting 'If'!\n" + token.getFilename() + ":" + token.getLineNum());
+            throw new Error("Syntax Error\nWas expecting 'If' got " + token.toString() + "\n" + token.getFilename() + ":" + token.getLineNum());
         }
 
         // [
         token = tokens.removeFirst();
         if(token.getTokenType() != TokenType.L_BRACKET) {
-            throw new Error("Syntax Error\nWas expecting '['!\n"  + token.getFilename() + ":" + token.getLineNum());
+            throw new Error("Syntax Error\nWas expecting '[' got " + token.toString() + "\n"  + token.getFilename() + ":" + token.getLineNum());
         }
 
         // <expr>
@@ -39,13 +39,13 @@ public class IfStmtNode implements JottTree {
         // ]
         token = tokens.removeFirst();
         if(token.getTokenType() != TokenType.R_BRACKET) {
-            throw new Error("Syntax Error\nWas expecting ']'!\n" + token.getFilename() + ":" + token.getLineNum());
+            throw new Error("Syntax Error\nWas expecting ']' got " + token.toString() + "\n" + token.getFilename() + ":" + token.getLineNum());
         }
 
         // {
         token = tokens.removeFirst();
         if(token.getTokenType() != TokenType.L_BRACE) {
-            throw new Error("Syntax Error\nWas expecting '{'!\n" + token.getFilename() + ":" + token.getLineNum());
+            throw new Error("Syntax Error\nWas expecting '{' got " + token.toString() + "\n" + token.getFilename() + ":" + token.getLineNum());
         }
 
         // <body>
@@ -54,7 +54,7 @@ public class IfStmtNode implements JottTree {
         // }
         token = tokens.removeFirst();
         if(token.getTokenType() != TokenType.R_BRACE) {
-            throw new Error("Syntax Error\nWas expecting '}'!\n" + token.getFilename() + ":" + token.getLineNum());
+            throw new Error("Syntax Error\nWas expecting '}' got " + token.toString() + "\n" + token.getFilename() + ":" + token.getLineNum());
         }
 
         // <elseif_lst>*

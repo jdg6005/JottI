@@ -13,10 +13,7 @@ public class IDNode implements OperandNode{
         Token token = tokens.removeFirst();
 
         if (token.getTokenType() != TokenType.ID_KEYWORD) {
-            System.err.println("Syntax Error:");
-            System.err.println("Expected identifier");
-            System.err.println(token.getFilename() + ":" + token.getLineNum());
-            return null;
+            throw new Error("Syntax Error\nExpected identifier (got " + token.toString() + "\n" + token.getFilename() + ":" + token.getLineNum());
         }
 
         idNode.id = token;

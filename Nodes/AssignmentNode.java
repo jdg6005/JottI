@@ -19,7 +19,7 @@ public class AssignmentNode implements JottTree {
         // =
         Token token = tokens.removeFirst();
         if(token.getTokenType() != TokenType.ASSIGN) {
-            throw new Error("Syntax Error\nExpected '='\n" + token.getFilename() + ":" + token.getLineNum());
+            throw new Error("Syntax Error\nExpected '=' got " + token.toString() + "\n" + token.getFilename() + ":" + token.getLineNum());
         }
 
         // <expr>
@@ -28,7 +28,7 @@ public class AssignmentNode implements JottTree {
         // ;
         token = tokens.removeFirst();
         if(token.getTokenType() != TokenType.SEMICOLON) {
-            throw new Error("Syntax Error\nExpected ';'\n" + token.getFilename() + ":" + token.getLineNum());
+            throw new Error("Syntax Error\nExpected ';' got " + token.toString() + "\n" + token.getFilename() + ":" + token.getLineNum());
         }
 
         return self;
