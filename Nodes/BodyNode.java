@@ -5,12 +5,9 @@ import provided.Token;
 
 import java.util.ArrayList;
 
-import static provided.Nodes.BodyStmtNode.parseBodyStmtNode;
-
-
 public class BodyNode implements JottTree {
-    private ArrayList<BodyStmtNode> bodyStmtNodes = new ArrayList<>();
-    private ReturnStmtNode returnNode;
+    ArrayList<BodyStmtNode> bodyStmtNodes = new ArrayList<>();
+    ReturnStmtNode returnNode;
 
     public static BodyNode parseBodyNode(ArrayList<Token> tokens) {
         BodyNode bodyNode = new BodyNode();
