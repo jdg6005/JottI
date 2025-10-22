@@ -5,6 +5,4 @@ JottParserTester and JottTokenizerTester classes should be in a package call tes
 
 the testCases directories should be in the working directory of your project. 
 
-# Running: load the project into IntelliJ and run `testers/JottTokenizerTester.java`'s main function
-
-
+# Running: place `Nodes` directory as direct child of `JottI` (same as provided, testers, etc.) and update JottParser, JottTokenizer, and Token as typical
