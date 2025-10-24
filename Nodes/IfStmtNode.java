@@ -79,7 +79,7 @@ public class IfStmtNode implements JottTree {
             elseifs = sb.toString();
         }
 
-        return "If [" + this.expr.convertToJott() + " ] { " + this.body.convertToJott() + " } " + elseifs + this.elseNode.convertToJott();
+        return "If [" + this.expr.convertToJott() + "] { " + this.body.convertToJott() + " } " + elseifs + this.elseNode.convertToJott();
     }
 
     @Override

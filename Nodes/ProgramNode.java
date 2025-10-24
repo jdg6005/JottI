@@ -38,7 +38,7 @@ public class ProgramNode implements JottTree {
 
         StringBuilder sb = new StringBuilder();
         for(FunctionDefNode funcDefNode : funcDefNodes) {
-            sb.append(funcDefNode.convertToJott()).append("\n");
+            sb.append(funcDefNode.convertToJott()).append("\n\n");
         }
 
         return sb.toString();

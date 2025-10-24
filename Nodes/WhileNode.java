@@ -53,7 +53,7 @@ public class WhileNode implements JottTree {
 
     @Override
     public String convertToJott() {
-        return "While [" + this.expr.convertToJott() + "]{" + this.body.convertToJott() + "}";
+        return "While [" + this.expr.convertToJott() + "] { " + this.body.convertToJott() + "}";
     }
 
     @Override
