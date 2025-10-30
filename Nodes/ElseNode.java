@@ -21,7 +21,7 @@ public class ElseNode implements JottTree {
 
         // "Else"
         if(token.getTokenType() != TokenType.ID_KEYWORD || !token.getToken().equals("Else")) {
-            throw new Error("Syntax Error\nWas expecting 'Else' got " + token.toString() + "\n" +  token.getFilename() + ":" + token.getLineNum());
+            return null;
         }
 
         // {

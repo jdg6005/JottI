@@ -58,11 +58,11 @@ public class IfStmtNode implements JottTree {
         }
 
         // <elseif_lst>*
-        while(!tokens.getFirst().getToken().equals("Else")) {
+        while(tokens.getFirst().getToken().equals("Elseif")) {
             self.elseIfLst.add(ElseIfNode.parseElseIfNode(tokens));
         }
 
-        // <else>
+        // <else> (may be null)
         self.elseNode = ElseNode.parseElseNode(tokens);
 
         return self;
@@ -79,7 +79,8 @@ public class IfStmtNode implements JottTree {
             elseifs = sb.toString();
         }
 
-        return "If [" + this.expr.convertToJott() + "] { " + this.body.convertToJott() + " } " + elseifs + this.elseNode.convertToJott();
+        return "If [" + this.expr.convertToJott() + "] { " + this.body.convertToJott() + " } "
+                + elseifs + (this.elseNode == null ? "" : this.elseNode.convertToJott());
     }
 
     @Override
@@ -101,6 +102,19 @@ public class IfStmtNode implements JottTree {
     // be valid, any elseifs and else must also be valid
     @Override
     public boolean validateTree() {
-        return false;
+        // check the if
+        boolean isValid = this.expr.validateTree() && (this.expr.getType() == TypeEnum.Boolean);
+        // check the elseifs
+        if(this.elseIfLst != null) {
+            for(ElseIfNode elseIf : elseIfLst) {
+                isValid &= elseIf.validateTree();
+            }
+        }
+        // check the else
+        if(this.elseNode != null) {
+            isValid &= this.elseNode.validateTree();
+        }
+
+        return isValid;
     }
 }
