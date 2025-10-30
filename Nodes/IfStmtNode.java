@@ -97,6 +97,8 @@ public class IfStmtNode implements JottTree {
         throw new UnsupportedOperationException();
     }
 
+    // expr must be valid and return a boolean, body must
+    // be valid, any elseifs and else must also be valid
     @Override
     public boolean validateTree() {
         return false;

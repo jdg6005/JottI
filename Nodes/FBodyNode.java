@@ -50,6 +50,12 @@ public class FBodyNode implements JottTree {
 
     @Override
     public boolean validateTree() {
-        return true;
+        boolean isValid = this.bodyNode.validateTree();
+
+        for(VarDecNode varDecNode : varDecNodes) {
+            isValid &= varDecNode.validateTree();
+        }
+
+        return isValid;
     }
 }

@@ -65,8 +65,15 @@ public class FunctionCallNode implements OperandNode {
         throw new UnsupportedOperationException("NOT SUPPORTED.");
     }
 
+    // need to check parameter types correct for function
     @Override
     public boolean validateTree() {
         return false;
+    }
+
+    // TODO: should return called function's return type
+    @Override
+    public TypeEnum getType() {
+        return null;
     }
 }

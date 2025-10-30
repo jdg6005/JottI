@@ -94,6 +94,13 @@ public class FunctionDefNode implements JottTree {
         return "";
     }
 
+    // id needs to start with a lowercase, be unique, and not be:
+        // print
+        // concat
+        // length
+        // main (?)
+    // func params and fbody must be valid
+    // fbody must return from all codepaths
     @Override
     public boolean validateTree() {
         return false;

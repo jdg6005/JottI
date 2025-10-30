@@ -78,6 +78,8 @@ public class ElseIfNode implements JottTree {
         throw new UnsupportedOperationException();
     }
 
+    // needs to check that expr is valid and returns a boolean
+    // as well as check that body is valid
     @Override
     public boolean validateTree() {
         return false;

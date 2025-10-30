@@ -61,4 +61,9 @@ public class NumberNode implements OperandNode {
         return true;
     }
 
+    @Override
+    public TypeEnum getType() {
+        if(isInt) { return TypeEnum.Integer; }
+        else      { return TypeEnum.Double;  }
+    }
 }
