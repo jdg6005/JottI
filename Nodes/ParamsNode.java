@@ -55,6 +55,12 @@ public class ParamsNode implements JottTree {
 
 	@Override
 	public boolean validateTree() {
-		return false;
+        boolean isValid = this.exprNode.validateTree();
+
+        for(ParamsTNode pt : paramsTNodes) {
+            isValid &= pt.validateTree();
+        }
+
+        return isValid;
 	}
 }
