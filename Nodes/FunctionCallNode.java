@@ -74,9 +74,23 @@ public class FunctionCallNode implements OperandNode {
         return false;
     }
 
-    // TODO: should return called function's return type
     @Override
     public TypeEnum getType() {
+        if (FunctionVariableAccessor.functionList.containsKey(this.id)) {
+            String returnType = FunctionVariableAccessor.functionList.get(this.id).getReturnType().type.getToken();
+            return switch (returnType) {
+                case "String" -> TypeEnum.String;
+                case "Integer" -> TypeEnum.Integer;
+                case "Double" -> TypeEnum.Double;
+                case "Boolean" -> TypeEnum.Boolean;
+                default -> null;
+            };
+        }
         return null;
+    }
+
+    @Override
+    public double getValue() {
+        return 0;
     }
 }

@@ -97,11 +97,14 @@ public class ExprNode implements JottTree {
     // if relop/mathop, check both sides are same type
     @Override
     public boolean validateTree() {
-        String op1Class = operand1.getClass().getSimpleName().toLowerCase();
-        String op2Class = operand2.getClass().getSimpleName().toLowerCase();
-
-        if (op2Class.equals(op1Class)) {
-
+        TypeEnum firstType = getType();
+        if (operand2 == null) { // if no second operand and no first operand, then it must be a string or bool which are always true
+            return operand1 == null || operand1.validateTree();
+        }
+        else if (firstType.equals(operand2.getType())) {
+            if (mathop.getToken().equals("/")) {
+                return operand2.getValue() != 0 && operand1.validateTree() && operand2.validateTree();
+            }
         }
         return false;
     }

@@ -18,7 +18,7 @@ public class Main {
 
         FunctionVariableAccessor.functionList = new HashMap<>();
         FunctionVariableAccessor.variableList = new HashMap<>();
-        FunctionVariableAccessor.currentScope = "";
+        FunctionVariableAccessor.currentScope = new IDNode();
 
         JottTree root = JottParser.parse(tokens);
         System.out.println(root.convertToJott());

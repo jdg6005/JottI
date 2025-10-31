@@ -1,9 +1,11 @@
 package Nodes;
 
+import project.FunctionVariableAccessor;
 import provided.Token;
 import provided.TokenType;
 
 import java.util.ArrayList;
+import java.util.function.Function;
 
 public class IDNode implements OperandNode{
     Token id;
@@ -49,9 +51,22 @@ public class IDNode implements OperandNode{
         return Character.isLowerCase(this.id.getToken().charAt(0));
     }
 
-    // TODO: type is type of the id in this scope (how?)
     @Override
     public TypeEnum getType() {
+        if (FunctionVariableAccessor.variableList.containsKey(FunctionVariableAccessor.currentScope)) {
+            String idType = FunctionVariableAccessor.variableList.get(FunctionVariableAccessor.currentScope).get(this).convertToJott();
+            return switch (idType) {
+                case "String" -> TypeEnum.String;
+                case "Integer" -> TypeEnum.Integer;
+                case "Double" -> TypeEnum.Double;
+                default -> TypeEnum.Boolean;
+            };
+        }
         return null;
+    }
+
+    @Override
+    public double getValue() {
+        return 0;
     }
 }

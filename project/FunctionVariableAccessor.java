@@ -8,7 +8,7 @@ import java.util.HashMap;
 public class FunctionVariableAccessor {
     public static HashMap<IDNode, FunctionList> functionList;
     public static HashMap<IDNode, HashMap<IDNode, TypeNode>> variableList;
-    public static String currentScope;
+    public static IDNode currentScope;
 
     public static void functionToString() {
         for (IDNode id : functionList.keySet()) {
