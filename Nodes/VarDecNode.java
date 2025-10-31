@@ -7,8 +7,8 @@ import provided.TokenType;
 import java.util.ArrayList;
 
 public class VarDecNode implements JottTree {
-    private TypeNode typeNode;
-    private IDNode idNode;
+    TypeNode typeNode;
+    IDNode idNode;
 
 
     public static VarDecNode parseVarDecNode(ArrayList<Token> tokens) {

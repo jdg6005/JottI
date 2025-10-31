@@ -5,6 +5,7 @@ import provided.Token;
 import provided.TokenType;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import static Nodes.OperandNode.parseOperandNode;
 import static provided.TokenType.*;
@@ -94,6 +95,12 @@ public class ExprNode implements JottTree {
 
     @Override
     public boolean validateTree() {
+        String op1Class = operand1.getClass().getSimpleName().toLowerCase();
+        String op2Class = operand2.getClass().getSimpleName().toLowerCase();
+
+        if (op2Class.equals(op1Class)) {
+
+        }
         return false;
     }
 }

@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class FBodyNode implements JottTree {
-    private final ArrayList<VarDecNode> varDecNodes= new ArrayList<>();
-    private BodyNode bodyNode;
+    ArrayList<VarDecNode> varDecNodes= new ArrayList<>();
+    BodyNode bodyNode;
 
     public static FBodyNode parseFBodyNode(ArrayList<Token> tokens) {
         FBodyNode fBodyNode = new FBodyNode();

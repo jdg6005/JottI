@@ -1,10 +1,13 @@
 package Nodes;
 
+import project.FunctionList;
+import project.FunctionVariableAccessor;
 import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * This class is responsible for parsing a function definition node
@@ -70,6 +73,28 @@ public class FunctionDefNode implements JottTree {
         if(token.getTokenType() != TokenType.R_BRACE) {
             throw new Error("Syntax Error\nExpected '}' got " + token.toString() + "\n" + token.getFilename() + ":" + token.getLineNum());
         }
+
+        HashMap<IDNode, TypeNode> params = new HashMap<>();
+        if (self.funcDefParams != null) {
+            params.put(self.funcDefParams.id, self.funcDefParams.type);
+            if (self.funcDefParams.funcDefParamsTNode != null) {
+                for (FuncDefParamsTNode param : self.funcDefParams.funcDefParamsTNode) {
+                    params.put(param.id, param.type);
+                }
+            }
+        }
+        FunctionReturnNode ret = self.returnType;
+
+        FunctionList newFunc = new FunctionList(params, ret);
+        FunctionVariableAccessor.functionList.put(self.id, newFunc);
+
+
+        HashMap<IDNode, TypeNode> variables = new HashMap<>();
+        for (VarDecNode var: self.fBody.varDecNodes) {
+            variables.put(var.idNode, var.typeNode);
+        }
+
+        FunctionVariableAccessor.variableList.put(self.id, variables);
 
         return self;
     }

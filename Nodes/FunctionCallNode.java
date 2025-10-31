@@ -1,5 +1,7 @@
 package Nodes;
 
+import project.FunctionList;
+import project.FunctionVariableAccessor;
 import provided.Token;
 import provided.TokenType;
 
@@ -67,6 +69,7 @@ public class FunctionCallNode implements OperandNode {
 
     @Override
     public boolean validateTree() {
+        FunctionList func = FunctionVariableAccessor.functionList.get(this.id);
         return false;
     }
 }

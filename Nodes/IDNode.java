@@ -6,7 +6,7 @@ import provided.TokenType;
 import java.util.ArrayList;
 
 public class IDNode implements OperandNode{
-    private Token id;
+    Token id;
 
     public static IDNode parseIDNode(ArrayList<Token> tokens) {
         IDNode idNode = new IDNode();
