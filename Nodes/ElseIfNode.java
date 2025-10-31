@@ -80,6 +80,6 @@ public class ElseIfNode implements JottTree {
 
     @Override
     public boolean validateTree() {
-        return false;
+        return this.expr.validateTree() && (this.expr.getType() == TypeEnum.Boolean) && this.body.validateTree();
     }
 }

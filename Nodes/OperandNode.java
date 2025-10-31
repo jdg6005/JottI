@@ -17,10 +17,9 @@ public interface OperandNode extends JottTree {
             case NUMBER, MATH_OP -> parseNumberNode(tokens);
             case ID_KEYWORD -> parseIDNode(tokens);
             case FC_HEADER -> parseFunctionCallNode(tokens);
-            default -> throw new Error("Syntax Error\nExpected operand\n" + token.getFilename() + ":" + token.getLineNum());
+            default -> throw new Error("Syntax Error\nExpeted operand\n" + token.getFilename() + ":" + token.getLineNum());
         };
     }
 
-
-
+    public abstract TypeEnum getType();
 }

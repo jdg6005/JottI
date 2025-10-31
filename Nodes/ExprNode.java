@@ -93,6 +93,8 @@ public class ExprNode implements JottTree {
         return "";
     }
 
+    // if operand/string literal/bool, good (just call their validate)
+    // if relop/mathop, check both sides are same type
     @Override
     public boolean validateTree() {
         String op1Class = operand1.getClass().getSimpleName().toLowerCase();
@@ -102,5 +104,13 @@ public class ExprNode implements JottTree {
 
         }
         return false;
+    }
+
+    public TypeEnum getType() {
+        if(this.string != null) { return TypeEnum.String; }
+        if(this.bool != null)   { return TypeEnum.Boolean; }
+        if(this.relop != null)  { return TypeEnum.Boolean; }
+        // mathop or just an operand
+        else                    { return operand1.getType(); }
     }
 }

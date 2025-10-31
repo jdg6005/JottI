@@ -60,6 +60,7 @@ public class FuncDefParamsTNode implements JottTree {
         return "";
     }
 
+    // need to check id is lowercase and unique
     @Override
     public boolean validateTree() {
         return false;
