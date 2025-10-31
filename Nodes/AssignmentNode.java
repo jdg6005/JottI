@@ -54,6 +54,8 @@ public class AssignmentNode implements JottTree {
         throw new UnsupportedOperationException();
     }
 
+    // needs to check that variable was declared within scope
+    // and that type of rhs matches expected
     @Override
     public boolean validateTree() {
         return true;

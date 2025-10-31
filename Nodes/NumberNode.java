@@ -58,7 +58,12 @@ public class NumberNode implements OperandNode {
 
     @Override
     public boolean validateTree() {
-        return false;
+        return true;
     }
 
+    @Override
+    public TypeEnum getType() {
+        if(isInt) { return TypeEnum.Integer; }
+        else      { return TypeEnum.Double;  }
+    }
 }

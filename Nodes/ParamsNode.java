@@ -53,8 +53,16 @@ public class ParamsNode implements JottTree {
 		return null;
 	}
 
+    // TODO: also check that param types match expected
+    // including for all in ParamsTNode
 	@Override
 	public boolean validateTree() {
-		return false;
+        boolean isValid = this.exprNode.validateTree();
+
+        for(ParamsTNode pt : paramsTNodes) {
+            isValid &= pt.validateTree();
+        }
+
+        return isValid;
 	}
 }

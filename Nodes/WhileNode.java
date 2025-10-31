@@ -71,6 +71,8 @@ public class WhileNode implements JottTree {
         return "";
     }
 
+    // valid is expr valid and returns a boolean and body
+    // is all valid
     @Override
     public boolean validateTree() {
         return false;

@@ -20,4 +20,6 @@ public interface OperandNode extends JottTree {
             default -> throw new Error("Syntax Error\nExpeted operand\n" + token.getFilename() + ":" + token.getLineNum());
         };
     }
+
+    public abstract TypeEnum getType();
 }

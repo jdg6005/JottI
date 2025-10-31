@@ -61,6 +61,6 @@ public class ReturnStmtNode implements JottTree {
 
     @Override
     public boolean validateTree() {
-        return false;
+        return this.expr.validateTree();
     }
 }

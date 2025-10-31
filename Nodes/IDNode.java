@@ -40,8 +40,18 @@ public class IDNode implements OperandNode{
         return this.id.getToken();
     }
 
+    // uniqueness checking should be done by one of:
+    // FuncDefParams{T}Node (for param name uniqueness)
+    // VarDecNode (for variable name uniqueness)
+    // FuncDefNode (for func name uniqueness)
     @Override
     public boolean validateTree() {
-        return true;
+        return Character.isLowerCase(this.id.getToken().charAt(0));
+    }
+
+    // TODO: type is type of the id in this scope (how?)
+    @Override
+    public TypeEnum getType() {
+        return null;
     }
 }
