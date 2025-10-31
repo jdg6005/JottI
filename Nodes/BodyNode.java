@@ -26,7 +26,7 @@ public class BodyNode implements JottTree {
     public String convertToJott() {
         StringBuilder str = new StringBuilder();
         for (BodyStmtNode bodyStmtNode : bodyStmtNodes) {
-            str.append(bodyStmtNode.convertToJott());
+            str.append(bodyStmtNode.convertToJott()).append(" ");
         }
         str.append(returnNode.convertToJott());
         return str.toString();

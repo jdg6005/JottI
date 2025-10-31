@@ -33,19 +33,19 @@ public class WhileNode implements JottTree {
 
         currToken = tokens.removeFirst();
         if(!currToken.getTokenType().equals(TokenType.R_BRACKET)) {
-            throw new Error("Expression should be followed by a ']'!");
+            throw new Error("Expression should be followed by a ']' (got " + currToken.toString() + ")\n" + currToken.getFilename() + ":" + currToken.getLineNum());
         }
 
         currToken = tokens.removeFirst();
         if(!currToken.getTokenType().equals(TokenType.L_BRACE)) {
-            throw new Error("']' should be followed by a '{'!");
+            throw new Error("']' should be followed by a '{' (got " + currToken.toString() + ")\n" + currToken.getFilename() + ":" + currToken.getLineNum());
         }
 
         self.body = BodyNode.parseBodyNode(tokens);
 
         currToken = tokens.removeFirst();
         if(!currToken.getTokenType().equals(TokenType.R_BRACE)) {
-            throw new Error("Body should be followed by a '}'!");
+            throw new Error("Body should be followed by a '}' (got " + currToken.toString() + ")\n" + currToken.getFilename() + ":" + currToken.getLineNum());
         }
 
         return self;
@@ -53,7 +53,7 @@ public class WhileNode implements JottTree {
 
     @Override
     public String convertToJott() {
-        return "While [" + this.expr.convertToJott() + "]{" + this.body.convertToJott() + "}";
+        return "While [" + this.expr.convertToJott() + "] { " + this.body.convertToJott() + "}";
     }
 
     @Override
