@@ -27,7 +27,7 @@ public class FunctionDefNode implements JottTree {
         // Def
         Token token = tokens.removeFirst();
         if(token.getTokenType() != TokenType.ID_KEYWORD || !token.getToken().equals("Def")) {
-            throw new Error("Syntax Error\nExpected 'Def' got " + token.toString() + "\n" + token.getFilename() + ":" + token.getLineNum());
+            throw new Error("Syntax Error\nExpected 'Def' got " + token + "\n" + token.getFilename() + ":" + token.getLineNum());
         }
 
         // <id>
@@ -36,7 +36,7 @@ public class FunctionDefNode implements JottTree {
         // [
         token = tokens.removeFirst();
         if(token.getTokenType() != TokenType.L_BRACKET) {
-            throw new Error("Syntax Error\nExpected '[' got " + token.toString() + "\n" + token.getFilename() + ":" + token.getLineNum());
+            throw new Error("Syntax Error\nExpected '[' got " + token + "\n" + token.getFilename() + ":" + token.getLineNum());
         }
 
         // <func_def_params>
@@ -47,13 +47,13 @@ public class FunctionDefNode implements JottTree {
         // ]
         token = tokens.removeFirst();
         if(token.getTokenType() != TokenType.R_BRACKET) {
-            throw new Error("Syntax Error\nExpected ']' got " + token.toString() + "\n" + token.getFilename() + ":" + token.getLineNum());
+            throw new Error("Syntax Error\nExpected ']' got " + token + "\n" + token.getFilename() + ":" + token.getLineNum());
         }
 
         // :
         token = tokens.removeFirst();
         if(token.getTokenType() != TokenType.COLON) {
-            throw new Error("Syntax Error\nExpected ':' got " + token.toString() + "\n" + token.getFilename() + ":" + token.getLineNum());
+            throw new Error("Syntax Error\nExpected ':' got " + token + "\n" + token.getFilename() + ":" + token.getLineNum());
         }
 
         // <function_return>
@@ -62,7 +62,7 @@ public class FunctionDefNode implements JottTree {
         // {
         token = tokens.removeFirst();
         if(token.getTokenType() != TokenType.L_BRACE) {
-            throw new Error("Syntax Error\nExpected '{' got " + token.toString() + "\n" + token.getFilename() + ":" + token.getLineNum());
+            throw new Error("Syntax Error\nExpected '{' got " + token + "\n" + token.getFilename() + ":" + token.getLineNum());
         }
 
         // <f_body>
@@ -71,7 +71,7 @@ public class FunctionDefNode implements JottTree {
         // }
         token = tokens.removeFirst();
         if(token.getTokenType() != TokenType.R_BRACE) {
-            throw new Error("Syntax Error\nExpected '}' got " + token.toString() + "\n" + token.getFilename() + ":" + token.getLineNum());
+            throw new Error("Syntax Error\nExpected '}' got " + token + "\n" + token.getFilename() + ":" + token.getLineNum());
         }
 
         HashMap<IDNode, TypeNode> params = new HashMap<>();
@@ -128,6 +128,15 @@ public class FunctionDefNode implements JottTree {
     // fbody must return from all codepaths
     @Override
     public boolean validateTree() {
-        return false;
+        IDNode main = new IDNode();
+        for (IDNode func: FunctionVariableAccessor.functionList.keySet()) {
+            if (func.convertToJott().equals("main")) {
+                main = func;
+                break;
+            }
+        }
+
+        return FunctionVariableAccessor.functionList.get(main).getReturnType().convertToJott().equals("Void")
+                && id.validateTree() && funcDefParams.validateTree() && returnType.validateTree() && fBody.validateTree();
     }
 }

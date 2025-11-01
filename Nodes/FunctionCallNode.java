@@ -71,9 +71,13 @@ public class FunctionCallNode implements OperandNode {
     // need to check parameter types correct for function
     @Override
     public boolean validateTree() {
+        if (!(FunctionVariableAccessor.functionList.containsKey(this.id) && this.id.validateTree() && this.params.validateTree())) {
+            return false;
+        }
+
         HashMap<IDNode, TypeNode> funcParams = FunctionVariableAccessor.functionList.get(this.id).getParams();
-        String first = funcParams.get(funcParams.keySet().toArray()[0]).convertToJott();
-        if (!first.equals(this.params.type.convertToJott())) {
+        String firstParam = funcParams.get(funcParams.keySet().toArray()[0]).convertToJott();
+        if (!firstParam.equals(this.params.type.convertToJott())) {
             return false;
         }
 

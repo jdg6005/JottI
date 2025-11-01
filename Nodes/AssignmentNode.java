@@ -1,5 +1,6 @@
 package Nodes;
 
+import project.FunctionVariableAccessor;
 import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
@@ -19,7 +20,7 @@ public class AssignmentNode implements JottTree {
         // =
         Token token = tokens.removeFirst();
         if(token.getTokenType() != TokenType.ASSIGN) {
-            throw new Error("Syntax Error\nExpected '=' got " + token.toString() + "\n" + token.getFilename() + ":" + token.getLineNum());
+            throw new Error("Syntax Error\nExpected '=' got " + token + "\n" + token.getFilename() + ":" + token.getLineNum());
         }
 
         // <expr>
@@ -28,7 +29,7 @@ public class AssignmentNode implements JottTree {
         // ;
         token = tokens.removeFirst();
         if(token.getTokenType() != TokenType.SEMICOLON) {
-            throw new Error("Syntax Error\nExpected ';' got " + token.toString() + "\n" + token.getFilename() + ":" + token.getLineNum());
+            throw new Error("Syntax Error\nExpected ';' got " + token + "\n" + token.getFilename() + ":" + token.getLineNum());
         }
 
         return self;
@@ -58,7 +59,11 @@ public class AssignmentNode implements JottTree {
     // and that type of rhs matches expected
     @Override
     public boolean validateTree() {
-        return true;
+        if (!FunctionVariableAccessor.variableList.get(FunctionVariableAccessor.currentScope).containsKey(idTok)) {
+            return false;
+        }
+        TypeEnum leftType = FunctionVariableAccessor.variableList.get(FunctionVariableAccessor.currentScope).get(idTok).getType();
+        return leftType.equals(rhs.getType()) && idTok.validateTree() && rhs.validateTree();
     }
 
 }
