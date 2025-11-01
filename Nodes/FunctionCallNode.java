@@ -1,11 +1,11 @@
 package Nodes;
 
-import project.FunctionList;
 import project.FunctionVariableAccessor;
 import provided.Token;
 import provided.TokenType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * This class is responsible for parsing function calls
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 public class FunctionCallNode implements OperandNode {
     private IDNode id;
-    private ParamsNode params;
+    private FuncDefParamsNode params;
 
     public static FunctionCallNode parseFunctionCallNode(ArrayList<Token> tokens) {
         FunctionCallNode self = new FunctionCallNode();
@@ -23,7 +23,7 @@ public class FunctionCallNode implements OperandNode {
         // ::
         Token currToken = tokens.removeFirst();
         if(!currToken.getTokenType().equals(TokenType.FC_HEADER)) {
-            throw new Error("Syntax Error\nFunction call should start with '::' got " + currToken.toString() + "\n" + currToken.getFilename() + ":" + currToken.getLineNum());
+            throw new Error("Syntax Error\nFunction call should start with '::' got " + currToken + "\n" + currToken.getFilename() + ":" + currToken.getLineNum());
         }
 
         // <id>
@@ -32,16 +32,17 @@ public class FunctionCallNode implements OperandNode {
         // [
         currToken = tokens.removeFirst();
         if(!currToken.getTokenType().equals(TokenType.L_BRACKET)) {
-            throw new Error("Syntax Error\nFunction name should be followed by a left bracket (got " + currToken.toString() + ")\n" + currToken.getFilename() + ":" + currToken.getLineNum());
+            throw new Error("Syntax Error\nFunction name should be followed by a left bracket (got " + currToken + ")\n" + currToken.getFilename() + ":" + currToken.getLineNum());
         }
 
         // <params>
-        self.params = ParamsNode.parseParamsNode(tokens);
+        self.params = FuncDefParamsNode.parseFuncDefParamsNode(tokens);
+
 
         // ]
         currToken = tokens.removeFirst();
         if(!currToken.getTokenType().equals(TokenType.R_BRACKET)) {
-            throw new Error("Syntax Error\nFunction parameters should be followed by a right bracket (got " + currToken.toString() + ")\n" + currToken.getFilename() + ":" + currToken.getLineNum());
+            throw new Error("Syntax Error\nFunction parameters should be followed by a right bracket (got " + currToken + ")\n" + currToken.getFilename() + ":" + currToken.getLineNum());
         }
 
         return self;
@@ -70,8 +71,19 @@ public class FunctionCallNode implements OperandNode {
     // need to check parameter types correct for function
     @Override
     public boolean validateTree() {
-        FunctionList func = FunctionVariableAccessor.functionList.get(this.id);
-        return false;
+        HashMap<IDNode, TypeNode> funcParams = FunctionVariableAccessor.functionList.get(this.id).getParams();
+        String first = funcParams.get(funcParams.keySet().toArray()[0]).convertToJott();
+        if (!first.equals(this.params.type.convertToJott())) {
+            return false;
+        }
+
+        for (int i = 1; i < funcParams.size(); i++) {
+            if (!params.funcDefParamsTNode.get(i).convertToJott().equals(funcParams.get(funcParams.keySet().toArray()[i]).convertToJott())) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     @Override
