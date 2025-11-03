@@ -11,6 +11,8 @@ public class VarDecNode implements JottTree {
     IDNode idNode;
 
 
+    // TODO: add the variables to the hashset for the current scope or fail if
+    // it's already in there (semantic error)
     public static VarDecNode parseVarDecNode(ArrayList<Token> tokens) {
         VarDecNode varDecNode = new VarDecNode();
 

@@ -64,6 +64,12 @@ public class ProgramNode implements JottTree {
         boolean isValid = true;
         for(FunctionDefNode funcDef : funcDefNodes) {
             isValid &= funcDef.validateTree();
+            if(funcDef.id.id.getToken().equals("Main")) {
+                // make sure Main is declared as Void
+                isValid &= funcDef.returnType.type.getToken().equals("Void");
+                // make sure Main has no parameters
+                isValid &= funcDef.funcDefParams == null;
+            }
         }
 
         return isValid;

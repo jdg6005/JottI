@@ -7,6 +7,7 @@ import provided.Token;
 import provided.TokenType;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 /**
@@ -119,24 +120,13 @@ public class FunctionDefNode implements JottTree {
         return "";
     }
 
-    // id needs to start with a lowercase, be unique, and not be:
-        // print
-        // concat
-        // length
-        // main (?)
-    // func params and fbody must be valid
-    // fbody must return from all codepaths
+    // TODO: fbody must return from all codepaths
     @Override
     public boolean validateTree() {
-        IDNode main = new IDNode();
-        for (IDNode func: FunctionVariableAccessor.functionList.keySet()) {
-            if (func.convertToJott().equals("main")) {
-                main = func;
-                break;
-            }
-        }
+        if(Arrays.asList(new String[]{"print", "concat", "length"}).contains(this.id.id.getToken())) { return false; }
 
-        return FunctionVariableAccessor.functionList.get(main).getReturnType().convertToJott().equals("Void")
-                && id.validateTree() && funcDefParams.validateTree() && returnType.validateTree() && fBody.validateTree();
+        // set scope for when we now parse function body
+        FunctionVariableAccessor.currentScope = this.id;
+        return id.validateTree() && funcDefParams.validateTree() && returnType.validateTree() && fBody.validateTree();
     }
 }
