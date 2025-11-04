@@ -12,7 +12,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import Nodes.IDNode;
+import project.FunctionVariableAccessor;
 import provided.*;
 
 public class JottParserTester {
@@ -187,6 +190,10 @@ public class JottParserTester {
     public static void main(String[] args) {
         System.out.println("NOTE: System.err may print at the end. This is fine.");
         JottParserTester tester = new JottParserTester();
+
+        FunctionVariableAccessor.functionList = new HashMap<>();
+        FunctionVariableAccessor.variableList = new HashMap<>();
+        FunctionVariableAccessor.currentScope = new IDNode();
 
         int numTests = 0;
         int passedTests = 0;
