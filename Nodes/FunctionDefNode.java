@@ -5,6 +5,7 @@ import provided.Token;
 import provided.TokenType;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * This class is responsible for parsing a function definition node
@@ -94,15 +95,32 @@ public class FunctionDefNode implements JottTree {
         return "";
     }
 
-    // id needs to start with a lowercase, be unique, and not be:
+    // (TODO: check unique??) id needs to start with a lowercase, be unique, and not be:
         // print
         // concat
         // length
-        // main (?)
     // func params and fbody must be valid
     // fbody must return from all codepaths
     @Override
     public boolean validateTree() {
-        return false;
+        boolean isValid = true;
+
+        // checks lowercase
+        isValid &= this.id.validateTree();
+        // check not a reserved word
+        isValid &= !(Arrays.asList(new String[]{"print", "concat", "length"}).contains(this.id.convertToJott()));
+
+        isValid &= this.funcDefParams.validateTree();
+        isValid &= this.fBody.validateTree();
+
+        // if Void, ensure doesn't have "Return"
+        if(this.returnType.type.getToken().equals("Void")) {
+            isValid = this.fBody.doesntHaveReturn();
+        // if not Void, ensure returns
+        } else {
+            isValid = this.fBody.isReturnable();
+        }
+
+        return isValid;
     }
 }

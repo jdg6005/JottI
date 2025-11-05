@@ -20,10 +20,10 @@ public class ReturnStmtNode implements JottTree {
         // check epsilon
         Token currToken = tokens.getFirst();
         if (!currToken.getTokenType().equals(TokenType.ID_KEYWORD) || !currToken.getToken().equals("Return")) {
-            return self;
+            return null;
         }
 
-        // not epsilon
+        // Return
         tokens.removeFirst();
 
         // <expr>

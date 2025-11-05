@@ -117,4 +117,24 @@ public class IfStmtNode implements JottTree {
 
         return isValid;
     }
+
+    public boolean isReturnable() {
+        // has to have an else statement
+        if(elseNode == null) { return false; }
+
+        // if body must return
+        if(!body.isReturnable()) { return false; }
+        // elseif bodies must return
+        if(elseIfLst != null) {
+            for (ElseIfNode elseIf : elseIfLst) {
+                if (!elseIf.body.isReturnable()) {
+                    return false;
+                }
+            }
+        }
+        // else body must return
+        if(!elseNode.body.isReturnable()) { return false; }
+
+        return true;
+    }
 }
