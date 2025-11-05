@@ -1,6 +1,6 @@
 package Nodes;
 
-import project.FunctionList;
+import project.FunctionInfo;
 import project.FunctionVariableAccessor;
 import provided.JottTree;
 import provided.Token;
@@ -13,7 +13,7 @@ import java.util.HashMap;
 /**
  * This class is responsible for parsing a function definition node
  *
- * @author Matthew Fiedler
+ * @author Matthew Fiedler, Miles Todtfeld
  **/
 
 public class FunctionDefNode implements JottTree {
@@ -75,27 +75,39 @@ public class FunctionDefNode implements JottTree {
             throw new Error("Syntax Error\nExpected '}' got " + token + "\n" + token.getFilename() + ":" + token.getLineNum());
         }
 
-        HashMap<IDNode, TypeNode> params = new HashMap<>();
+        // Add to FunctionVariableAccessor:
+
+        ArrayList<TypeEnum> paramTypes = new ArrayList<>();
         if (self.funcDefParams != null) {
-            params.put(self.funcDefParams.id, self.funcDefParams.type);
-            if (self.funcDefParams.funcDefParamsTNode != null) {
-                for (FuncDefParamsTNode param : self.funcDefParams.funcDefParamsTNode) {
-                    params.put(param.id, param.type);
+            paramTypes.add(self.funcDefParams.type.getType());
+            if (self.funcDefParams.funcDefParamsTNodes != null) {
+                for (FuncDefParamsTNode param : self.funcDefParams.funcDefParamsTNodes) {
+                    paramTypes.add(param.type.getType());
                 }
             }
         }
-        FunctionReturnNode ret = self.returnType;
+        TypeEnum returnType = self.returnType.getType();
 
-        FunctionList newFunc = new FunctionList(params, ret);
-        FunctionVariableAccessor.functionList.put(self.id, newFunc);
+        FunctionInfo newFunc = new FunctionInfo(paramTypes, returnType);
+        FunctionVariableAccessor.functions.put(self.id, newFunc);
 
-
-        HashMap<IDNode, TypeNode> variables = new HashMap<>();
+        // Add variables declared in function body to FunctionVariableAccessor:
+        HashMap<IDNode, TypeEnum> variables = new HashMap<>();
         for (VarDecNode var: self.fBody.varDecNodes) {
-            variables.put(var.idNode, var.typeNode);
+            variables.put(var.idNode, var.typeNode.getType());
         }
 
-        FunctionVariableAccessor.variableList.put(self.id, variables);
+        // Add parameters to FunctionVariableAccessor (parameters count as local variables)
+        if (self.funcDefParams != null) {
+            variables.put(self.funcDefParams.id, self.funcDefParams.getType());
+            if (self.funcDefParams.funcDefParamsTNodes != null) {
+                for (FuncDefParamsTNode param : self.funcDefParams.funcDefParamsTNodes) {
+                    variables.put(param.id, param.getType());
+                }
+            }
+        }
+
+        FunctionVariableAccessor.variables.put(self.id, variables);
 
         return self;
     }

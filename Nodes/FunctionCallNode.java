@@ -15,7 +15,7 @@ import java.util.HashMap;
 
 public class FunctionCallNode implements OperandNode {
     private IDNode id;
-    private FuncDefParamsNode params;
+    private ParamsNode params;
 
     public static FunctionCallNode parseFunctionCallNode(ArrayList<Token> tokens) {
         FunctionCallNode self = new FunctionCallNode();
@@ -36,7 +36,7 @@ public class FunctionCallNode implements OperandNode {
         }
 
         // <params>
-        self.params = FuncDefParamsNode.parseFuncDefParamsNode(tokens);
+        self.params = ParamsNode.parseParamsNode(tokens);
 
 
         // ]
@@ -71,20 +71,17 @@ public class FunctionCallNode implements OperandNode {
     // need to check parameter types correct for function
     @Override
     public boolean validateTree() {
-        if (!(FunctionVariableAccessor.functionList.containsKey(this.id) && this.id.validateTree() && this.params.validateTree())) {
+        if (!(FunctionVariableAccessor.functions.containsKey(this.id) && this.id.validateTree() && this.params.validateTree()))
             return false;
-        }
 
-        HashMap<IDNode, TypeNode> funcParams = FunctionVariableAccessor.functionList.get(this.id).getParams();
-        String firstParam = funcParams.get(funcParams.keySet().toArray()[0]).convertToJott();
-        if (!firstParam.equals(this.params.type.convertToJott())) {
+        ArrayList<TypeEnum> funcParams = FunctionVariableAccessor.functions.get(this.id).paramTypes;
+
+        if (funcParams.get(0) != this.params.getType())
             return false;
-        }
 
         for (int i = 1; i < funcParams.size(); i++) {
-            if (!params.funcDefParamsTNode.get(i).convertToJott().equals(funcParams.get(funcParams.keySet().toArray()[i]).convertToJott())) {
+            if (funcParams.get(i) != params.paramsTNodes.get(i - 1).getType())
                 return false;
-            }
         }
 
         return true;
@@ -92,16 +89,8 @@ public class FunctionCallNode implements OperandNode {
 
     @Override
     public TypeEnum getType() {
-        if (FunctionVariableAccessor.functionList.containsKey(this.id)) {
-            String returnType = FunctionVariableAccessor.functionList.get(this.id).getReturnType().type.getToken();
-            return switch (returnType) {
-                case "String" -> TypeEnum.String;
-                case "Integer" -> TypeEnum.Integer;
-                case "Double" -> TypeEnum.Double;
-                case "Boolean" -> TypeEnum.Boolean;
-                default -> null;
-            };
-        }
+        if (FunctionVariableAccessor.functions.containsKey(this.id))
+            return FunctionVariableAccessor.functions.get(this.id).returnType;
         return null;
     }
 

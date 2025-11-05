@@ -16,14 +16,14 @@ public class Main {
     public static void main(String[] args) {
         ArrayList<Token> tokens = JottTokenizer.tokenize("parserTestCases/" + args[0]);
 
-        FunctionVariableAccessor.functionList = new HashMap<>();
-        FunctionVariableAccessor.variableList = new HashMap<>();
+        FunctionVariableAccessor.functions = new HashMap<>();
+        FunctionVariableAccessor.variables = new HashMap<>();
         FunctionVariableAccessor.currentScope = new IDNode();
 
         JottTree root = JottParser.parse(tokens);
         System.out.println(root.convertToJott());
         root.validateTree();
 
-        FunctionVariableAccessor.functionToString();
+        // FunctionVariableAccessor.functionToString();
     }
 }

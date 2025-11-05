@@ -5,7 +5,6 @@ import provided.Token;
 import provided.TokenType;
 
 import java.util.ArrayList;
-import java.util.function.Function;
 
 public class IDNode implements OperandNode{
     Token id;
@@ -53,15 +52,8 @@ public class IDNode implements OperandNode{
 
     @Override
     public TypeEnum getType() {
-        if (FunctionVariableAccessor.variableList.containsKey(FunctionVariableAccessor.currentScope)) {
-            String idType = FunctionVariableAccessor.variableList.get(FunctionVariableAccessor.currentScope).get(this).convertToJott();
-            return switch (idType) {
-                case "String" -> TypeEnum.String;
-                case "Integer" -> TypeEnum.Integer;
-                case "Double" -> TypeEnum.Double;
-                default -> TypeEnum.Boolean;
-            };
-        }
+        if (FunctionVariableAccessor.variables.containsKey(FunctionVariableAccessor.currentScope))
+            return FunctionVariableAccessor.variables.get(FunctionVariableAccessor.currentScope).get(this);
         return null;
     }
 

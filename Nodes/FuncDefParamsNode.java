@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class FuncDefParamsNode implements JottTree {
     IDNode id;
     TypeNode type;
-    ArrayList<FuncDefParamsTNode> funcDefParamsTNode;
+    ArrayList<FuncDefParamsTNode> funcDefParamsTNodes;
 
     public static FuncDefParamsNode parseFuncDefParamsNode(ArrayList<Token> tokens) {
         FuncDefParamsNode self = new FuncDefParamsNode();
@@ -34,7 +34,7 @@ public class FuncDefParamsNode implements JottTree {
 
         // <func_def_params_t>*
         while(tokens.getFirst().getTokenType() == TokenType.COMMA) {
-            self.funcDefParamsTNode.add(FuncDefParamsTNode.parseFuncDefParamsTNode(tokens));
+            self.funcDefParamsTNodes.add(FuncDefParamsTNode.parseFuncDefParamsTNode(tokens));
         }
 
         return self;
@@ -44,8 +44,8 @@ public class FuncDefParamsNode implements JottTree {
     public String convertToJott() {
         StringBuilder sb = new StringBuilder();
         sb.append(id.convertToJott()).append(":").append(type.convertToJott());
-        if(funcDefParamsTNode != null) {
-            for (FuncDefParamsTNode fdptn : funcDefParamsTNode) {
+        if(funcDefParamsTNodes != null) {
+            for (FuncDefParamsTNode fdptn : funcDefParamsTNodes) {
                 sb.append(fdptn.convertToJott());
             }
         }
@@ -66,6 +66,10 @@ public class FuncDefParamsNode implements JottTree {
     @Override
     public String convertToPython() {
         return "";
+    }
+
+    public TypeEnum getType() {
+        return this.type.getType();
     }
 
     // need to check all ids are unique and start with lowercase

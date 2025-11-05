@@ -60,6 +60,10 @@ public class FuncDefParamsTNode implements JottTree {
         return "";
     }
 
+    public TypeEnum getType() {
+        return this.type.getType();
+    }
+
     // need to check id is lowercase and unique
     @Override
     public boolean validateTree() {

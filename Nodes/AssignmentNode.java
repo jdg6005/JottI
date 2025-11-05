@@ -59,10 +59,10 @@ public class AssignmentNode implements JottTree {
     // and that type of rhs matches expected
     @Override
     public boolean validateTree() {
-        if (!FunctionVariableAccessor.variableList.get(FunctionVariableAccessor.currentScope).containsKey(idTok)) {
+        if (!FunctionVariableAccessor.variables.get(FunctionVariableAccessor.currentScope).containsKey(idTok))
             return false;
-        }
-        TypeEnum leftType = FunctionVariableAccessor.variableList.get(FunctionVariableAccessor.currentScope).get(idTok).getType();
+
+        TypeEnum leftType = this.idTok.getType();
         return leftType.equals(rhs.getType()) && idTok.validateTree() && rhs.validateTree();
     }
 
