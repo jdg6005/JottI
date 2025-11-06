@@ -79,8 +79,6 @@ public class ProgramNode implements JottTree {
 
         try {
             for (FunctionDefNode funcDef : funcDefNodes) {
-                funcDef.validateTree();
-
                 if (funcDef.id.id.getToken().equals("main")) {
                     hasMain = true;
 
@@ -93,6 +91,9 @@ public class ProgramNode implements JottTree {
                         throw new Error("Semantic Error:\nMain must not take any arguments\n" + funcDef.id.getFilename() + ":" + funcDef.id.getLinenum());
                     }
                 }
+
+                // validate the function
+                funcDef.validateTree();
             }
         } catch(Error e) {
             System.err.println(e.toString());
