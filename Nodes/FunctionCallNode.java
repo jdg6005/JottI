@@ -37,7 +37,9 @@ public class FunctionCallNode implements OperandNode {
         }
 
         // <params>
-        self.params = ParamsNode.parseParamsNode(tokens);
+        if(tokens.getFirst().getTokenType() != TokenType.R_BRACKET) {
+            self.params = ParamsNode.parseParamsNode(tokens);
+        }
 
 
         // ]
@@ -51,7 +53,8 @@ public class FunctionCallNode implements OperandNode {
 
     @Override
     public String convertToJott() {
-        return "::" + this.id.convertToJott() + '[' + this.params.convertToJott() + ']';
+        String paramsStr = this.params == null ? "" : this.params.convertToJott();
+        return "::" + this.id.convertToJott() + '[' + paramsStr + ']';
     }
 
     @Override
