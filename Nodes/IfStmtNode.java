@@ -105,7 +105,7 @@ public class IfStmtNode implements JottTree {
         // check the if
         this.expr.validateTree();
         // must have a boolean condition
-        if(this.expr.getType() == TypeEnum.Boolean) {
+        if(this.expr.getType() != TypeEnum.Boolean) {
             throw new Error("Semantic Error:\nAttempted to use non-boolean for condition\n" + this.expr.operand1.getFilename() + ":" + this.expr.operand1.getLinenum());
         }
 
