@@ -71,6 +71,13 @@ public class NumberNode implements OperandNode {
     }
 
     @Override
+    public double getValue() {
+        if (isInt) { return intNumber; }
+        else { return doubleNumber;}
+    }
+
+
+    @Override
     public String getFilename() {
         return this.numberToken.getFilename();
     }

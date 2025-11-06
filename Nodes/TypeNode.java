@@ -18,7 +18,7 @@ public class TypeNode implements JottTree {
             return typeNode;
         }
 
-        throw new Error("Syntax Error\nExpected Double, Integer, String, or Boolean got " + token.toString() + "\n" + token.getFilename() + ":" + token.getLineNum());
+        throw new Error("Syntax Error\nExpected Double, Integer, String, or Boolean got " + token + "\n" + token.getFilename() + ":" + token.getLineNum());
     }
 
     @Override
@@ -44,5 +44,15 @@ public class TypeNode implements JottTree {
     @Override
     public boolean validateTree() {
         return true;
+    }
+
+    public TypeEnum getType() {
+        return switch (type.getToken()) {
+            case "Integer" -> TypeEnum.Integer;
+            case "Double" -> TypeEnum.Double;
+            case "String" -> TypeEnum.String;
+            case "Boolean" -> TypeEnum.Boolean;
+            default -> null;
+        };
     }
 }

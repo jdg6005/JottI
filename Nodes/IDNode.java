@@ -1,12 +1,13 @@
 package Nodes;
 
+import project.FunctionVariableAccessor;
 import provided.Token;
 import provided.TokenType;
 
 import java.util.ArrayList;
 
 public class IDNode implements OperandNode{
-    public Token id;
+    Token id;
 
     public static IDNode parseIDNode(ArrayList<Token> tokens) {
         IDNode idNode = new IDNode();
@@ -52,9 +53,16 @@ public class IDNode implements OperandNode{
     // unused
     @Override
     public TypeEnum getType() {
+        if (FunctionVariableAccessor.variables.containsKey(FunctionVariableAccessor.currentScope))
+            return FunctionVariableAccessor.variables.get(FunctionVariableAccessor.currentScope).get(this);
         return null;
     }
 
+    @Override
+    public double getValue() {
+        return 0;
+    }
+  
     @Override
     public String getFilename() {
         return this.id.getFilename();

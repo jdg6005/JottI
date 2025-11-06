@@ -42,7 +42,17 @@ public class FunctionReturnNode implements JottTree {
         return "";
     }
 
-    // TODO: error if the curr scope's return type is not this return's type
+    public TypeEnum getType() {
+        // if void, returns null!
+        return switch (type.getToken()) {
+            case "Integer" -> TypeEnum.Integer;
+            case "Double" -> TypeEnum.Double;
+            case "String" -> TypeEnum.String;
+            case "Boolean" -> TypeEnum.Boolean;
+            default -> null;
+        };
+    }
+
     @Override
     public boolean validateTree() {
         return true;

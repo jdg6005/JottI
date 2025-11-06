@@ -1,16 +1,19 @@
 package Nodes;
 
+import project.FunctionInfo;
+import project.FunctionVariableAccessor;
 import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 /**
  * This class is responsible for parsing a function definition node
  *
- * @author Matthew Fiedler
+ * @author Matthew Fiedler, Miles Todtfeld
  **/
 
 public class FunctionDefNode implements JottTree {
@@ -25,7 +28,7 @@ public class FunctionDefNode implements JottTree {
         // Def
         Token token = tokens.removeFirst();
         if(token.getTokenType() != TokenType.ID_KEYWORD || !token.getToken().equals("Def")) {
-            throw new Error("Syntax Error\nExpected 'Def' got " + token.toString() + "\n" + token.getFilename() + ":" + token.getLineNum());
+            throw new Error("Syntax Error\nExpected 'Def' got " + token + "\n" + token.getFilename() + ":" + token.getLineNum());
         }
 
         // <id>
@@ -34,7 +37,7 @@ public class FunctionDefNode implements JottTree {
         // [
         token = tokens.removeFirst();
         if(token.getTokenType() != TokenType.L_BRACKET) {
-            throw new Error("Syntax Error\nExpected '[' got " + token.toString() + "\n" + token.getFilename() + ":" + token.getLineNum());
+            throw new Error("Syntax Error\nExpected '[' got " + token + "\n" + token.getFilename() + ":" + token.getLineNum());
         }
 
         // <func_def_params>
@@ -45,13 +48,13 @@ public class FunctionDefNode implements JottTree {
         // ]
         token = tokens.removeFirst();
         if(token.getTokenType() != TokenType.R_BRACKET) {
-            throw new Error("Syntax Error\nExpected ']' got " + token.toString() + "\n" + token.getFilename() + ":" + token.getLineNum());
+            throw new Error("Syntax Error\nExpected ']' got " + token + "\n" + token.getFilename() + ":" + token.getLineNum());
         }
 
         // :
         token = tokens.removeFirst();
         if(token.getTokenType() != TokenType.COLON) {
-            throw new Error("Syntax Error\nExpected ':' got " + token.toString() + "\n" + token.getFilename() + ":" + token.getLineNum());
+            throw new Error("Syntax Error\nExpected ':' got " + token + "\n" + token.getFilename() + ":" + token.getLineNum());
         }
 
         // <function_return>
@@ -60,7 +63,7 @@ public class FunctionDefNode implements JottTree {
         // {
         token = tokens.removeFirst();
         if(token.getTokenType() != TokenType.L_BRACE) {
-            throw new Error("Syntax Error\nExpected '{' got " + token.toString() + "\n" + token.getFilename() + ":" + token.getLineNum());
+            throw new Error("Syntax Error\nExpected '{' got " + token + "\n" + token.getFilename() + ":" + token.getLineNum());
         }
 
         // <f_body>
@@ -69,8 +72,42 @@ public class FunctionDefNode implements JottTree {
         // }
         token = tokens.removeFirst();
         if(token.getTokenType() != TokenType.R_BRACE) {
-            throw new Error("Syntax Error\nExpected '}' got " + token.toString() + "\n" + token.getFilename() + ":" + token.getLineNum());
+            throw new Error("Syntax Error\nExpected '}' got " + token + "\n" + token.getFilename() + ":" + token.getLineNum());
         }
+
+        // Add to FunctionVariableAccessor:
+
+        ArrayList<TypeEnum> paramTypes = new ArrayList<>();
+        if (self.funcDefParams != null) {
+            paramTypes.add(self.funcDefParams.type.getType());
+            if (self.funcDefParams.funcDefParamsTNodes != null) {
+                for (FuncDefParamsTNode param : self.funcDefParams.funcDefParamsTNodes) {
+                    paramTypes.add(param.type.getType());
+                }
+            }
+        }
+        TypeEnum returnType = self.returnType.getType();
+
+        FunctionInfo newFunc = new FunctionInfo(paramTypes, returnType);
+        FunctionVariableAccessor.functions.put(self.id, newFunc);
+
+        // Add variables declared in function body to FunctionVariableAccessor:
+        HashMap<IDNode, TypeEnum> variables = new HashMap<>();
+        for (VarDecNode var: self.fBody.varDecNodes) {
+            variables.put(var.idNode, var.typeNode.getType());
+        }
+
+        // Add parameters to FunctionVariableAccessor (parameters count as local variables)
+        if (self.funcDefParams != null) {
+            variables.put(self.funcDefParams.id, self.funcDefParams.getType());
+            if (self.funcDefParams.funcDefParamsTNodes != null) {
+                for (FuncDefParamsTNode param : self.funcDefParams.funcDefParamsTNodes) {
+                    variables.put(param.id, param.getType());
+                }
+            }
+        }
+
+        FunctionVariableAccessor.variables.put(self.id, variables);
 
         return self;
     }

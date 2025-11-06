@@ -7,10 +7,12 @@ import provided.TokenType;
 import java.util.ArrayList;
 
 public class VarDecNode implements JottTree {
-    private TypeNode typeNode;
-    private IDNode idNode;
+    TypeNode typeNode;
+    IDNode idNode;
 
 
+    // TODO: add the variables to the hashset for the current scope or fail if
+    // it's already in there (semantic error)
     public static VarDecNode parseVarDecNode(ArrayList<Token> tokens) {
         VarDecNode varDecNode = new VarDecNode();
 

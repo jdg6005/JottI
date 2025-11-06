@@ -7,9 +7,8 @@ import provided.TokenType;
 import java.util.ArrayList;
 
 public class ParamsNode implements JottTree {
-    private ExprNode exprNode = null;
-	private final ArrayList<ParamsTNode> paramsTNodes = new ArrayList<ParamsTNode>();
-
+    ExprNode exprNode = null;
+	final ArrayList<ParamsTNode> paramsTNodes = new ArrayList<>();
 
 	public static ParamsNode parseParamsNode(ArrayList<Token> tokens) {
 		ParamsNode paramsNode = new ParamsNode();
@@ -21,6 +20,9 @@ public class ParamsNode implements JottTree {
         while (tokens.getFirst().getTokenType() == TokenType.COMMA) {
             paramsNode.paramsTNodes.add(ParamsTNode.parseParamsTNode(tokens));
         }
+
+
+
 		return paramsNode;
 	}
 
@@ -51,6 +53,10 @@ public class ParamsNode implements JottTree {
 	@Override
 	public String convertToPython() {
 		return null;
+	}
+
+	TypeEnum getType() {
+		return exprNode.getType();
 	}
 
     // TODO: also check that param types match expected

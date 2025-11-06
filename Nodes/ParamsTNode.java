@@ -47,6 +47,10 @@ public class ParamsTNode implements JottTree {
 		return null;
 	}
 
+	public TypeEnum getType() {
+		return this.exprNode.getType();
+	}
+
 	@Override
 	public boolean validateTree() {
         this.exprNode.validateTree();
