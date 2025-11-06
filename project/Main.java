@@ -14,15 +14,14 @@ import java.util.HashMap;
  */
 public class Main {
     public static void main(String[] args) {
-        ArrayList<Token> tokens = JottTokenizer.tokenize("parserTestCases/" + args[0]);
+        ArrayList<Token> tokens = JottTokenizer.tokenize("phase3testcases/mainReturnNotInt.jott");
 
-        FunctionVariableAccessor.functions = new HashMap<>();
-        FunctionVariableAccessor.variables = new HashMap<>();
         FunctionVariableAccessor.currentScope = new IDNode();
 
         JottTree root = JottParser.parse(tokens);
         System.out.println(root.convertToJott());
-        root.validateTree();
+
+        System.out.println("passed: " + root.validateTree());
 
         // FunctionVariableAccessor.functionToString();
     }

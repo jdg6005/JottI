@@ -135,10 +135,22 @@ public class FunctionDefNode implements JottTree {
     // TODO: fbody must return from all codepaths
     @Override
     public boolean validateTree() {
-        if(Arrays.asList(new String[]{"print", "concat", "length"}).contains(this.id.id.getToken())) { return false; }
+        if(Arrays.asList(new String[]{"print", "concat", "length"}).contains(this.id.id.getToken()))
+            return false;
+
+        // main function should take no args and be void
+        if(this.id.id.getToken().equals("main")) {
+            if(this.funcDefParams != null) return false;
+            if(this.returnType.getType() != null) return false;
+        }
 
         // set scope for when we now parse function body
         FunctionVariableAccessor.currentScope = this.id;
-        return id.validateTree() && funcDefParams.validateTree() && returnType.validateTree() && fBody.validateTree();
+        return (
+                id.validateTree()
+                && (funcDefParams == null || funcDefParams.validateTree())
+                && returnType.validateTree()
+                && fBody.validateTree()
+        );
     }
 }
