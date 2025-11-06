@@ -63,12 +63,12 @@ public class ParamsNode implements JottTree {
     // including for all in ParamsTNode
 	@Override
 	public boolean validateTree() {
-        boolean isValid = this.exprNode.validateTree();
+        this.exprNode.validateTree();
 
         for(ParamsTNode pt : paramsTNodes) {
-            isValid &= pt.validateTree();
+            pt.validateTree();
         }
 
-        return isValid;
+        return true;
 	}
 }

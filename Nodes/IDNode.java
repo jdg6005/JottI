@@ -50,6 +50,7 @@ public class IDNode implements OperandNode{
         return Character.isLowerCase(this.id.getToken().charAt(0));
     }
 
+    // unused
     @Override
     public TypeEnum getType() {
         if (FunctionVariableAccessor.variables.containsKey(FunctionVariableAccessor.currentScope))
@@ -60,5 +61,15 @@ public class IDNode implements OperandNode{
     @Override
     public double getValue() {
         return 0;
+    }
+  
+    @Override
+    public String getFilename() {
+        return this.id.getFilename();
+    }
+
+    @Override
+    public int getLinenum() {
+        return this.id.getLineNum();
     }
 }

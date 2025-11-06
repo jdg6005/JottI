@@ -51,4 +51,20 @@ public class BodyNode implements JottTree {
     public boolean validateTree() {
         return true;
     }
+
+    public boolean isReturnable() {
+        // has a return statement
+        if(returnNode != null) { return true; }
+
+        // one of the body statements has a return
+        for(BodyStmtNode bodyStmt : bodyStmtNodes) {
+            if(bodyStmt.isReturnable()) { return true; }
+        }
+
+        return false;
+    }
+
+    public boolean doesntHaveReturn() {
+        return this.convertToJott().contains("Return");
+    }
 }

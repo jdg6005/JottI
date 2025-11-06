@@ -17,12 +17,15 @@ public class NumberNode implements OperandNode {
     private int intNumber;
     private double doubleNumber;
     private boolean isInt;
+    private Token numberToken;
 
     public static NumberNode parseNumberNode(ArrayList<Token> tokens) {
         NumberNode self = new NumberNode();
 
         if (tokens.getFirst().getTokenType() == TokenType.NUMBER) {
             Token t = tokens.removeFirst();
+            // so we store the file name / line number
+            self.numberToken = t;
             if(t.getToken().contains(".")) {
                 self.doubleNumber = Double.parseDouble(t.getToken());
                 self.isInt = false;
@@ -74,4 +77,13 @@ public class NumberNode implements OperandNode {
     }
 
 
+    @Override
+    public String getFilename() {
+        return this.numberToken.getFilename();
+    }
+
+    @Override
+    public int getLinenum() {
+        return this.numberToken.getLineNum();
+    }
 }
