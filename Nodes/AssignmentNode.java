@@ -59,11 +59,19 @@ public class AssignmentNode implements JottTree {
     // and that type of rhs matches expected
     @Override
     public boolean validateTree() {
-        if (!FunctionVariableAccessor.variables.get(FunctionVariableAccessor.currentScope).containsKey(idTok))
-            return false;
+        this.idTok.validateTree();
+        this.rhs.validateTree();
+
+        if (!FunctionVariableAccessor.variables.get(FunctionVariableAccessor.currentScope).containsKey(idTok)) {
+            throw new Error("Semantic Error:\nAttempted to assign to undeclared variable `" + this.idTok.convertToJott() + "`\n" + this.idTok.getFilename() + ":" + this.idTok.getLinenum());
+        }
 
         TypeEnum leftType = this.idTok.getType();
-        return leftType.equals(rhs.getType()) && idTok.validateTree() && rhs.validateTree();
+        if(this.idTok.getType() != rhs.getType()) {
+            throw new Error("Semantic Error:\nAttempted to assign value of type `" + this.rhs.getType() + "` to variable of type `" + this.idTok.getType() + "`\n" + this.idTok.getFilename() + ":" + this.idTok.getLinenum());
+        }
+
+        return true;
     }
 
 }

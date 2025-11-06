@@ -1,5 +1,6 @@
 package Nodes;
 
+import project.FunctionVariableAccessor;
 import provided.JottTree;
 import provided.Token;
 
@@ -59,17 +60,27 @@ public class ProgramNode implements JottTree {
         return "";
     }
 
+    // TODO: add print, concat, and length to function accessor map
     @Override
     public boolean validateTree() {
-        for(FunctionDefNode funcDef : funcDefNodes) {
-            funcDef.validateTree();
-          
-            if(funcDef.id.id.getToken().equals("Main")) {
-                // make sure Main is declared as Void
-                isValid &= funcDef.returnType.type.getToken().equals("Void");
-                // make sure Main has no parameters
-                isValid &= funcDef.funcDefParams == null;
+        try {
+            for (FunctionDefNode funcDef : funcDefNodes) {
+                funcDef.validateTree();
+
+                if (funcDef.id.id.getToken().equals("Main")) {
+                    // make sure Main is declared as Void
+                    if (funcDef.returnType.getType() != TypeEnum.Void) {
+                        throw new Error("Semantic Error:\nMain must be declared as Void\n" + funcDef.id.getFilename() + ":" + funcDef.id.getLinenum());
+                    }
+                    // make sure Main has no parameters
+                    if (funcDef.funcDefParams != null) {
+                        throw new Error("Semantic Error:\nMain must not take any arguments\n" + funcDef.id.getFilename() + ":" + funcDef.id.getLinenum());
+                    }
+                }
             }
+        } catch(Error e) {
+            System.err.println(e.toString());
+            return false;
         }
 
         return true;

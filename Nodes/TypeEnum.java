@@ -5,4 +5,5 @@ public enum TypeEnum {
     Integer,
     Double,
     Boolean,
+    Void,
 }

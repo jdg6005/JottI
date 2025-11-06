@@ -55,12 +55,18 @@ public class ParamsNode implements JottTree {
 		return null;
 	}
 
-	TypeEnum getType() {
-		return exprNode.getType();
+    // get list of types for the parameters
+	public ArrayList<TypeEnum> getTypes() {
+        ArrayList<TypeEnum> types = new ArrayList<>();
+        types.add(this.exprNode.getType());
+
+        for(ParamsTNode pt : this.paramsTNodes) {
+            types.add(pt.getType());
+        }
+
+        return types;
 	}
 
-    // TODO: also check that param types match expected
-    // including for all in ParamsTNode
 	@Override
 	public boolean validateTree() {
         this.exprNode.validateTree();

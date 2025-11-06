@@ -148,12 +148,16 @@ public class FunctionDefNode implements JottTree {
             throw new Error("Semantic Error:\nAttempted to redefine system function `" + this.id.convertToJott() + "`\n" + this.id.id.getFilename() + ":" + this.id.id.getLineNum());
         }
 
-        this.funcDefParams.validateTree();
+        if(this.funcDefParams != null) {
+            this.funcDefParams.validateTree();
+        }
         this.fBody.validateTree();
 
         // if Void, ensure doesn't have "Return"
-        if(this.returnType.type.getToken().equals("Void") && !this.fBody.doesntHaveReturn()) {
-            throw new Error("Semantic Error:\nFound return statement in Void function `" + this.id.convertToJott() + "`\n" + this.id.id.getFilename() + ":" + this.id.id.getLineNum());
+        if(this.returnType.type.getToken().equals("Void")) {
+            if(!this.fBody.doesntHaveReturn()) {
+                throw new Error("Semantic Error:\nFound return statement in Void function `" + this.id.convertToJott() + "`\n" + this.id.id.getFilename() + ":" + this.id.id.getLineNum());
+            }
         // if not Void, ensure returns
         } else if(!this.fBody.isReturnable()) {
             throw new Error("Semantic Error:\nNot all path through non-Void function `" + this.id.convertToJott() + "` return a value\n" + this.id.id.getFilename() + ":" + this.id.id.getLineNum());

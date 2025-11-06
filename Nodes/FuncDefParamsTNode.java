@@ -64,9 +64,14 @@ public class FuncDefParamsTNode implements JottTree {
         return this.type.getType();
     }
 
-    // need to check id is lowercase and unique
+    // TODO: need to check id is unique
     @Override
     public boolean validateTree() {
-        return false;
+        // tautology
+        this.type.validateTree();
+        // ensures ID starts w/ lowercase
+        this.id.validateTree();
+
+        return true;
     }
 }
