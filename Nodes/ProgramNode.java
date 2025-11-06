@@ -8,6 +8,7 @@ import provided.TokenType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 public class ProgramNode implements JottTree {
@@ -65,8 +66,7 @@ public class ProgramNode implements JottTree {
 
     @Override
     public boolean validateTree() {
-        // TODO: print can take any non-void argument, not just string
-        FunctionInfo printInfo = new FunctionInfo(new ArrayList<TypeEnum>(Arrays.asList(new TypeEnum[]{TypeEnum.String})), TypeEnum.Void);
+        FunctionInfo printInfo = new FunctionInfo(new ArrayList<TypeEnum>(List.of()), TypeEnum.Void);
         FunctionVariableAccessor.functions.put("print", printInfo);
 
         FunctionInfo concatInfo = new FunctionInfo(new ArrayList<TypeEnum>(Arrays.asList(new TypeEnum[]{TypeEnum.String, TypeEnum.String})), TypeEnum.String);
