@@ -42,6 +42,7 @@ public class FunctionReturnNode implements JottTree {
         return "";
     }
 
+    // TODO: error if the curr scope's return type is not this return's type
     @Override
     public boolean validateTree() {
         return true;

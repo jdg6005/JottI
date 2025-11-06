@@ -103,18 +103,43 @@ public class IfStmtNode implements JottTree {
     @Override
     public boolean validateTree() {
         // check the if
-        boolean isValid = this.expr.validateTree() && (this.expr.getType() == TypeEnum.Boolean);
+        this.expr.validateTree();
+        // must have a boolean condition
+        if(this.expr.getType() == TypeEnum.Boolean) {
+            throw new Error("Semantic Error:\nAttempted to use non-boolean for condition\n" + this.expr.operand1.getFilename() + ":" + this.expr.operand1.getLinenum());
+        }
+
         // check the elseifs
         if(this.elseIfLst != null) {
             for(ElseIfNode elseIf : elseIfLst) {
-                isValid &= elseIf.validateTree();
+                elseIf.validateTree();
             }
         }
         // check the else
         if(this.elseNode != null) {
-            isValid &= this.elseNode.validateTree();
+            this.elseNode.validateTree();
         }
 
-        return isValid;
+        return true;
+    }
+
+    public boolean isReturnable() {
+        // has to have an else statement
+        if(elseNode == null) { return false; }
+
+        // if body must return
+        if(!body.isReturnable()) { return false; }
+        // elseif bodies must return
+        if(elseIfLst != null) {
+            for (ElseIfNode elseIf : elseIfLst) {
+                if (!elseIf.body.isReturnable()) {
+                    return false;
+                }
+            }
+        }
+        // else body must return
+        if(!elseNode.body.isReturnable()) { return false; }
+
+        return true;
     }
 }

@@ -10,7 +10,7 @@ import java.util.Arrays;
 
 public class FBodyNode implements JottTree {
     private final ArrayList<VarDecNode> varDecNodes= new ArrayList<>();
-    private BodyNode bodyNode;
+    public BodyNode bodyNode;
 
     public static FBodyNode parseFBodyNode(ArrayList<Token> tokens) {
         FBodyNode fBodyNode = new FBodyNode();
@@ -50,12 +50,20 @@ public class FBodyNode implements JottTree {
 
     @Override
     public boolean validateTree() {
-        boolean isValid = this.bodyNode.validateTree();
+        this.bodyNode.validateTree();
 
         for(VarDecNode varDecNode : varDecNodes) {
-            isValid &= varDecNode.validateTree();
+            varDecNode.validateTree();
         }
 
-        return isValid;
+        return true;
+    }
+
+    public boolean isReturnable() {
+        return this.bodyNode.isReturnable();
+    }
+
+    public boolean doesntHaveReturn() {
+        return this.bodyNode.doesntHaveReturn();
     }
 }

@@ -5,6 +5,7 @@ import provided.Token;
 import provided.TokenType;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * This class is responsible for parsing a function definition node
@@ -94,15 +95,33 @@ public class FunctionDefNode implements JottTree {
         return "";
     }
 
-    // id needs to start with a lowercase, be unique, and not be:
+    // (TODO: check unique??) id needs to start with a lowercase, be unique, and not be:
         // print
         // concat
         // length
-        // main (?)
     // func params and fbody must be valid
     // fbody must return from all codepaths
     @Override
     public boolean validateTree() {
-        return false;
+        // checks lowercase
+        this.id.validateTree();
+
+        // check not a reserved word
+        if(Arrays.asList(new String[]{"print", "concat", "length"}).contains(this.id.convertToJott())) {
+            throw new Error("Semantic Error:\nAttempted to redefine system function `" + this.id.convertToJott() + "`\n" + this.id.id.getFilename() + ":" + this.id.id.getLineNum());
+        }
+
+        this.funcDefParams.validateTree();
+        this.fBody.validateTree();
+
+        // if Void, ensure doesn't have "Return"
+        if(this.returnType.type.getToken().equals("Void") && !this.fBody.doesntHaveReturn()) {
+            throw new Error("Semantic Error:\nFound return statement in Void function `" + this.id.convertToJott() + "`\n" + this.id.id.getFilename() + ":" + this.id.id.getLineNum());
+        // if not Void, ensure returns
+        } else if(!this.fBody.isReturnable()) {
+            throw new Error("Semantic Error:\nNot all path through non-Void function `" + this.id.convertToJott() + "` return a value\n" + this.id.id.getFilename() + ":" + this.id.id.getLineNum());
+        }
+
+        return true;
     }
 }

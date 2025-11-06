@@ -6,7 +6,7 @@ import provided.TokenType;
 import java.util.ArrayList;
 
 public class IDNode implements OperandNode{
-    private Token id;
+    public Token id;
 
     public static IDNode parseIDNode(ArrayList<Token> tokens) {
         IDNode idNode = new IDNode();
@@ -49,9 +49,19 @@ public class IDNode implements OperandNode{
         return Character.isLowerCase(this.id.getToken().charAt(0));
     }
 
-    // TODO: type is type of the id in this scope (how?)
+    // unused
     @Override
     public TypeEnum getType() {
         return null;
+    }
+
+    @Override
+    public String getFilename() {
+        return this.id.getFilename();
+    }
+
+    @Override
+    public int getLinenum() {
+        return this.id.getLineNum();
     }
 }

@@ -20,10 +20,10 @@ public class ReturnStmtNode implements JottTree {
         // check epsilon
         Token currToken = tokens.getFirst();
         if (!currToken.getTokenType().equals(TokenType.ID_KEYWORD) || !currToken.getToken().equals("Return")) {
-            return self;
+            return null;
         }
 
-        // not epsilon
+        // Return
         tokens.removeFirst();
 
         // <expr>
@@ -59,8 +59,10 @@ public class ReturnStmtNode implements JottTree {
         return "";
     }
 
+    // TODO: check that type matches return type of current scope
     @Override
     public boolean validateTree() {
-        return this.expr.validateTree();
+        this.expr.validateTree();
+        return true;
     }
 }

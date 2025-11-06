@@ -71,10 +71,17 @@ public class WhileNode implements JottTree {
         return "";
     }
 
-    // valid is expr valid and returns a boolean and body
-    // is all valid
     @Override
     public boolean validateTree() {
-        return false;
+        // check the conditional (valid & returns a boolean)
+        this.expr.validateTree();
+        if(this.expr.getType() != TypeEnum.Boolean) {
+            throw new Error("Semantic Error:\nAttempted to use non-boolean for condition\n" + this.expr.operand1.getFilename() + ":" + this.expr.operand1.getLinenum());
+        }
+
+        // check body
+        this.body.validateTree();
+
+        return true;
     }
 }
