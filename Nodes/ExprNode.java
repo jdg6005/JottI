@@ -16,7 +16,7 @@ import static provided.TokenType.*;
  **/
 
 public class ExprNode implements JottTree {
-    private OperandNode operand1;
+    public OperandNode operand1;
     private Token relop;
     private Token mathop;
     private OperandNode operand2;
@@ -96,7 +96,28 @@ public class ExprNode implements JottTree {
     // if relop/mathop, check both sides are same type
     @Override
     public boolean validateTree() {
-        return false;
+        // string literal
+        if(this.string != null) { this.string.validateTree(); }
+        // bool
+        else if(this.bool != null) { this.bool.validateTree(); }
+        // relop
+        else if(this.relop != null) {
+            if(this.operand1.getType() != this.operand2.getType()) {
+                throw new Error("Semantic Error:\nOperands of `" + this.relop.getToken() + "` don't have the same type\n" + this.relop.getFilename() + ":" + this.relop.getLineNum());
+            }
+        }
+        // mathop
+        else if(this.mathop != null) {
+            if(this.operand1.getType() != this.operand2.getType()) {
+                throw new Error("Semantic Error:\nOperands of `" + this.mathop.getToken() + "` don't have the same type\n" + this.relop.getFilename() + ":" + this.relop.getLineNum());
+            }
+        }
+        // just an operand
+        else {
+            this.operand1.validateTree();
+        }
+
+        return true;
     }
 
     public TypeEnum getType() {

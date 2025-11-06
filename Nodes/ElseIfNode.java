@@ -80,6 +80,13 @@ public class ElseIfNode implements JottTree {
 
     @Override
     public boolean validateTree() {
-        return this.expr.validateTree() && (this.expr.getType() == TypeEnum.Boolean) && this.body.validateTree();
+        if(this.expr.getType() != TypeEnum.Boolean) {
+            throw new Error("Semantic Error:\nAttempted to use non-boolean for condition\n" + this.expr.operand1.getFilename() + ":" + this.expr.operand1.getLinenum());
+        }
+
+        this.expr.validateTree();
+        this.body.validateTree();
+
+        return true;
     }
 }

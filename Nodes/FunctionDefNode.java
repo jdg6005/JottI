@@ -103,24 +103,25 @@ public class FunctionDefNode implements JottTree {
     // fbody must return from all codepaths
     @Override
     public boolean validateTree() {
-        boolean isValid = true;
-
         // checks lowercase
-        isValid &= this.id.validateTree();
+        this.id.validateTree();
+
         // check not a reserved word
-        isValid &= !(Arrays.asList(new String[]{"print", "concat", "length"}).contains(this.id.convertToJott()));
-
-        isValid &= this.funcDefParams.validateTree();
-        isValid &= this.fBody.validateTree();
-
-        // if Void, ensure doesn't have "Return"
-        if(this.returnType.type.getToken().equals("Void")) {
-            isValid = this.fBody.doesntHaveReturn();
-        // if not Void, ensure returns
-        } else {
-            isValid = this.fBody.isReturnable();
+        if(Arrays.asList(new String[]{"print", "concat", "length"}).contains(this.id.convertToJott())) {
+            throw new Error("Semantic Error:\nAttempted to redefine system function `" + this.id.convertToJott() + "`\n" + this.id.id.getFilename() + ":" + this.id.id.getLineNum());
         }
 
-        return isValid;
+        this.funcDefParams.validateTree();
+        this.fBody.validateTree();
+
+        // if Void, ensure doesn't have "Return"
+        if(this.returnType.type.getToken().equals("Void") && !this.fBody.doesntHaveReturn()) {
+            throw new Error("Semantic Error:\nFound return statement in Void function `" + this.id.convertToJott() + "`\n" + this.id.id.getFilename() + ":" + this.id.id.getLineNum());
+        // if not Void, ensure returns
+        } else if(!this.fBody.isReturnable()) {
+            throw new Error("Semantic Error:\nNot all path through non-Void function `" + this.id.convertToJott() + "` return a value\n" + this.id.id.getFilename() + ":" + this.id.id.getLineNum());
+        }
+
+        return true;
     }
 }

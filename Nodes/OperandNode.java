@@ -22,4 +22,6 @@ public interface OperandNode extends JottTree {
     }
 
     public abstract TypeEnum getType();
+    public abstract String getFilename();
+    public abstract int getLinenum();
 }

@@ -59,8 +59,10 @@ public class ReturnStmtNode implements JottTree {
         return "";
     }
 
+    // TODO: check that type matches return type of current scope
     @Override
     public boolean validateTree() {
-        return this.expr.validateTree();
+        this.expr.validateTree();
+        return true;
     }
 }

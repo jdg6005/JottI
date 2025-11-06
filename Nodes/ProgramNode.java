@@ -61,11 +61,10 @@ public class ProgramNode implements JottTree {
 
     @Override
     public boolean validateTree() {
-        boolean isValid = true;
         for(FunctionDefNode funcDef : funcDefNodes) {
-            isValid &= funcDef.validateTree();
+            funcDef.validateTree();
         }
 
-        return isValid;
+        return true;
     }
 }

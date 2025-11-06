@@ -49,9 +49,12 @@ public class VarDecNode implements JottTree {
         return " ";
     }
 
-    // valid if id unique and valid (which checks lowercase)
+    // TODO: check variable name unique
     @Override
     public boolean validateTree() {
-        return false;
+        // checks id starts w/ lowercase
+        this.idNode.validateTree();
+
+        return true;
     }
 }
