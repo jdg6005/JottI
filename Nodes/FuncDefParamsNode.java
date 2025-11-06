@@ -1,10 +1,12 @@
 package Nodes;
 
+import project.FunctionVariableAccessor;
 import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 
 /**
@@ -80,18 +82,18 @@ public class FuncDefParamsNode implements JottTree {
         // ensures ID starts w/ lowercase
         this.id.validateTree();
 
-        HashSet<String> parameterIDs = new HashSet<>();
-        parameterIDs.add(id.convertToJott());
+        HashMap<String, TypeEnum> localVars = FunctionVariableAccessor.variables.get(FunctionVariableAccessor.currentScope);
+        localVars.put(this.id.getToken(), this.type.getType());
 
         // validates all the other parameters
         if(this.funcDefParamsTNodes != null) {
             for (FuncDefParamsTNode fdpt : this.funcDefParamsTNodes) {
                 // ensures all IDs are unique
-                if (parameterIDs.contains(fdpt.id.convertToJott())) {
-                    throw new Error("Semantic Error:\nMultiple parameters named `" + fdpt.id.convertToJott() + "`\n" + fdpt.id.getFilename() + ":" + fdpt.id.getLinenum());
+                if (localVars.containsKey(fdpt.id.getToken())) {
+                    throw new Error("Semantic Error:\nMultiple parameters named `" + fdpt.id.getToken() + "`\n" + fdpt.id.getFilename() + ":" + fdpt.id.getLinenum());
                 }
                 // if unique, add it to the set
-                parameterIDs.add(fdpt.id.convertToJott());
+                localVars.put(fdpt.id.getToken(), fdpt.type.getType());
 
                 // validate the
                 fdpt.validateTree();

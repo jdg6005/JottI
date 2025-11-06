@@ -1,10 +1,13 @@
 package Nodes;
 
+import project.FunctionInfo;
 import project.FunctionVariableAccessor;
 import provided.JottTree;
 import provided.Token;
+import provided.TokenType;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.NoSuchElementException;
 
 public class ProgramNode implements JottTree {
@@ -60,14 +63,27 @@ public class ProgramNode implements JottTree {
         return "";
     }
 
-    // TODO: add print, concat, and length to function accessor map
     @Override
     public boolean validateTree() {
+        // TODO: print can take any non-void argument, not just string
+        FunctionInfo printInfo = new FunctionInfo(new ArrayList<TypeEnum>(Arrays.asList(new TypeEnum[]{TypeEnum.String})), TypeEnum.Void);
+        FunctionVariableAccessor.functions.put("print", printInfo);
+
+        FunctionInfo concatInfo = new FunctionInfo(new ArrayList<TypeEnum>(Arrays.asList(new TypeEnum[]{TypeEnum.String, TypeEnum.String})), TypeEnum.String);
+        FunctionVariableAccessor.functions.put("concat", concatInfo);
+
+        FunctionInfo lengthInfo = new FunctionInfo(new ArrayList<TypeEnum>(Arrays.asList(new TypeEnum[]{TypeEnum.String})), TypeEnum.Integer);
+        FunctionVariableAccessor.functions.put("length", lengthInfo);
+
+        boolean hasMain = false;
+
         try {
             for (FunctionDefNode funcDef : funcDefNodes) {
                 funcDef.validateTree();
 
-                if (funcDef.id.id.getToken().equals("Main")) {
+                if (funcDef.id.id.getToken().equals("main")) {
+                    hasMain = true;
+
                     // make sure Main is declared as Void
                     if (funcDef.returnType.getType() != TypeEnum.Void) {
                         throw new Error("Semantic Error:\nMain must be declared as Void\n" + funcDef.id.getFilename() + ":" + funcDef.id.getLinenum());
@@ -83,6 +99,6 @@ public class ProgramNode implements JottTree {
             return false;
         }
 
-        return true;
+        return hasMain;
     }
 }

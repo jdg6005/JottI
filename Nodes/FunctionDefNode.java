@@ -89,25 +89,7 @@ public class FunctionDefNode implements JottTree {
         TypeEnum returnType = self.returnType.getType();
 
         FunctionInfo newFunc = new FunctionInfo(paramTypes, returnType);
-        FunctionVariableAccessor.functions.put(self.id, newFunc);
-
-        // Add variables declared in function body to FunctionVariableAccessor:
-        HashMap<IDNode, TypeEnum> variables = new HashMap<>();
-        for (VarDecNode var: self.fBody.varDecNodes) {
-            variables.put(var.idNode, var.typeNode.getType());
-        }
-
-        // Add parameters to FunctionVariableAccessor (parameters count as local variables)
-        if (self.funcDefParams != null) {
-            variables.put(self.funcDefParams.id, self.funcDefParams.getType());
-            if (self.funcDefParams.funcDefParamsTNodes != null) {
-                for (FuncDefParamsTNode param : self.funcDefParams.funcDefParamsTNodes) {
-                    variables.put(param.id, param.getType());
-                }
-            }
-        }
-
-        FunctionVariableAccessor.variables.put(self.id, variables);
+        FunctionVariableAccessor.functions.put(self.id.id.getToken(), newFunc);
 
         return self;
     }
@@ -143,6 +125,10 @@ public class FunctionDefNode implements JottTree {
         // checks lowercase
         this.id.validateTree();
 
+        // set current scope
+        FunctionVariableAccessor.currentScope = this.id.getToken();
+        FunctionVariableAccessor.variables.put(this.id.getToken(), new HashMap<>());
+
         // check not a reserved word
         if(Arrays.asList(new String[]{"print", "concat", "length"}).contains(this.id.convertToJott())) {
             throw new Error("Semantic Error:\nAttempted to redefine system function `" + this.id.convertToJott() + "`\n" + this.id.id.getFilename() + ":" + this.id.id.getLineNum());
@@ -151,6 +137,7 @@ public class FunctionDefNode implements JottTree {
         if(this.funcDefParams != null) {
             this.funcDefParams.validateTree();
         }
+
         this.fBody.validateTree();
 
         // if Void, ensure doesn't have "Return"

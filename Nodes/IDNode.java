@@ -54,11 +54,10 @@ public class IDNode implements OperandNode{
         return true;
     }
 
-    // unused
     @Override
     public TypeEnum getType() {
         if (FunctionVariableAccessor.variables.containsKey(FunctionVariableAccessor.currentScope))
-            return FunctionVariableAccessor.variables.get(FunctionVariableAccessor.currentScope).get(this);
+            return FunctionVariableAccessor.variables.get(FunctionVariableAccessor.currentScope).get(this.getToken());
         return null;
     }
 
@@ -75,5 +74,9 @@ public class IDNode implements OperandNode{
     @Override
     public int getLinenum() {
         return this.id.getLineNum();
+    }
+
+    public String getToken() {
+        return this.id.getToken();
     }
 }

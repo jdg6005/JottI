@@ -6,11 +6,11 @@ import Nodes.TypeEnum;
 import java.util.HashMap;
 
 public class FunctionVariableAccessor {
-    public static HashMap<IDNode, FunctionInfo> functions = new HashMap<>();
+    public static HashMap<String, FunctionInfo> functions = new HashMap<>();
 
     // function scope -> variable name -> variable type
-    public static HashMap<IDNode, HashMap<IDNode, TypeEnum>> variables = new HashMap<>();
-    public static IDNode currentScope;
+    public static HashMap<String, HashMap<String, TypeEnum>> variables = new HashMap<>();
+    public static String currentScope;
 
 //    public static void functionToString() {
 //        for (IDNode id : functions.keySet()) {
