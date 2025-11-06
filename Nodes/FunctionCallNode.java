@@ -72,19 +72,38 @@ public class FunctionCallNode implements OperandNode {
     // need to check parameter types correct for function
     @Override
     public boolean validateTree() {
-        if (!FunctionVariableAccessor.functions.containsKey(this.id)) {
+        if (!FunctionVariableAccessor.functions.containsKey(this.id.getToken())) {
             throw new Error("Semantic Error:\nTried to call non-existent function `" + this.id.convertToJott() + "`\n" + this.id.getFilename() + ":" + this.id.getLinenum());
         }
 
         this.id.validateTree();
         this.params.validateTree();
 
+        // special treatment since print can take any non-Void type
+        if(id.getToken().equals("print")) {
+            ArrayList<TypeEnum> calledParams = this.params.getTypes();
+            // ensure only one arg
+            if(calledParams.size() != 1) {
+                throw new Error("Semantic Error:\n`print` takes 1 argument, but was provided " + calledParams.size() + "\n" + this.id.getFilename() + ":" + this.id.getLinenum());
+            }
+            // ensure arg is not void
+            if(calledParams.getFirst() == TypeEnum.Void) {
+                throw new Error("Semantic Error:\nArgument 0 of function `print` should take a non-Void but was called with a Void\n" + this.id.getFilename() + ":" + this.id.getLinenum());
+            }
+
+            return true;
+        }
+
         // types that the function should take
-        ArrayList<TypeEnum> funcParams = FunctionVariableAccessor.functions.get(this.id).paramTypes;
+        ArrayList<TypeEnum> funcParams = FunctionVariableAccessor.functions.get(this.id.getToken()).paramTypes;
         // types that the function was called with
         ArrayList<TypeEnum> calledParams = this.params.getTypes();
 
-        for(int i = 0; (i < funcParams.size()) && (i < calledParams.size()); i++) {
+        if(funcParams.size() != calledParams.size()) {
+            throw new Error("Semantic Error:\n`" + this.id.getToken() + "` takes " + funcParams.size() + " arguments, but was provided " + calledParams.size() + "\n" + this.id.getFilename() + ":" + this.id.getLinenum());
+        }
+
+        for(int i = 0; i < funcParams.size(); i++) {
             if(funcParams.get(i) != calledParams.get(i)) {
                 throw new Error("Semantic Error:\nArgument " + i + " of function `" +
                         this.id.convertToJott() + "` should take a " + funcParams.get(i) +
@@ -98,8 +117,8 @@ public class FunctionCallNode implements OperandNode {
 
     @Override
     public TypeEnum getType() {
-        if (FunctionVariableAccessor.functions.containsKey(this.id))
-            return FunctionVariableAccessor.functions.get(this.id).returnType;
+        if (FunctionVariableAccessor.functions.containsKey(this.id.getToken()))
+            return FunctionVariableAccessor.functions.get(this.id.getToken()).returnType;
         return null;
     }
 

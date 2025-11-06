@@ -1,18 +1,17 @@
 package Nodes;
 
+import project.FunctionVariableAccessor;
 import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class VarDecNode implements JottTree {
     TypeNode typeNode;
     IDNode idNode;
 
-
-    // TODO: add the variables to the hashset for the current scope or fail if
-    // it's already in there (semantic error)
     public static VarDecNode parseVarDecNode(ArrayList<Token> tokens) {
         VarDecNode varDecNode = new VarDecNode();
 
@@ -51,11 +50,21 @@ public class VarDecNode implements JottTree {
         return " ";
     }
 
-    // TODO: check variable name unique
     @Override
     public boolean validateTree() {
         // checks id starts w/ lowercase
         this.idNode.validateTree();
+
+        // local vars in this scope
+        HashMap<String, TypeEnum> localVars = FunctionVariableAccessor.variables.get(FunctionVariableAccessor.currentScope);
+
+        // check uniqueness
+        if(localVars.containsKey(this.idNode.getToken())) {
+            throw new Error("Semantic Error:\nMultiple declarations of variable `" + this.idNode.getToken() + "`\n" + this.idNode.id.getFilename() + ":" + this.idNode.id.getLineNum());
+        }
+
+        // add to list of local vars
+        localVars.put(this.idNode.getToken(), this.typeNode.getType());
 
         return true;
     }

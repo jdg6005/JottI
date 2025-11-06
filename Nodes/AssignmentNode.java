@@ -62,7 +62,7 @@ public class AssignmentNode implements JottTree {
         this.idTok.validateTree();
         this.rhs.validateTree();
 
-        if (!FunctionVariableAccessor.variables.get(FunctionVariableAccessor.currentScope).containsKey(idTok)) {
+        if (!FunctionVariableAccessor.variables.get(FunctionVariableAccessor.currentScope).containsKey(idTok.getToken())) {
             throw new Error("Semantic Error:\nAttempted to assign to undeclared variable `" + this.idTok.convertToJott() + "`\n" + this.idTok.getFilename() + ":" + this.idTok.getLinenum());
         }
 

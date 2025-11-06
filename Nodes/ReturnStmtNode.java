@@ -1,4 +1,5 @@
 package Nodes;
+import project.FunctionVariableAccessor;
 import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
@@ -59,10 +60,16 @@ public class ReturnStmtNode implements JottTree {
         return "";
     }
 
-    // TODO: check that type matches return type of current scope
     @Override
     public boolean validateTree() {
         this.expr.validateTree();
+
+        // checks that return type matches expected
+        TypeEnum declaredType = FunctionVariableAccessor.functions.get(FunctionVariableAccessor.currentScope).returnType;
+        if(this.expr.getType() != declaredType) {
+            throw new Error("Semantic Error:\nTried to return a " + this.expr.getType() + " from a function that returns " + declaredType + "\n" + this.expr.operand1.getFilename() + ":" + this.expr.operand1.getLinenum());
+        }
+
         return true;
     }
 }

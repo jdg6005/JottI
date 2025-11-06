@@ -1,10 +1,14 @@
 package Nodes;
 
+import project.FunctionInfo;
 import project.FunctionVariableAccessor;
 import provided.JottTree;
 import provided.Token;
+import provided.TokenType;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 public class ProgramNode implements JottTree {
@@ -60,14 +64,24 @@ public class ProgramNode implements JottTree {
         return "";
     }
 
-    // TODO: add print, concat, and length to function accessor map
     @Override
     public boolean validateTree() {
+        FunctionInfo printInfo = new FunctionInfo(new ArrayList<TypeEnum>(List.of()), TypeEnum.Void);
+        FunctionVariableAccessor.functions.put("print", printInfo);
+
+        FunctionInfo concatInfo = new FunctionInfo(new ArrayList<TypeEnum>(Arrays.asList(new TypeEnum[]{TypeEnum.String, TypeEnum.String})), TypeEnum.String);
+        FunctionVariableAccessor.functions.put("concat", concatInfo);
+
+        FunctionInfo lengthInfo = new FunctionInfo(new ArrayList<TypeEnum>(Arrays.asList(new TypeEnum[]{TypeEnum.String})), TypeEnum.Integer);
+        FunctionVariableAccessor.functions.put("length", lengthInfo);
+
+        boolean hasMain = false;
+
         try {
             for (FunctionDefNode funcDef : funcDefNodes) {
-                funcDef.validateTree();
+                if (funcDef.id.id.getToken().equals("main")) {
+                    hasMain = true;
 
-                if (funcDef.id.id.getToken().equals("Main")) {
                     // make sure Main is declared as Void
                     if (funcDef.returnType.getType() != TypeEnum.Void) {
                         throw new Error("Semantic Error:\nMain must be declared as Void\n" + funcDef.id.getFilename() + ":" + funcDef.id.getLinenum());
@@ -77,12 +91,15 @@ public class ProgramNode implements JottTree {
                         throw new Error("Semantic Error:\nMain must not take any arguments\n" + funcDef.id.getFilename() + ":" + funcDef.id.getLinenum());
                     }
                 }
+
+                // validate the function
+                funcDef.validateTree();
             }
         } catch(Error e) {
             System.err.println(e.toString());
             return false;
         }
 
-        return true;
+        return hasMain;
     }
 }
