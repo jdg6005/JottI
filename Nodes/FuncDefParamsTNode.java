@@ -64,7 +64,7 @@ public class FuncDefParamsTNode implements JottTree {
         return this.type.getType();
     }
 
-    // TODO: need to check id is unique
+    // note: uniqueness for ID checked by FuncDefParamsNode.validateTree()
     @Override
     public boolean validateTree() {
         // tautology
