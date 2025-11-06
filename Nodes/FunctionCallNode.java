@@ -5,6 +5,7 @@ import provided.Token;
 import provided.TokenType;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 /**
@@ -71,17 +72,25 @@ public class FunctionCallNode implements OperandNode {
     // need to check parameter types correct for function
     @Override
     public boolean validateTree() {
-        if (!(FunctionVariableAccessor.functions.containsKey(this.id) && this.id.validateTree() && this.params.validateTree()))
-            return false;
+        if (!FunctionVariableAccessor.functions.containsKey(this.id)) {
+            throw new Error("Semantic Error:\nTried to call non-existent function `" + this.id.convertToJott() + "`\n" + this.id.getFilename() + ":" + this.id.getLinenum());
+        }
 
+        this.id.validateTree();
+        this.params.validateTree();
+
+        // types that the function should take
         ArrayList<TypeEnum> funcParams = FunctionVariableAccessor.functions.get(this.id).paramTypes;
+        // types that the function was called with
+        ArrayList<TypeEnum> calledParams = this.params.getTypes();
 
-        if (funcParams.get(0) != this.params.getType())
-            return false;
-
-        for (int i = 1; i < funcParams.size(); i++) {
-            if (funcParams.get(i) != params.paramsTNodes.get(i - 1).getType())
-                return false;
+        for(int i = 0; (i < funcParams.size()) && (i < calledParams.size()); i++) {
+            if(funcParams.get(i) != calledParams.get(i)) {
+                throw new Error("Semantic Error:\nArgument " + i + " of function `" +
+                        this.id.convertToJott() + "` should take a " + funcParams.get(i) +
+                        " but was called with a " + calledParams.get(i) + "\n" +
+                        this.getFilename() + ":" + this.getLinenum());
+            }
         }
 
         return true;
@@ -97,5 +106,15 @@ public class FunctionCallNode implements OperandNode {
     @Override
     public double getValue() {
         return 0;
+    }
+
+    @Override
+    public String getFilename() {
+        return this.id.getFilename();
+    }
+
+    @Override
+    public int getLinenum() {
+        return this.id.getLinenum();
     }
 }

@@ -5,6 +5,7 @@ import provided.Token;
 import provided.TokenType;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * This class is responsible for parsing a <func_def_params> node
@@ -72,9 +73,31 @@ public class FuncDefParamsNode implements JottTree {
         return this.type.getType();
     }
 
-    // need to check all ids are unique and start with lowercase
     @Override
     public boolean validateTree() {
-        return false;
+        // tautology
+        this.type.validateTree();
+        // ensures ID starts w/ lowercase
+        this.id.validateTree();
+
+        HashSet<String> parameterIDs = new HashSet<>();
+        parameterIDs.add(id.convertToJott());
+
+        // validates all the other parameters
+        if(this.funcDefParamsTNodes != null) {
+            for (FuncDefParamsTNode fdpt : this.funcDefParamsTNodes) {
+                // ensures all IDs are unique
+                if (parameterIDs.contains(fdpt.id.convertToJott())) {
+                    throw new Error("Semantic Error:\nMultiple parameters named `" + fdpt.id.convertToJott() + "`\n" + fdpt.id.getFilename() + ":" + fdpt.id.getLinenum());
+                }
+                // if unique, add it to the set
+                parameterIDs.add(fdpt.id.convertToJott());
+
+                // validate the
+                fdpt.validateTree();
+            }
+        }
+
+        return true;
     }
 }

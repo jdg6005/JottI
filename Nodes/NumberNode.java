@@ -76,7 +76,6 @@ public class NumberNode implements OperandNode {
         else { return doubleNumber;}
     }
 
-
     @Override
     public String getFilename() {
         return this.numberToken.getFilename();

@@ -49,6 +49,7 @@ public class FunctionReturnNode implements JottTree {
             case "Double" -> TypeEnum.Double;
             case "String" -> TypeEnum.String;
             case "Boolean" -> TypeEnum.Boolean;
+            case "Void" -> TypeEnum.Void;
             default -> null;
         };
     }

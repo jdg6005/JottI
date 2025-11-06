@@ -14,7 +14,7 @@ public class IDNode implements OperandNode{
         Token token = tokens.removeFirst();
 
         if (token.getTokenType() != TokenType.ID_KEYWORD) {
-            throw new Error("Syntax Error\nExpected identifier (got " + token.toString() + "\n" + token.getFilename() + ":" + token.getLineNum());
+            throw new Error("Syntax Error\nExpected identifier (got " + token.toString() + ")\n" + token.getFilename() + ":" + token.getLineNum());
         }
 
         idNode.id = token;
@@ -47,7 +47,11 @@ public class IDNode implements OperandNode{
     // FuncDefNode (for func name uniqueness)
     @Override
     public boolean validateTree() {
-        return Character.isLowerCase(this.id.getToken().charAt(0));
+        if(!Character.isLowerCase(this.id.getToken().charAt(0))) {
+            throw new Error("Semantic Error:\nName must start with a lowercase letter\n" + this.id.getFilename() + ":" + this.id.getLineNum());
+        }
+
+        return true;
     }
 
     // unused

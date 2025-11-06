@@ -74,7 +74,12 @@ public class BodyStmtNode implements JottTree {
 
     @Override
     public boolean validateTree() {
-        return false;
+        if(this.whileNode != null) { this.whileNode.validateTree(); }
+        else if(this.ifStmtNode != null) { this.ifStmtNode.validateTree(); }
+        else if(this.functionCallNode != null) { this.functionCallNode.validateTree(); }
+        else { this.asmtNode.validateTree(); }
+
+        return true;
     }
 
     public boolean isReturnable() {

@@ -28,7 +28,9 @@ public class BodyNode implements JottTree {
         for (BodyStmtNode bodyStmtNode : bodyStmtNodes) {
             str.append(bodyStmtNode.convertToJott()).append(" ");
         }
-        str.append(returnNode.convertToJott());
+        if(this.returnNode != null) {
+            str.append(returnNode.convertToJott());
+        }
         return str.toString();
     }
 
@@ -49,6 +51,13 @@ public class BodyNode implements JottTree {
 
     @Override
     public boolean validateTree() {
+        // validate return
+        if(this.returnNode != null) { this.returnNode.validateTree(); }
+        // validate body statements
+        for(BodyStmtNode bodyStmt : this.bodyStmtNodes) {
+            bodyStmt.validateTree();
+        }
+
         return true;
     }
 
@@ -65,6 +74,6 @@ public class BodyNode implements JottTree {
     }
 
     public boolean doesntHaveReturn() {
-        return this.convertToJott().contains("Return");
+        return !this.convertToJott().contains("Return");
     }
 }
