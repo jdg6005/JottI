@@ -96,6 +96,7 @@ public class FunctionCallNode implements OperandNode {
 
         // types that the function should take
         ArrayList<TypeEnum> funcParams = FunctionVariableAccessor.functions.get(this.id.getToken()).paramTypes;
+        funcParams = funcParams == null ? new ArrayList<>() : funcParams;
         // types that the function was called with
         ArrayList<TypeEnum> calledParams = this.params.getTypes();
 

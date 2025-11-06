@@ -75,6 +75,19 @@ public class FuncDefParamsNode implements JottTree {
         return this.type.getType();
     }
 
+    public ArrayList<TypeEnum> getTypes() {
+        ArrayList<TypeEnum> types = new ArrayList<>();
+        types.add(this.getType());
+
+        if(this.funcDefParamsTNodes != null) {
+            for(FuncDefParamsTNode fdpt : this.funcDefParamsTNodes) {
+                types.add(fdpt.getType());
+            }
+        }
+
+        return types;
+    }
+
     @Override
     public boolean validateTree() {
         // tautology

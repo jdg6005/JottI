@@ -75,22 +75,6 @@ public class FunctionDefNode implements JottTree {
             throw new Error("Syntax Error\nExpected '}' got " + token + "\n" + token.getFilename() + ":" + token.getLineNum());
         }
 
-        // Add to FunctionVariableAccessor:
-
-        ArrayList<TypeEnum> paramTypes = new ArrayList<>();
-        if (self.funcDefParams != null) {
-            paramTypes.add(self.funcDefParams.type.getType());
-            if (self.funcDefParams.funcDefParamsTNodes != null) {
-                for (FuncDefParamsTNode param : self.funcDefParams.funcDefParamsTNodes) {
-                    paramTypes.add(param.type.getType());
-                }
-            }
-        }
-        TypeEnum returnType = self.returnType.getType();
-
-        FunctionInfo newFunc = new FunctionInfo(paramTypes, returnType);
-        FunctionVariableAccessor.functions.put(self.id.id.getToken(), newFunc);
-
         return self;
     }
 
@@ -128,6 +112,11 @@ public class FunctionDefNode implements JottTree {
         // set current scope
         FunctionVariableAccessor.currentScope = this.id.getToken();
         FunctionVariableAccessor.variables.put(this.id.getToken(), new HashMap<>());
+        if(FunctionVariableAccessor.functions.containsKey(this.id.getToken())) {
+            throw new Error("Semantic Error:\nMultiple definitions of function `" + this.id.getToken() + "`\n" + this.id.getFilename() + ":" + this.id.getLinenum());
+        }
+        ArrayList<TypeEnum> params = this.funcDefParams == null ? null : this.funcDefParams.getTypes();
+        FunctionVariableAccessor.functions.put(this.id.getToken(), new FunctionInfo(params, this.returnType.getType()));
 
         // check not a reserved word
         if(Arrays.asList(new String[]{"print", "concat", "length"}).contains(this.id.convertToJott())) {
