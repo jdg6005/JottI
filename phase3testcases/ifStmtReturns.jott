@@ -1,5 +1,5 @@
 #this will pass phase 3
-#jk we've been lied to, this should fail both
+#i fixed the lowercase def (miles)
 
 Def foo[]:Integer{
     Integer x;
@@ -13,6 +13,6 @@ Def foo[]:Integer{
     }
 }
 
-def main[]:Void{
+Def main[]:Void{
     ::foo[];
 }
