@@ -1,8 +1,6 @@
 This file contains provided code, testers, and test cases.
 
-provided shouls be a top level package in your src directory
-JottParserTester and JottTokenizerTester classes should be in a package call testers.
+the testCases directories should be in the working directory of your project.
+Test cases for phase 3 should be in the phase3testcases directory
 
-the testCases directories should be in the working directory of your project. 
-
-# Running: place `Nodes` directory as direct child of `JottI` (same as provided, testers, etc.) and update JottParser, JottTokenizer, and Token as typical
+# Running: `Nodes`, `project`, `provided`, and test cases should be direct children of `JottI` 
