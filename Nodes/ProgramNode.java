@@ -84,13 +84,13 @@ public class ProgramNode implements JottTree {
                 if (funcDef.id.id.getToken().equals("main")) {
                     hasMain = true;
 
-                    // make sure Main is declared as Void
+                    // make sure main is declared as Void
                     if (funcDef.returnType.getType() != TypeEnum.Void) {
-                        throw new Error("Semantic Error:\nMain must be declared as Void\n" + funcDef.id.getFilename() + ":" + funcDef.id.getLinenum());
+                        throw new Error("Semantic Error:\nmain must be declared as Void\n" + funcDef.id.getFilename() + ":" + funcDef.id.getLinenum());
                     }
-                    // make sure Main has no parameters
+                    // make sure main has no parameters
                     if (funcDef.funcDefParams != null) {
-                        throw new Error("Semantic Error:\nMain must not take any arguments\n" + funcDef.id.getFilename() + ":" + funcDef.id.getLinenum());
+                        throw new Error("Semantic Error:\nmain must not take any arguments\n" + funcDef.id.getFilename() + ":" + funcDef.id.getLinenum());
                     }
                 }
 
@@ -102,6 +102,12 @@ public class ProgramNode implements JottTree {
             return false;
         }
 
-        return hasMain;
+        // no main function
+        if(!hasMain) {
+            System.err.println("Semantic Error:\nNo `main` function found!");
+            return false;
+        }
+
+        return true;
     }
 }

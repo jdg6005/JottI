@@ -110,7 +110,10 @@ public class ExprNode implements JottTree {
         // mathop
         else if(this.mathop != null) {
             if(this.operand1.getType() != this.operand2.getType()) {
-                throw new Error("Semantic Error:\nOperands of `" + this.mathop.getToken() + "` don't have the same type\n" + this.relop.getFilename() + ":" + this.relop.getLineNum());
+                throw new Error("Semantic Error:\nOperands of `" + this.mathop.getToken() + "` don't have the same type\n" + this.mathop.getFilename() + ":" + this.mathop.getLineNum());
+            }
+            if(this.operand2 instanceof NumberNode && operand2.getValue() == 0.0) {
+                throw new Error("Semantic Error:\nDivision by 0!\n" + this.mathop.getFilename() + ":" + this.mathop.getLineNum());
             }
         }
         // just an operand

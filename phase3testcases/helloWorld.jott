@@ -1,5 +1,28 @@
 #this is hello world in Jott
 
+Def bar[]:Integer {
+    If[1 > 2] {
+        Return 5;
+    } Elseif[2 > 3] {
+        ::print["hno"];
+    }  Else {
+        Return 1;
+    }
+
+    Return 6;
+}
 Def main[]:Void{
+    Integer x;
+    x = 5;
+    If[x > 5] {
+        ::print["hi"];
+    } Elseif[x > 4] {
+        ::print["hi"];
+    } Elseif[x > 3] {
+        ::print["hi"];
+    } Else {
+        ::print["hi"];
+    }
     ::print["Hello World"];
+    ::print[::bar[]];
 }

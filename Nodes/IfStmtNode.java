@@ -59,6 +59,7 @@ public class IfStmtNode implements JottTree {
 
         // <elseif_lst>*
         while(tokens.getFirst().getToken().equals("Elseif")) {
+            if(self.elseIfLst == null) { self.elseIfLst = new ArrayList<>(); }
             self.elseIfLst.add(ElseIfNode.parseElseIfNode(tokens));
         }
 

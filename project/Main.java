@@ -14,12 +14,18 @@ import java.util.HashMap;
  */
 public class Main {
     public static void main(String[] args) {
+        // tokenize
         ArrayList<Token> tokens = JottTokenizer.tokenize(args[0]);
-      
-        JottTree root = JottParser.parse(tokens);
-        System.out.println(root.convertToJott());
-        System.out.println(root.validateTree());
+        if(tokens != null) {
+            // parse
+            JottTree root = JottParser.parse(tokens);
 
-        // FunctionVariableAccessor.functionToString();
+            if (root != null) {
+                // analyze
+                boolean isValid = root.validateTree();
+            }
+        } else {
+            System.err.println("Tokenization failed!");
+        }
     }
 }

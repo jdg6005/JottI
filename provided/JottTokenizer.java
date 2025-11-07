@@ -184,8 +184,7 @@ public class JottTokenizer {
             return tokens;
 
         } catch(Exception e) {
-            // TODO: does this even hit
-            System.err.println("TODO: bru"); return null;
+            System.err.println("file not found!"); return null;
         }
     }
 
