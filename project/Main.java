@@ -14,7 +14,7 @@ import java.util.HashMap;
  */
 public class Main {
     public static void main(String[] args) {
-        ArrayList<Token> tokens = JottTokenizer.tokenize("phase3testcases/" + args[0]);
+        ArrayList<Token> tokens = JottTokenizer.tokenize(args[0]);
       
         JottTree root = JottParser.parse(tokens);
         System.out.println(root.convertToJott());
