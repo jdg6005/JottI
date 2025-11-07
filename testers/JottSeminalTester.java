@@ -13,7 +13,7 @@ public class JottSeminalTester {
 
 	private final static String[] filenames = { "funcCallParamInvalid.jott", "funcNotDefined.jott", "funcReturnInExpr.jott", "funcWrongParamType.jott", "helloWorld.jott", "ifStmtReturns.jott", "largerValid.jott", "mainReturnNotInt.jott", "mismatchedReturn.jott", "missingFuncParams.jott", "missingMain.jott", "missingReturn.jott", "noReturnIf.jott", "noReturnWhile.jott", "providedExample1.jott", "returnId.jott", "validLoop.jott", "voidReturn.jott", "whileKeyword.jott" };
 	private final static boolean[] shouldPassPhase2 = {
-			true, true, true, true, true, false, true, true, true, true, true, true, true, true, true, true, true, true, false };
+			true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, false };
 	private final static boolean[] shouldPassPhase3 = {
 			false, false, false, false, true, false, true, false, false, false, false, false, false, false, true, false, true, false, false};
 

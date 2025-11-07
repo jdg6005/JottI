@@ -1,11 +1,12 @@
 #this will pass phase 2 but fail phase 3 for foo return type not matching
+#i fixed the lowercase def (miles)
 
 Def foo[y:Integer]:Double{
     ::print[y];
 	Return 3.3;
 }
 
-def main[]:Void{
+Def main[]:Void{
     Integer x;
     x = ::foo[5];
 	::print[x];
