@@ -17,7 +17,7 @@ public class ElseNode implements JottTree {
 
     public static ElseNode parseElseNode(ArrayList<Token> tokens) {
         ElseNode self = new ElseNode();
-        Token token = tokens.removeFirst();
+        Token token = tokens.getFirst();
 
         // "Else"
         if(token.getTokenType() != TokenType.ID_KEYWORD || !token.getToken().equals("Else")) {
