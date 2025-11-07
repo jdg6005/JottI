@@ -1,6 +1,12 @@
-This file contains provided code, testers, and test cases.
+# If pulling our changes into a different projet
+- `Nodes` and `project` directories should be places at the top level
+- `provided/Token.java`, `provided/jottParser.java`, and `provided/jottTokenizer.java` should be replaced with our versions
+- run the main file in project/Main
+  - the filename should be provided as the first (and only) command line argument
+  - e.g. `phase3testcases/helloworld.jott`
 
-the testCases directories should be in the working directory of your project.
-Test cases for phase 3 should be in the phase3testcases directory
+# If running our project directly w/o changes
+- run the main file in project/Main
+  - the filename should be provided as the first (and only) command line argument
+  - e.g. `phase3testcases/helloworld.jott`
 
-# Running: `Nodes`, `project`, `provided`, and test cases should be direct children of `JottI` 
