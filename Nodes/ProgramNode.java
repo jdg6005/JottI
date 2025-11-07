@@ -29,7 +29,8 @@ public class ProgramNode implements JottTree {
                 System.err.println("Syntax Error\nReached unexpected EOF\n" + last.getFilename() + ":" +  last.getLineNum());
                 return null;
             } catch(Error e) {
-                System.err.println(e.toString());
+                System.err.println(e);
+                e.printStackTrace();
                 return null;
             }
         }

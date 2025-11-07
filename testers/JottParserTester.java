@@ -70,7 +70,7 @@ public class JottParserTester {
         testCases.add(new TestCase("valid if with return", "validIfReturn.jott", false));
     }
 
-    private boolean parserTest(TestCase test, String orginalJottCode){
+    private boolean parserTest(TestCase test, String originalJottCode){
         try {
             ArrayList<Token> tokens = JottTokenizer.tokenize("parserTestCases/" + test.fileName);
 
@@ -97,7 +97,7 @@ public class JottParserTester {
             }
 
             System.out.println("Orginal Jott Code:\n");
-            System.out.println(orginalJottCode);
+            System.out.println(originalJottCode);
             System.out.println();
 
             String jottCode = root.convertToJott();
