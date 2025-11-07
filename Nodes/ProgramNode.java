@@ -6,10 +6,7 @@ import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 public class ProgramNode implements JottTree {
     ArrayList<FunctionDefNode> funcDefNodes = new ArrayList<>();
@@ -67,6 +64,10 @@ public class ProgramNode implements JottTree {
 
     @Override
     public boolean validateTree() {
+        FunctionVariableAccessor.functions = new HashMap<>();
+        FunctionVariableAccessor.variables = new HashMap<>();
+        FunctionVariableAccessor.currentScope = "";
+
         FunctionInfo printInfo = new FunctionInfo(new ArrayList<TypeEnum>(List.of()), TypeEnum.Void);
         FunctionVariableAccessor.functions.put("print", printInfo);
 

@@ -23,7 +23,6 @@ public class JottSeminalTester {
 		for(int i = 0; i < filenames.length; i ++) {
 			System.out.println(filenames[i]);
 			ArrayList<Token> tokens = JottTokenizer.tokenize("phase3testcases/" + filenames[i]);
-			FunctionVariableAccessor.currentScope = "";
 			JottTree root = JottParser.parse(tokens);
 			if(root == null) {
 				if(!shouldPassPhase2[i]) numPassed ++;
