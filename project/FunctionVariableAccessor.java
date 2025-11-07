@@ -10,7 +10,7 @@ public class FunctionVariableAccessor {
 
     // function scope -> variable name -> variable type
     public static HashMap<String, HashMap<String, TypeEnum>> variables = new HashMap<>();
-    public static String currentScope;
+    public static String currentScope = "";
 
 //    public static void functionToString() {
 //        for (IDNode id : functions.keySet()) {
