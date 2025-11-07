@@ -103,20 +103,21 @@ public class FunctionCallNode implements OperandNode {
         ArrayList<TypeEnum> funcParams = FunctionVariableAccessor.functions.get(this.id.getToken()).paramTypes;
         funcParams = funcParams == null ? new ArrayList<>() : funcParams;
         // types that the function was called with
+        ArrayList<TypeEnum> calledParams = new ArrayList<>();
         if(this.params != null) {
-            ArrayList<TypeEnum> calledParams = this.params.getTypes();
+            calledParams = this.params.getTypes();
+        }
 
-            if (funcParams.size() != calledParams.size()) {
-                throw new Error("Semantic Error:\n`" + this.id.getToken() + "` takes " + funcParams.size() + " arguments, but was provided " + calledParams.size() + "\n" + this.id.getFilename() + ":" + this.id.getLinenum());
-            }
+        if (funcParams.size() != calledParams.size()) {
+            throw new Error("Semantic Error:\n`" + this.id.getToken() + "` takes " + funcParams.size() + " arguments, but was provided " + calledParams.size() + "\n" + this.id.getFilename() + ":" + this.id.getLinenum());
+        }
 
-            for (int i = 0; i < funcParams.size(); i++) {
-                if (funcParams.get(i) != calledParams.get(i)) {
-                    throw new Error("Semantic Error:\nArgument " + i + " of function `" +
-                            this.id.convertToJott() + "` should take a " + funcParams.get(i) +
-                            " but was called with a " + calledParams.get(i) + "\n" +
-                            this.getFilename() + ":" + this.getLinenum());
-                }
+        for (int i = 0; i < funcParams.size(); i++) {
+            if (funcParams.get(i) != calledParams.get(i)) {
+                throw new Error("Semantic Error:\nArgument " + i + " of function `" +
+                        this.id.convertToJott() + "` should take a " + funcParams.get(i) +
+                        " but was called with a " + calledParams.get(i) + "\n" +
+                        this.getFilename() + ":" + this.getLinenum());
             }
         }
 
