@@ -1,6 +1,7 @@
 package Nodes;
 
 import project.FunctionVariableAccessor;
+import project.TypeAndValue;
 import provided.Token;
 import provided.TokenType;
 
@@ -132,8 +133,8 @@ public class FunctionCallNode implements OperandNode {
     }
 
     @Override
-    public double getValue() {
-        return 0;
+    public TypeAndValue getValue() {
+        return null;
     }
 
     @Override
