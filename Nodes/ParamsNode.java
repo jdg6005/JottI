@@ -1,5 +1,6 @@
 package Nodes;
 
+import project.TypeAndValue;
 import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
@@ -76,5 +77,16 @@ public class ParamsNode implements JottTree {
         }
 
         return true;
+	}
+
+	// --------------------------------
+
+	public ArrayList<TypeAndValue> getValue() {
+		ArrayList<TypeAndValue> result = new ArrayList<>();
+		result.add(this.exprNode.getValue());
+		for(ParamsTNode param : this.paramsTNodes) {
+			result.add(param.getValue());
+		}
+		return result;
 	}
 }
