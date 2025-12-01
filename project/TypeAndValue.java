@@ -31,6 +31,16 @@ public class TypeAndValue {
 		this.booleanValue = booleanValue;
 	}
 
+	// sets the value of this to the value of other
+	public void set(TypeAndValue other) {
+		switch(other.type) {
+			case TypeEnum.Integer -> this.intValue = other.intValue;
+			case TypeEnum.Double -> this.doubleValue = other.doubleValue;
+			case TypeEnum.String -> this.stringValue = other.stringValue;
+			case TypeEnum.Boolean -> this.booleanValue = other.booleanValue;
+		}
+	}
+
 	public TypeAndValue plus(TypeAndValue other) {
 		if(this.type == TypeEnum.Integer && other.type == TypeEnum.Integer)
 			return new TypeAndValue(this.intValue + other.intValue);

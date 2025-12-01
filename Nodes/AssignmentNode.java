@@ -1,6 +1,7 @@
 package Nodes;
 
 import project.FunctionVariableAccessor;
+import project.TypeAndValue;
 import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
@@ -74,5 +75,11 @@ public class AssignmentNode implements JottTree {
         return true;
     }
 
+    // --------------------------------
+
+    public void execute() {
+        TypeAndValue variable = FunctionVariableAccessor.getVariable(idTok.getToken());
+        variable.set(rhs.getValue());
+    }
 }
 

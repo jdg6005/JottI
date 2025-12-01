@@ -1,5 +1,6 @@
 package Nodes;
 
+import project.TypeAndValue;
 import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
@@ -130,5 +131,12 @@ public class ExprNode implements JottTree {
         if(this.relop != null)  { return TypeEnum.Boolean; }
         // mathop or just an operand
         else                    { return operand1.getType(); }
+    }
+
+    // --------------------------------
+
+    public TypeAndValue getValue() {
+        // TODO
+        return null;
     }
 }
