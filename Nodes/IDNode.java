@@ -65,7 +65,14 @@ public class IDNode implements OperandNode{
     }
 
     @Override
-    public double getValue() { return 0; }
+    public double getValue() {
+        // DO NOT use this method. Use getCurrentValue() instead.
+        // This has to be here because it implements OperandNode, but IDNode may not be a double
+        // ExprNode uses this to check for division by 0, but it first checks that it's a NumberNode, so that's fine
+        // This is probably bad code, but the best solution would probably be to change OperandNode, and that's a lot of work
+        int x = 0 / 0; // throw exception
+        return 0;
+    }
   
     @Override
     public String getFilename() {
@@ -79,5 +86,9 @@ public class IDNode implements OperandNode{
 
     public String getToken() {
         return this.id.getToken();
+    }
+
+    public TypeAndValue getCurrentValue() {
+        return FunctionVariableAccessor.getVariable(this.id.getToken());
     }
 }

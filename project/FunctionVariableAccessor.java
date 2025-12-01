@@ -8,4 +8,8 @@ public class FunctionVariableAccessor {
     // function scope -> variable name -> variable type AND value
     public static HashMap<String, HashMap<String, TypeAndValue>> variables = new HashMap<>();
     public static String currentScope = "";
+
+    public static TypeAndValue getVariable(String id) {
+        return variables.get(currentScope).get(id);
+    }
 }
