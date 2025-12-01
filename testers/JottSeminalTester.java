@@ -8,6 +8,7 @@ import provided.JottTree;
 import provided.Token;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class JottSeminalTester {
 
@@ -22,6 +23,10 @@ public class JottSeminalTester {
 		int numParserFailed = 0;
 		for(int i = 0; i < filenames.length; i ++) {
 			System.out.println("about to test file " + filenames[i]);
+
+			FunctionVariableAccessor.functions = new HashMap<>();
+			FunctionVariableAccessor.variables = new HashMap<>();
+
 			ArrayList<Token> tokens = JottTokenizer.tokenize("phase3testcases/" + filenames[i]);
 			JottTree root = JottParser.parse(tokens);
 			if(root == null) {
