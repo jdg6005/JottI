@@ -103,5 +103,4 @@ public class TypeAndValue {
 		return result;
 	}
 
-
 }

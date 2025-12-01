@@ -44,4 +44,11 @@ public class StringLiteralNode implements JottTree {
 	public boolean validateTree() {
 		return true;
 	}
+
+	// --------------------------------
+
+	public String getValue() {
+		// slice it to remove quotes
+		return stringToken.getToken().substring(1, stringToken.getToken().length() - 2);
+	}
 }
