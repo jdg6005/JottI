@@ -68,13 +68,13 @@ public class ProgramNode implements JottTree {
         FunctionVariableAccessor.currentScope = "";
 
         // TODO: implement these 3 functions:
-        FunctionInfo printInfo = new FunctionInfo("print", new ArrayList<>(List.of()), TypeEnum.Void, null);
+        FunctionInfo printInfo = new FunctionInfo("print", new ArrayList<>(List.of()), TypeEnum.Void, null, null);
         FunctionVariableAccessor.functions.put("print", printInfo);
 
-        FunctionInfo concatInfo = new FunctionInfo("concat", new ArrayList<>(List.of(TypeEnum.String, TypeEnum.String)), TypeEnum.String, null);
+        FunctionInfo concatInfo = new FunctionInfo("concat", new ArrayList<>(List.of(TypeEnum.String, TypeEnum.String)), TypeEnum.String, null, null);
         FunctionVariableAccessor.functions.put("concat", concatInfo);
 
-        FunctionInfo lengthInfo = new FunctionInfo("length", new ArrayList<>(List.of(TypeEnum.String)), TypeEnum.Integer, null);
+        FunctionInfo lengthInfo = new FunctionInfo("length", new ArrayList<>(List.of(TypeEnum.String)), TypeEnum.Integer, null, null);
         FunctionVariableAccessor.functions.put("length", lengthInfo);
 
         boolean hasMain = false;

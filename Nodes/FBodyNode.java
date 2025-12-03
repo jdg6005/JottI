@@ -71,13 +71,7 @@ public class FBodyNode implements JottTree {
 
     // --------------------------------
 
-    public TypeAndValue execute(ArrayList<TypeAndValue> args) {
-        // assign parameter values
-        for(int i = 0; i < varDecNodes.size(); i ++) {
-            FunctionVariableAccessor.setVariable(varDecNodes.get(i).idNode.getToken(), args.get(i));
-        }
-
-        // run body
+    public TypeAndValue execute() {
         return this.bodyNode.execute();
     }
 }

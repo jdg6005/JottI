@@ -115,4 +115,15 @@ public class FuncDefParamsNode implements JottTree {
 
         return true;
     }
+
+    // --------------------------------
+
+    public ArrayList<String> getParamIds() {
+        ArrayList<String> paramIds = new ArrayList<>();
+        paramIds.add(this.id.getToken());
+        for(FuncDefParamsTNode param : funcDefParamsTNodes) {
+            paramIds.add(param.id.getToken());
+        }
+        return paramIds;
+    }
 }

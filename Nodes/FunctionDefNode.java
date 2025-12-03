@@ -118,7 +118,13 @@ public class FunctionDefNode implements JottTree {
         ArrayList<TypeEnum> params = this.funcDefParams == null ? null : this.funcDefParams.getTypes();
         FunctionVariableAccessor.functions.put(
                 this.id.getToken(),
-                new FunctionInfo(this.id.getToken(), params, this.returnType.getType(), this.fBody)
+                new FunctionInfo(
+                        this.id.getToken(),
+                        params,
+                        this.returnType.getType(),
+                        funcDefParams.getParamIds(),
+                        this.fBody
+                )
         );
 
         // check not a reserved word
