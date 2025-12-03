@@ -110,4 +110,10 @@ public class ProgramNode implements JottTree {
 
         return true;
     }
+
+    // --------------------------------
+
+    public void execute() {
+        FunctionVariableAccessor.callFunction("main", new ArrayList<>());
+    }
 }
