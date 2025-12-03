@@ -78,8 +78,7 @@ public class AssignmentNode implements JottTree {
     // --------------------------------
 
     public void execute() {
-        TypeAndValue variable = FunctionVariableAccessor.getVariable(idTok.getToken());
-        variable.set(rhs.getValue());
+        FunctionVariableAccessor.setVariable(idTok.getToken(), rhs.getValue());
     }
 }
 

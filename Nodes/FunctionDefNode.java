@@ -116,7 +116,10 @@ public class FunctionDefNode implements JottTree {
             throw new Error("Semantic Error:\nMultiple definitions of function `" + this.id.getToken() + "`\n" + this.id.getFilename() + ":" + this.id.getLinenum());
         }
         ArrayList<TypeEnum> params = this.funcDefParams == null ? null : this.funcDefParams.getTypes();
-        FunctionVariableAccessor.functions.put(this.id.getToken(), new FunctionInfo(params, this.returnType.getType()));
+        FunctionVariableAccessor.functions.put(
+                this.id.getToken(),
+                new FunctionInfo(this.id.getToken(), params, this.returnType.getType(), this.fBody)
+        );
 
         // check not a reserved word
         if(Arrays.asList(new String[]{"print", "concat", "length"}).contains(this.id.convertToJott())) {
