@@ -8,6 +8,8 @@ import provided.TokenType;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import project.UninitializedValueException;
+
 import static Nodes.OperandNode.parseOperandNode;
 import static provided.TokenType.*;
 
@@ -96,35 +98,43 @@ public class ExprNode implements JottTree {
     // if relop/mathop, check both sides are same type
     @Override
     public boolean validateTree() {
-        // string literal
-        if(this.string != null) { this.string.validateTree(); }
-        // bool
-        else if(this.bool != null) { this.bool.validateTree(); }
-        // relop
-        else if(this.relop != null) {
-            if(this.operand1.getType() != this.operand2.getType()) {
-                throw new Error("Semantic Error:\nOperands of `" + this.relop.getToken() + "` don't have the same type\n" + this.relop.getFilename() + ":" + this.relop.getLineNum());
+        try {
+            // string literal
+            if (this.string != null) {
+                this.string.validateTree();
             }
-        }
-        // mathop
-        else if(this.mathop != null) {
-            if(this.operand1.getType() != this.operand2.getType()) {
-                throw new Error("Semantic Error:\nOperands of `" + this.mathop.getToken() + "` don't have the same type\n" + this.mathop.getFilename() + ":" + this.mathop.getLineNum());
+            // bool
+            else if (this.bool != null) {
+                this.bool.validateTree();
             }
-            TypeAndValue operand2val = operand2.getValue();
-            if(this.operand2 instanceof NumberNode &&
-                (operand2val.type == TypeEnum.Integer && operand2val.intValue == 0
-                || operand2val.type == TypeEnum.Double && operand2val.doubleValue == 0)
-            ) {
-                throw new Error("Semantic Error:\nDivision by 0!\n" + this.mathop.getFilename() + ":" + this.mathop.getLineNum());
+            // relop
+            else if (this.relop != null) {
+                if (this.operand1.getType() != this.operand2.getType()) {
+                    throw new Error("Semantic Error:\nOperands of `" + this.relop.getToken() + "` don't have the same type\n" + this.relop.getFilename() + ":" + this.relop.getLineNum());
+                }
             }
-        }
-        // just an operand
-        else {
-            this.operand1.validateTree();
-        }
+            // mathop
+            else if (this.mathop != null) {
+                if (this.operand1.getType() != this.operand2.getType()) {
+                    throw new Error("Semantic Error:\nOperands of `" + this.mathop.getToken() + "` don't have the same type\n" + this.mathop.getFilename() + ":" + this.mathop.getLineNum());
+                }
+                TypeAndValue operand2val = operand2.getValue();
+                if (this.operand2 instanceof NumberNode &&
+                        (operand2val.type == TypeEnum.Integer && operand2val.getIntValue() == 0
+                                || operand2val.type == TypeEnum.Double && operand2val.getDoubleValue() == 0)
+                ) {
+                    throw new Error("Semantic Error:\nDivision by 0!\n" + this.mathop.getFilename() + ":" + this.mathop.getLineNum());
+                }
+            }
+            // just an operand
+            else {
+                this.operand1.validateTree();
+            }
 
-        return true;
+            return true;
+        } catch(UninitializedValueException e) {
+            throw new Error("Runtime Error:\nAttempted to use uninitialized value\n" + this.operand1.getFilename() + ":" + this.operand1.getLinenum());
+        }
     }
 
     public TypeEnum getType() {
@@ -161,7 +171,7 @@ public class ExprNode implements JottTree {
                 case "+" -> value1.plus(value2);
                 case "-" -> value1.minus(value2);
                 case "*" -> value1.times(value2);
-                case "/" -> value1.dividedBy(value2);
+                case "/" -> value1.dividedBy(value2, this.mathop);
                 default  -> null;
             };
         } else {

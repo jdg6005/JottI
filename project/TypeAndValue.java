@@ -1,16 +1,18 @@
 package project;
 
 import Nodes.TypeEnum;
+import provided.Token;
 
 // represents a value of any type
 // can do operations based on the type
 // author: Miles Todtfeld
 public class TypeAndValue {
 	public final TypeEnum type;
-	public int intValue;
-	public double doubleValue;
-	public String stringValue;
-	public boolean booleanValue;
+    public boolean initialized = false;
+	private int intValue;
+	private double doubleValue;
+	private String stringValue;
+	private boolean booleanValue;
 
 	public TypeAndValue(TypeEnum type) {
 		this.type = type;
@@ -18,22 +20,47 @@ public class TypeAndValue {
 	public TypeAndValue(int intValue) {
 		this.type = TypeEnum.Integer;
 		this.intValue = intValue;
+        this.initialized = true;
 	}
 	public TypeAndValue(String stringValue) {
 		this.type = TypeEnum.String;
 		this.stringValue = stringValue;
-	}
+        this.initialized = true;
+    }
 	public TypeAndValue(double doubleValue) {
 		this.type = TypeEnum.Double;
 		this.doubleValue = doubleValue;
-	}
+        this.initialized = true;
+    }
 	public TypeAndValue(boolean booleanValue) {
 		this.type = TypeEnum.Boolean;
 		this.booleanValue = booleanValue;
-	}
+        this.initialized = true;
+    }
+
+    public int getIntValue() {
+        if(!initialized) { throw new UninitializedValueException(); }
+        return intValue;
+    }
+
+    public double getDoubleValue() {
+        if(!initialized) { throw new UninitializedValueException(); }
+        return doubleValue;
+    }
+
+    public String getStringValue() {
+        if(!initialized) { throw new UninitializedValueException(); }
+        return stringValue;
+    }
+
+    public boolean getBooleanValue() {
+        if(!initialized) { throw new UninitializedValueException(); }
+        return booleanValue;
+    }
 
 	// sets the value of this to the value of other
 	public void set(TypeAndValue other) {
+        this.initialized = true;
 		switch(other.type) {
 			case TypeEnum.Integer -> this.intValue = other.intValue;
 			case TypeEnum.Double -> this.doubleValue = other.doubleValue;
@@ -44,49 +71,57 @@ public class TypeAndValue {
 
 	public TypeAndValue plus(TypeAndValue other) {
 		if(this.type == TypeEnum.Integer && other.type == TypeEnum.Integer)
-			return new TypeAndValue(this.intValue + other.intValue);
+			return new TypeAndValue(this.getIntValue() + other.getIntValue());
 		if(this.type == TypeEnum.Double && other.type == TypeEnum.Double)
-			return new TypeAndValue(this.doubleValue + other.doubleValue);
+			return new TypeAndValue(this.getDoubleValue() + other.getDoubleValue());
 		return null;
 	}
 
 	public TypeAndValue minus(TypeAndValue other) {
 		if(this.type == TypeEnum.Integer && other.type == TypeEnum.Integer)
-			return new TypeAndValue(this.intValue - other.intValue);
+			return new TypeAndValue(this.getIntValue() - other.getIntValue());
 		if(this.type == TypeEnum.Double && other.type == TypeEnum.Double)
-			return new TypeAndValue(this.doubleValue - other.doubleValue);
+			return new TypeAndValue(this.getDoubleValue() - other.getDoubleValue());
 		return null;
 	}
 
 	public TypeAndValue times(TypeAndValue other) {
 		if(this.type == TypeEnum.Integer && other.type == TypeEnum.Integer)
-			return new TypeAndValue(this.intValue * other.intValue);
+			return new TypeAndValue(this.getIntValue() * other.getIntValue());
 		if(this.type == TypeEnum.Double && other.type == TypeEnum.Double)
-			return new TypeAndValue(this.doubleValue * other.doubleValue);
+			return new TypeAndValue(this.getIntValue() * other.getIntValue());
 		return null;
 	}
 
-	public TypeAndValue dividedBy(TypeAndValue other) {
-		if(this.type == TypeEnum.Integer && other.type == TypeEnum.Integer)
-			return new TypeAndValue(this.intValue / other.intValue);
-		if(this.type == TypeEnum.Double && other.type == TypeEnum.Double)
-			return new TypeAndValue(this.doubleValue / other.doubleValue);
+	public TypeAndValue dividedBy(TypeAndValue other, Token divSymbol) {
+		if(this.type == TypeEnum.Integer && other.type == TypeEnum.Integer) {
+            if (other.getIntValue() == 0) {
+                throw new Error("Runtime Error:\nDivision by 0!\n" + divSymbol.getFilename() + ":" + divSymbol.getLineNum());
+            }
+            return new TypeAndValue(this.getIntValue() / other.getIntValue());
+        }
+		if(this.type == TypeEnum.Double && other.type == TypeEnum.Double) {
+            if(other.getDoubleValue() == 0.0) {
+                throw new Error("Runtime Error:\nDivision by 0!\n" + divSymbol.getFilename() + ":" + divSymbol.getLineNum());
+            }
+            return new TypeAndValue(this.getDoubleValue() / other.getDoubleValue());
+        }
 		return null;
 	}
 
 	public TypeAndValue lessThan(TypeAndValue other) {
 		if(this.type == TypeEnum.Integer && other.type == TypeEnum.Integer)
-			return new TypeAndValue(this.intValue < other.intValue);
+			return new TypeAndValue(this.getIntValue() < other.getIntValue());
 		if(this.type == TypeEnum.Double && other.type == TypeEnum.Double)
-			return new TypeAndValue(this.doubleValue < other.doubleValue);
+			return new TypeAndValue(this.getDoubleValue() < other.getDoubleValue());
 		return null;
 	}
 
 	public TypeAndValue lessThanOrEqual(TypeAndValue other) {
 		if(this.type == TypeEnum.Integer && other.type == TypeEnum.Integer)
-			return new TypeAndValue(this.intValue <= other.intValue);
+			return new TypeAndValue(this.getIntValue() <= other.getIntValue());
 		if(this.type == TypeEnum.Double && other.type == TypeEnum.Double)
-			return new TypeAndValue(this.doubleValue <= other.doubleValue);
+			return new TypeAndValue(this.getDoubleValue() <= other.getDoubleValue());
 		return null;
 	}
 
@@ -100,12 +135,12 @@ public class TypeAndValue {
 
 	public TypeAndValue equals(TypeAndValue other) {
 		if(this.type == TypeEnum.Integer && other.type == TypeEnum.Integer)
-			return new TypeAndValue(this.intValue == other.intValue);
+			return new TypeAndValue(this.getIntValue() == other.getIntValue());
 		if(this.type == TypeEnum.Double && other.type == TypeEnum.Double)
-			return new TypeAndValue(this.doubleValue == other.doubleValue);
+			return new TypeAndValue(this.getDoubleValue() == other.getDoubleValue());
 		if(this.type == TypeEnum.String && other.type == TypeEnum.String)
-			return new TypeAndValue(this.stringValue.equals(other.stringValue));
-		return new TypeAndValue(this.booleanValue == other.booleanValue);
+			return new TypeAndValue(this.getStringValue().equals(other.getStringValue()));
+		return new TypeAndValue(this.getBooleanValue() == other.getBooleanValue());
 	}
 
 	public TypeAndValue notEquals(TypeAndValue other) {
