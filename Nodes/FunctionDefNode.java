@@ -122,7 +122,7 @@ public class FunctionDefNode implements JottTree {
                         this.id.getToken(),
                         params,
                         this.returnType.getType(),
-                        funcDefParams.getParamIds(),
+                        funcDefParams == null? new ArrayList<>() : funcDefParams.getParamIds(),
                         this.fBody
                 )
         );
