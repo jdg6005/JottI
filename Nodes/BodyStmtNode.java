@@ -1,5 +1,6 @@
 package Nodes;
 
+import project.TypeAndValue;
 import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
@@ -88,7 +89,33 @@ public class BodyStmtNode implements JottTree {
 
     // --------------------------------
 
-    public void execute() {
-        // TODO
+    public TypeAndValue execute() {
+        if (whileNode != null) {
+            TypeAndValue result = whileNode.execute();
+            if (result != null) {
+                return result;
+            }
+            return null;
+        }
+
+        if (ifStmtNode != null) {
+            TypeAndValue result = ifStmtNode.execute();
+            if (result != null) {
+                return result;
+            }
+            return null;
+        }
+
+        if (functionCallNode != null) {
+            functionCallNode.getValue();
+            return null;
+        }
+
+        if (asmtNode != null) {
+            asmtNode.execute();
+            return null;
+        }
+
+        return null;
     }
 }
