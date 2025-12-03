@@ -1,13 +1,13 @@
 package Nodes;
 
 import project.FunctionVariableAccessor;
+import project.TypeAndValue;
 import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 
 /**
  * This class is responsible for parsing a <func_def_params> node
@@ -95,8 +95,8 @@ public class FuncDefParamsNode implements JottTree {
         // ensures ID starts w/ lowercase
         this.id.validateTree();
 
-        HashMap<String, TypeEnum> localVars = FunctionVariableAccessor.variables.get(FunctionVariableAccessor.currentScope);
-        localVars.put(this.id.getToken(), this.type.getType());
+        HashMap<String, TypeAndValue> localVars = FunctionVariableAccessor.variables.get(FunctionVariableAccessor.currentScope);
+        localVars.put(this.id.getToken(), new TypeAndValue(this.type.getType()));
 
         // validates all the other parameters
         if(this.funcDefParamsTNodes != null) {
@@ -106,7 +106,7 @@ public class FuncDefParamsNode implements JottTree {
                     throw new Error("Semantic Error:\nMultiple parameters named `" + fdpt.id.getToken() + "`\n" + fdpt.id.getFilename() + ":" + fdpt.id.getLinenum());
                 }
                 // if unique, add it to the set
-                localVars.put(fdpt.id.getToken(), fdpt.type.getType());
+                localVars.put(fdpt.id.getToken(), new TypeAndValue(fdpt.type.getType()));
 
                 // validate the
                 fdpt.validateTree();

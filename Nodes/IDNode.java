@@ -1,6 +1,7 @@
 package Nodes;
 
 import project.FunctionVariableAccessor;
+import project.TypeAndValue;
 import provided.Token;
 import provided.TokenType;
 
@@ -57,13 +58,15 @@ public class IDNode implements OperandNode{
     @Override
     public TypeEnum getType() {
         if (FunctionVariableAccessor.variables.containsKey(FunctionVariableAccessor.currentScope))
-            return FunctionVariableAccessor.variables.get(FunctionVariableAccessor.currentScope).get(this.getToken());
+            return FunctionVariableAccessor.variables
+                    .get(FunctionVariableAccessor.currentScope)
+                    .get(this.getToken()).type;
         return null;
     }
 
     @Override
-    public double getValue() {
-        return 0;
+    public TypeAndValue getValue() {
+        return FunctionVariableAccessor.getVariable(this.id.getToken());
     }
   
     @Override

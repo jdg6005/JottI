@@ -57,4 +57,10 @@ public class BoolNode implements JottTree {
     public boolean validateTree() {
         return true;
     }
+
+    // --------------------------------
+
+    public boolean getValue() {
+        return bool;
+    }
 }

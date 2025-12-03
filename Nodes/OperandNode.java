@@ -1,6 +1,7 @@
 package Nodes;
 
 
+import project.TypeAndValue;
 import provided.JottTree;
 import provided.Token;
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ public interface OperandNode extends JottTree {
 
     public abstract TypeEnum getType();
 
-    public abstract double getValue();
+    public abstract TypeAndValue getValue();
     public abstract String getFilename();
     public abstract int getLinenum();
 }

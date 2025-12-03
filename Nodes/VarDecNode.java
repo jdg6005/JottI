@@ -1,6 +1,7 @@
 package Nodes;
 
 import project.FunctionVariableAccessor;
+import project.TypeAndValue;
 import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
@@ -56,7 +57,7 @@ public class VarDecNode implements JottTree {
         this.idNode.validateTree();
 
         // local vars in this scope
-        HashMap<String, TypeEnum> localVars = FunctionVariableAccessor.variables.get(FunctionVariableAccessor.currentScope);
+        HashMap<String, TypeAndValue> localVars = FunctionVariableAccessor.variables.get(FunctionVariableAccessor.currentScope);
 
         // check uniqueness
         if(localVars.containsKey(this.idNode.getToken())) {
@@ -64,7 +65,7 @@ public class VarDecNode implements JottTree {
         }
 
         // add to list of local vars
-        localVars.put(this.idNode.getToken(), this.typeNode.getType());
+        localVars.put(this.idNode.getToken(), new TypeAndValue(this.typeNode.getType()));
 
         return true;
     }

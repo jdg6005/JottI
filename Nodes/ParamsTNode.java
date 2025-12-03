@@ -1,5 +1,6 @@
 package Nodes;
 
+import project.TypeAndValue;
 import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
@@ -55,5 +56,11 @@ public class ParamsTNode implements JottTree {
 	public boolean validateTree() {
         this.exprNode.validateTree();
         return true;
+	}
+
+	// --------------------------------
+
+	public TypeAndValue getValue() {
+		return this.exprNode.getValue();
 	}
 }

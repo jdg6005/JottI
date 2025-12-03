@@ -1,5 +1,6 @@
 package Nodes;
 
+import project.TypeAndValue;
 import provided.Token;
 import provided.TokenType;
 
@@ -71,9 +72,8 @@ public class NumberNode implements OperandNode {
     }
 
     @Override
-    public double getValue() {
-        if (isInt) { return intNumber; }
-        else { return doubleNumber;}
+    public TypeAndValue getValue() {
+        return isInt? new TypeAndValue(intNumber) : new TypeAndValue(doubleNumber);
     }
 
     @Override

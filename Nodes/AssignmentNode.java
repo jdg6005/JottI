@@ -1,6 +1,7 @@
 package Nodes;
 
 import project.FunctionVariableAccessor;
+import project.TypeAndValue;
 import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
@@ -67,12 +68,18 @@ public class AssignmentNode implements JottTree {
         }
 
         TypeEnum leftType = this.idTok.getType();
-        if(this.idTok.getType() != rhs.getType()) {
-            throw new Error("Semantic Error:\nAttempted to assign value of type `" + this.rhs.getType() + "` to variable of type `" + this.idTok.getType() + "`\n" + this.idTok.getFilename() + ":" + this.idTok.getLinenum());
+        if(leftType != rhs.getType()) {
+            throw new Error("Semantic Error:\nAttempted to assign value of type `" + this.rhs.getType() + "` to variable of type `" + leftType + "`\n" + this.idTok.getFilename() + ":" + this.idTok.getLinenum());
         }
 
         return true;
     }
 
+    // --------------------------------
+
+    public void execute() {
+        TypeAndValue variable = FunctionVariableAccessor.getVariable(idTok.getToken());
+        variable.set(rhs.getValue());
+    }
 }
 
