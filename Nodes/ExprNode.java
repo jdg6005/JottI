@@ -98,43 +98,39 @@ public class ExprNode implements JottTree {
     // if relop/mathop, check both sides are same type
     @Override
     public boolean validateTree() {
-        try {
-            // string literal
-            if (this.string != null) {
-                this.string.validateTree();
-            }
-            // bool
-            else if (this.bool != null) {
-                this.bool.validateTree();
-            }
-            // relop
-            else if (this.relop != null) {
-                if (this.operand1.getType() != this.operand2.getType()) {
-                    throw new Error("Semantic Error:\nOperands of `" + this.relop.getToken() + "` don't have the same type\n" + this.relop.getFilename() + ":" + this.relop.getLineNum());
-                }
-            }
-            // mathop
-            else if (this.mathop != null) {
-                if (this.operand1.getType() != this.operand2.getType()) {
-                    throw new Error("Semantic Error:\nOperands of `" + this.mathop.getToken() + "` don't have the same type\n" + this.mathop.getFilename() + ":" + this.mathop.getLineNum());
-                }
-                TypeAndValue operand2val = operand2.getValue();
-                if (this.operand2 instanceof NumberNode &&
-                        (operand2val.type == TypeEnum.Integer && operand2val.getIntValue() == 0
-                                || operand2val.type == TypeEnum.Double && operand2val.getDoubleValue() == 0)
-                ) {
-                    throw new Error("Semantic Error:\nDivision by 0!\n" + this.mathop.getFilename() + ":" + this.mathop.getLineNum());
-                }
-            }
-            // just an operand
-            else {
-                this.operand1.validateTree();
-            }
-
-            return true;
-        } catch(UninitializedValueException e) {
-            throw new Error("Runtime Error:\nAttempted to use uninitialized value\n" + this.operand1.getFilename() + ":" + this.operand1.getLinenum());
+        // string literal
+        if (this.string != null) {
+            this.string.validateTree();
         }
+        // bool
+        else if (this.bool != null) {
+            this.bool.validateTree();
+        }
+        // relop
+        else if (this.relop != null) {
+            if (this.operand1.getType() != this.operand2.getType()) {
+                throw new Error("Semantic Error:\nOperands of `" + this.relop.getToken() + "` don't have the same type\n" + this.relop.getFilename() + ":" + this.relop.getLineNum());
+            }
+        }
+        // mathop
+        else if (this.mathop != null) {
+            if (this.operand1.getType() != this.operand2.getType()) {
+                throw new Error("Semantic Error:\nOperands of `" + this.mathop.getToken() + "` don't have the same type\n" + this.mathop.getFilename() + ":" + this.mathop.getLineNum());
+            }
+            TypeAndValue operand2val = operand2.getValue();
+            if (this.operand2 instanceof NumberNode &&
+                    (operand2val.type == TypeEnum.Integer && operand2val.getIntValue() == 0
+                            || operand2val.type == TypeEnum.Double && operand2val.getDoubleValue() == 0)
+            ) {
+                throw new Error("Semantic Error:\nDivision by 0!\n" + this.mathop.getFilename() + ":" + this.mathop.getLineNum());
+            }
+        }
+        // just an operand
+        else {
+            this.operand1.validateTree();
+        }
+
+        return true;
     }
 
     public TypeEnum getType() {
@@ -148,34 +144,38 @@ public class ExprNode implements JottTree {
     // --------------------------------
 
     public TypeAndValue getValue() {
-        if(this.string != null) {
-            return new TypeAndValue(this.string.getValue());
-        } else if(this.bool != null) {
-            return new TypeAndValue(this.bool.getValue());
-        } else if(this.relop != null) {
-            TypeAndValue value1 = this.operand1.getValue();
-            TypeAndValue value2 = this.operand2.getValue();
-            return switch(this.relop.getToken()) {
-                case "==" -> value1.equals(value2);
-                case "!=" -> value1.notEquals(value2);
-                case "<"  -> value1.lessThan(value2);
-                case "<=" -> value1.lessThanOrEqual(value2);
-                case ">"  -> value1.greaterThan(value2);
-                case ">=" -> value1.greaterThanOrEqual(value2);
-                default   -> null;
-            };
-        } else if(this.mathop != null) {
-            TypeAndValue value1 = this.operand1.getValue();
-            TypeAndValue value2 = this.operand2.getValue();
-            return switch(this.mathop.getToken()) {
-                case "+" -> value1.plus(value2);
-                case "-" -> value1.minus(value2);
-                case "*" -> value1.times(value2);
-                case "/" -> value1.dividedBy(value2, this.mathop);
-                default  -> null;
-            };
-        } else {
-            return this.operand1.getValue();
+        try {
+            if (this.string != null) {
+                return new TypeAndValue(this.string.getValue());
+            } else if (this.bool != null) {
+                return new TypeAndValue(this.bool.getValue());
+            } else if (this.relop != null) {
+                TypeAndValue value1 = this.operand1.getValue();
+                TypeAndValue value2 = this.operand2.getValue();
+                return switch (this.relop.getToken()) {
+                    case "==" -> value1.equals(value2);
+                    case "!=" -> value1.notEquals(value2);
+                    case "<" -> value1.lessThan(value2);
+                    case "<=" -> value1.lessThanOrEqual(value2);
+                    case ">" -> value1.greaterThan(value2);
+                    case ">=" -> value1.greaterThanOrEqual(value2);
+                    default -> null;
+                };
+            } else if (this.mathop != null) {
+                TypeAndValue value1 = this.operand1.getValue();
+                TypeAndValue value2 = this.operand2.getValue();
+                return switch (this.mathop.getToken()) {
+                    case "+" -> value1.plus(value2);
+                    case "-" -> value1.minus(value2);
+                    case "*" -> value1.times(value2);
+                    case "/" -> value1.dividedBy(value2, this.mathop);
+                    default -> null;
+                };
+            } else {
+                return this.operand1.getValue();
+            }
+        } catch(UninitializedValueException _) {
+            throw new Error("Runtime Error:\nAttempted to use uninitialized value!\n" + this.operand1.getFilename() + ":" + this.operand1.getLinenum());
         }
     }
 }
