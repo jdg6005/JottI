@@ -2,6 +2,8 @@ package Nodes;
 
 import Nodes.FunctionDefNode;
 import Nodes.VarDecNode;
+import project.FunctionVariableAccessor;
+import project.TypeAndValue;
 import provided.JottTree;
 import provided.Token;
 
@@ -65,5 +67,11 @@ public class FBodyNode implements JottTree {
 
     public boolean doesntHaveReturn() {
         return this.bodyNode.doesntHaveReturn();
+    }
+
+    // --------------------------------
+
+    public TypeAndValue execute() {
+        return this.bodyNode.execute();
     }
 }

@@ -1,5 +1,6 @@
 package Nodes;
 import project.FunctionVariableAccessor;
+import project.TypeAndValue;
 import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
@@ -71,5 +72,11 @@ public class ReturnStmtNode implements JottTree {
         }
 
         return true;
+    }
+
+    // --------------------------------
+
+    public TypeAndValue execute() {
+        return this.expr.getValue();
     }
 }

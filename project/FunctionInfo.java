@@ -1,15 +1,46 @@
 package project;
 
+import Nodes.FBodyNode;
 import Nodes.TypeEnum;
 
 import java.util.ArrayList;
 
 public class FunctionInfo {
+    public final String id;
     public final ArrayList<TypeEnum> paramTypes;
     public final TypeEnum returnType;
+    public final ArrayList<String> paramIds;
+    public final FBodyNode fBodyNode;
 
-    public FunctionInfo(ArrayList<TypeEnum> paramTypes, TypeEnum returnType) {
+    public FunctionInfo(
+            String id,
+            ArrayList<TypeEnum> paramTypes,
+            TypeEnum returnType,
+            ArrayList<String> paramIds,
+            FBodyNode fBodyNode
+    ) {
+        this.id = id;
         this.paramTypes = paramTypes;
         this.returnType = returnType;
+        this.paramIds = paramIds;
+        this.fBodyNode = fBodyNode;
+    }
+
+    // TODO: make a special constructor for built-in functions, so they do something different when called
+
+    public TypeAndValue call(ArrayList<TypeAndValue> args) {
+        String originScope = FunctionVariableAccessor.currentScope;
+        FunctionVariableAccessor.currentScope = id;
+
+        // assign parameter values
+        for(int i = 0; i < paramIds.size(); i ++) {
+            FunctionVariableAccessor.setVariable(paramIds.get(i), args.get(i));
+        }
+
+        // call
+        TypeAndValue result = fBodyNode.execute();
+
+        FunctionVariableAccessor.currentScope = originScope;
+        return result;
     }
 }

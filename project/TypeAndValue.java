@@ -4,6 +4,7 @@ import Nodes.TypeEnum;
 
 // represents a value of any type
 // can do operations based on the type
+// author: Miles Todtfeld
 public class TypeAndValue {
 	public final TypeEnum type;
 	public int intValue;

@@ -1,5 +1,6 @@
 package Nodes;
 
+import project.TypeAndValue;
 import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
@@ -63,11 +64,11 @@ public class BodyNode implements JottTree {
 
     public boolean isReturnable() {
         // has a return statement
-        if(returnNode != null) { return true; }
+        if(returnNode != null) return true;
 
         // one of the body statements has a return
         for(BodyStmtNode bodyStmt : bodyStmtNodes) {
-            if(bodyStmt.isReturnable()) { return true; }
+            if(bodyStmt.isReturnable()) return true;
         }
 
         return false;
@@ -75,5 +76,15 @@ public class BodyNode implements JottTree {
 
     public boolean doesntHaveReturn() {
         return !this.convertToJott().contains("Return");
+    }
+
+    // --------------------------------
+
+    public TypeAndValue execute() {
+        for(BodyStmtNode statement : bodyStmtNodes) {
+            statement.execute();
+        }
+        if(returnNode != null) return returnNode.execute();
+        return new TypeAndValue(TypeEnum.Void);
     }
 }

@@ -1,5 +1,6 @@
 package Nodes;
 
+import project.FunctionInfo;
 import project.FunctionVariableAccessor;
 import project.TypeAndValue;
 import provided.Token;
@@ -133,11 +134,6 @@ public class FunctionCallNode implements OperandNode {
     }
 
     @Override
-    public TypeAndValue getValue() {
-        return null;
-    }
-
-    @Override
     public String getFilename() {
         return this.id.getFilename();
     }
@@ -145,5 +141,11 @@ public class FunctionCallNode implements OperandNode {
     @Override
     public int getLinenum() {
         return this.id.getLinenum();
+    }
+
+    // --------------------------------
+
+    public TypeAndValue getValue() {
+        return FunctionVariableAccessor.callFunction(this.id.getToken(), this.params.getValue());
     }
 }
