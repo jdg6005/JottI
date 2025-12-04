@@ -142,7 +142,7 @@ public class IfStmtNode implements JottTree {
     }
 
     public TypeAndValue execute() {
-        if (expr.getValue().booleanValue) return body.execute();
+        if (expr.getValue().getBooleanValue()) return body.execute();
         for (ElseIfNode elseIf : elseIfLst) {
             if(elseIf.conditionSatisfied()) return elseIf.executeBody();
         }
