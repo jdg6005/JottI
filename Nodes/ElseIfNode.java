@@ -91,10 +91,11 @@ public class ElseIfNode implements JottTree {
         return true;
     }
 
-    public TypeAndValue execute() {
-        if (this.expr.getValue().booleanValue) {
-            return this.body.execute();
-        }
-        return null;
+
+    public boolean conditionSatisfied() {
+        return this.expr.getValue().booleanValue;
+    }
+    public TypeAndValue executeBody() {
+        return this.body.execute();
     }
 }
