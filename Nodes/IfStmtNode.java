@@ -1,5 +1,6 @@
 package Nodes;
 
+import project.TypeAndValue;
 import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
@@ -126,21 +127,25 @@ public class IfStmtNode implements JottTree {
 
     public boolean isReturnable() {
         // has to have an else statement
-        if(elseNode == null) { return false; }
+        if(elseNode == null) return false;
 
         // if body must return
-        if(!body.isReturnable()) { return false; }
+        if(!body.isReturnable()) return false;
         // elseif bodies must return
         if(elseIfLst != null) {
             for (ElseIfNode elseIf : elseIfLst) {
-                if (!elseIf.body.isReturnable()) {
-                    return false;
-                }
+                if (!elseIf.body.isReturnable()) return false;
             }
         }
         // else body must return
-        if(!elseNode.body.isReturnable()) { return false; }
+	    return elseNode.body.isReturnable();
+    }
 
-        return true;
+    public TypeAndValue execute() {
+        if (expr.getValue().booleanValue) return body.execute();
+        for (ElseIfNode elseIf : elseIfLst) {
+            if(elseIf.conditionSatisfied()) return elseIf.executeBody();
+        }
+        return elseNode == null? null : elseNode.execute();
     }
 }

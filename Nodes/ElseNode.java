@@ -1,5 +1,6 @@
 package Nodes;
 
+import project.TypeAndValue;
 import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
@@ -68,5 +69,9 @@ public class ElseNode implements JottTree {
     public boolean validateTree() {
         this.body.validateTree();
         return true;
+    }
+
+    public TypeAndValue execute() {
+        return this.body.execute();
     }
 }
