@@ -87,7 +87,7 @@ public class WhileNode implements JottTree {
     }
 
     public TypeAndValue execute() {
-        while(expr.getValue().booleanValue) {
+        while(expr.getValue().getBooleanValue()) {
             TypeAndValue bodyResult = body.execute();
             if (bodyResult != null) return bodyResult;
         }

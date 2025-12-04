@@ -174,7 +174,7 @@ public class ExprNode implements JottTree {
             } else {
                 return this.operand1.getValue();
             }
-        } catch(UninitializedValueException _) {
+        } catch(UninitializedValueException e) {
             throw new Error("Runtime Error:\nAttempted to use uninitialized value!\n" + this.operand1.getFilename() + ":" + this.operand1.getLinenum());
         }
     }

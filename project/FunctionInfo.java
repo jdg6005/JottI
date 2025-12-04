@@ -31,11 +31,11 @@ public class FunctionInfo {
         switch (id) {
             case "print" -> System.out.println(args.getFirst().toString());
             case "concat" -> {
-                String str1 = args.get(0).stringValue;
-                String str2 = args.get(1).stringValue;
+                String str1 = args.get(0).getStringValue();
+                String str2 = args.get(1).getStringValue();
                 return new TypeAndValue(str1 + str2);
             }
-            case "length" -> { return new TypeAndValue(args.getFirst().stringValue.length()); }
+            case "length" -> { return new TypeAndValue(args.getFirst().getStringValue().length()); }
             default -> { // non-built-in function
                 String originScope = FunctionVariableAccessor.currentScope;
                 FunctionVariableAccessor.currentScope = id;
