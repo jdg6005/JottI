@@ -93,8 +93,9 @@ public class ElseIfNode implements JottTree {
 
 
     public boolean conditionSatisfied() {
-        return this.expr.getValue().booleanValue;
+        return this.expr.getValue().getBooleanValue();
     }
+
     public TypeAndValue executeBody() {
         return this.body.execute();
     }
