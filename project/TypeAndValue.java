@@ -114,4 +114,14 @@ public class TypeAndValue {
 		return result;
 	}
 
+    public String toString() {
+        return switch (this.type) {
+            case Integer -> Integer.toString(this.intValue);
+            case Double -> Double.toString(this.doubleValue);
+            case String -> this.stringValue;
+            case Boolean -> Boolean.toString(this.booleanValue);
+            case Void -> null;
+        };
+    }
+
 }
