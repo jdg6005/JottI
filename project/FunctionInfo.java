@@ -27,23 +27,16 @@ public class FunctionInfo {
     }
 
 
-
-    // TODO: make a special constructor for built-in functions, so they do something different when called
-
     public TypeAndValue call(ArrayList<TypeAndValue> args) {
-
         switch (id) {
-            case "print" -> System.out.println(args.toString());
+            case "print" -> System.out.println(args.getFirst().toString());
             case "concat" -> {
                 String str1 = args.get(0).stringValue;
                 String str2 = args.get(1).stringValue;
                 return new TypeAndValue(str1 + str2);
             }
-            case "length" -> {
-                return new TypeAndValue(args.getFirst().stringValue.length());
-            }
-            default -> {
-
+            case "length" -> { return new TypeAndValue(args.getFirst().stringValue.length()); }
+            default -> { // non-built-in function
                 String originScope = FunctionVariableAccessor.currentScope;
                 FunctionVariableAccessor.currentScope = id;
 
@@ -51,7 +44,6 @@ public class FunctionInfo {
                 for (int i = 0; i < paramIds.size(); i++) {
                     FunctionVariableAccessor.setVariable(paramIds.get(i), args.get(i));
                 }
-
 
                 // call
                 TypeAndValue result = fBodyNode.execute();
