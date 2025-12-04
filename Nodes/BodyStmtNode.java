@@ -90,7 +90,17 @@ public class BodyStmtNode implements JottTree {
     // --------------------------------
 
     public TypeAndValue execute() {
-        // TODO
+        if (whileNode != null) {
+            return whileNode.execute();
+        } else if (ifStmtNode != null) {
+            return ifStmtNode.execute();
+        } else if (functionCallNode != null) {
+            functionCallNode.getValue();
+            return null;
+        } else if (asmtNode != null) {
+            asmtNode.execute();
+            return null;
+        }
         return null;
     }
 }

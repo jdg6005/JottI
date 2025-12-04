@@ -1,5 +1,6 @@
 package Nodes;
 
+import project.TypeAndValue;
 import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
@@ -83,5 +84,13 @@ public class WhileNode implements JottTree {
         this.body.validateTree();
 
         return true;
+    }
+
+    public TypeAndValue execute() {
+        while(expr.getValue().booleanValue) {
+            TypeAndValue bodyResult = body.execute();
+            if (bodyResult != null) return bodyResult;
+        }
+        return null;
     }
 }
