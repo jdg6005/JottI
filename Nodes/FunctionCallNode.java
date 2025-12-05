@@ -151,6 +151,6 @@ public class FunctionCallNode implements OperandNode {
     // --------------------------------
 
     public TypeAndValue getValue() {
-        return FunctionVariableAccessor.callFunction(this.id.getToken(), this.params.getValue());
+        return FunctionVariableAccessor.callFunction(this.id.getToken(), this.params == null ? null : this.params.getValue());
     }
 }

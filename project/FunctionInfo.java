@@ -32,7 +32,7 @@ public class FunctionInfo {
         switch (id) {
             case "print" -> {
 				System.out.println(args.getFirst().toString());
-				return new TypeAndValue(args.getFirst().getStringValue());
+				return new TypeAndValue(TypeEnum.Void);
 			}
             case "concat" -> {
                 String str1 = args.get(0).getStringValue();

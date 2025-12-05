@@ -55,6 +55,6 @@ public class StringLiteralNode implements JottTree {
 
 	public String getValue() {
 		// slice it to remove quotes
-		return stringToken.getToken().substring(1, stringToken.getToken().length() - 2);
+		return stringToken.getToken().substring(1, stringToken.getToken().length() - 1);
 	}
 }
