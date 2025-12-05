@@ -126,7 +126,12 @@ public class FunctionCallNode implements OperandNode {
         return true;
     }
 
-    @Override
+	@Override
+	public TypeAndValue execute() {
+		return null;
+	}
+
+	@Override
     public TypeEnum getType() {
         if (FunctionVariableAccessor.functions.containsKey(this.id.getToken()))
             return FunctionVariableAccessor.functions.get(this.id.getToken()).returnType;
@@ -146,6 +151,6 @@ public class FunctionCallNode implements OperandNode {
     // --------------------------------
 
     public TypeAndValue getValue() {
-        return FunctionVariableAccessor.callFunction(this.id.getToken(), this.params.getValue());
+        return FunctionVariableAccessor.callFunction(this.id.getToken(), this.params == null ? null : this.params.getValue());
     }
 }

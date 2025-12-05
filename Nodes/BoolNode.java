@@ -1,5 +1,6 @@
 package Nodes;
 
+import project.TypeAndValue;
 import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
@@ -58,7 +59,12 @@ public class BoolNode implements JottTree {
         return true;
     }
 
-    // --------------------------------
+	@Override
+	public TypeAndValue execute() {
+		return null;
+	}
+
+	// --------------------------------
 
     public boolean getValue() {
         return bool;

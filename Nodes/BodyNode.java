@@ -83,7 +83,7 @@ public class BodyNode implements JottTree {
     public TypeAndValue execute() {
         for(BodyStmtNode statement : bodyStmtNodes) {
             TypeAndValue result = statement.execute();
-            if(result != null) return result;
+            if(result != null && result.type != TypeEnum.Void) return result;
         }
         if(returnNode != null) return returnNode.execute();
         return new TypeAndValue(TypeEnum.Void);

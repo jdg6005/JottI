@@ -1,5 +1,6 @@
 package Nodes;
 
+import project.TypeAndValue;
 import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
@@ -45,10 +46,15 @@ public class StringLiteralNode implements JottTree {
 		return true;
 	}
 
+	@Override
+	public TypeAndValue execute() {
+		return null;
+	}
+
 	// --------------------------------
 
 	public String getValue() {
 		// slice it to remove quotes
-		return stringToken.getToken().substring(1, stringToken.getToken().length() - 2);
+		return stringToken.getToken().substring(1, stringToken.getToken().length() - 1);
 	}
 }

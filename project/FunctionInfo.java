@@ -28,8 +28,12 @@ public class FunctionInfo {
 
 
     public TypeAndValue call(ArrayList<TypeAndValue> args) {
+
         switch (id) {
-            case "print" -> System.out.println(args.getFirst().toString());
+            case "print" -> {
+				System.out.println(args.getFirst().toString());
+				return new TypeAndValue(TypeEnum.Void);
+			}
             case "concat" -> {
                 String str1 = args.get(0).getStringValue();
                 String str2 = args.get(1).getStringValue();
@@ -52,6 +56,5 @@ public class FunctionInfo {
                 return result;
             }
         }
-        return null;
     }
 }

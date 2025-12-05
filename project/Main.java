@@ -1,12 +1,10 @@
 package project;
 
-import Nodes.IDNode;
 import provided.JottParser;
 import provided.JottTokenizer;
 import provided.JottTree;
 import provided.Token;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 
 /*
@@ -23,9 +21,12 @@ public class Main {
             if (root != null) {
                 // analyze
                 boolean isValid = root.validateTree();
+                if (isValid) {
+					root.execute();
+				}
             }
         } else {
             System.err.println("Tokenization failed!");
         }
-    }
+	}
 }

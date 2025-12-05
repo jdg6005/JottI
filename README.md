@@ -1,4 +1,4 @@
-# If pulling our changes into a different projet
+# If pulling our changes into a different project
 - `Nodes` and `project` directories should be places at the top level
 - `provided/Token.java`, `provided/jottParser.java`, and `provided/jottTokenizer.java` should be replaced with our versions
 - run the main function in `project/Main.java`

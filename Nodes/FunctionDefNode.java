@@ -2,6 +2,7 @@ package Nodes;
 
 import project.FunctionInfo;
 import project.FunctionVariableAccessor;
+import project.TypeAndValue;
 import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
@@ -150,4 +151,9 @@ public class FunctionDefNode implements JottTree {
 
         return true;
     }
+
+	@Override
+	public TypeAndValue execute() {
+		return null;
+	}
 }

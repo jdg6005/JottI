@@ -133,7 +133,12 @@ public class ExprNode implements JottTree {
         return true;
     }
 
-    public TypeEnum getType() {
+	@Override
+	public TypeAndValue execute() {
+		return null;
+	}
+
+	public TypeEnum getType() {
         if(this.string != null) { return TypeEnum.String; }
         if(this.bool != null)   { return TypeEnum.Boolean; }
         if(this.relop != null)  { return TypeEnum.Boolean; }

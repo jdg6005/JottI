@@ -18,7 +18,7 @@ import java.util.HashMap;
 public class FuncDefParamsNode implements JottTree {
     IDNode id;
     TypeNode type;
-    ArrayList<FuncDefParamsTNode> funcDefParamsTNodes;
+    ArrayList<FuncDefParamsTNode> funcDefParamsTNodes = new ArrayList<>();
 
     public static FuncDefParamsNode parseFuncDefParamsNode(ArrayList<Token> tokens) {
         FuncDefParamsNode self = new FuncDefParamsNode();
@@ -116,7 +116,12 @@ public class FuncDefParamsNode implements JottTree {
         return true;
     }
 
-    // --------------------------------
+	@Override
+	public TypeAndValue execute() {
+		return null;
+	}
+
+	// --------------------------------
 
     public ArrayList<String> getParamIds() {
         ArrayList<String> paramIds = new ArrayList<>();

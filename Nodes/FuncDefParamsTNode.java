@@ -1,5 +1,6 @@
 package Nodes;
 
+import project.TypeAndValue;
 import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
@@ -74,4 +75,9 @@ public class FuncDefParamsTNode implements JottTree {
 
         return true;
     }
+
+	@Override
+	public TypeAndValue execute() {
+		return null;
+	}
 }

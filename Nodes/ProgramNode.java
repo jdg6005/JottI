@@ -2,6 +2,7 @@ package Nodes;
 
 import project.FunctionInfo;
 import project.FunctionVariableAccessor;
+import project.TypeAndValue;
 import provided.JottTree;
 import provided.Token;
 
@@ -113,7 +114,12 @@ public class ProgramNode implements JottTree {
 
     // --------------------------------
 
-    public void execute() {
-        FunctionVariableAccessor.callFunction("main", new ArrayList<>());
+    public TypeAndValue execute() {
+        try {
+            return FunctionVariableAccessor.callFunction("main", new ArrayList<>());
+        } catch(Error e) {
+            System.err.println(e.toString());
+            return null;
+        }
     }
 }
