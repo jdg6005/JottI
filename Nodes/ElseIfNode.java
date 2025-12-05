@@ -91,8 +91,13 @@ public class ElseIfNode implements JottTree {
         return true;
     }
 
+	@Override
+	public TypeAndValue execute() {
+		return null;
+	}
 
-    public boolean conditionSatisfied() {
+
+	public boolean conditionSatisfied() {
         return this.expr.getValue().getBooleanValue();
     }
     public TypeAndValue executeBody() {

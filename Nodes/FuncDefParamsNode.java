@@ -116,7 +116,12 @@ public class FuncDefParamsNode implements JottTree {
         return true;
     }
 
-    // --------------------------------
+	@Override
+	public TypeAndValue execute() {
+		return null;
+	}
+
+	// --------------------------------
 
     public ArrayList<String> getParamIds() {
         ArrayList<String> paramIds = new ArrayList<>();

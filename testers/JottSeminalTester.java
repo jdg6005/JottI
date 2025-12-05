@@ -31,12 +31,21 @@ public class JottSeminalTester {
 			JottTree root = JottParser.parse(tokens);
 			if(root == null) {
 				if(!shouldPassPhase2[i]) numPassed ++;
-				else System.out.println("FUCK parser failed #" + (++ numParserFailed) + " on file " + filenames[i]);
+				else System.out.println("parser failed #" + (++ numParserFailed) + " on file " + filenames[i]);
 				continue;
 			}
 			if(root.validateTree() == shouldPassPhase3[i]) numPassed ++;
 			else System.out.println("seminal failed on file " + i + ": " + filenames[i] + " (should have returned " + shouldPassPhase3[i] + ")");
+
 		}
+
+		System.out.print("private final static String[] filenames = { ");
+		for (int i = 0; i < filenames.length; i++) {
+			if(shouldPassPhase2[i] && shouldPassPhase3[i])
+				System.out.print('"' + filenames[i] + '"' + ", ");
+		}
+		System.out.println(" }");
+
 		System.out.println(numPassed + " / " + (filenames.length - numParserFailed) + " / " + filenames.length);
 	}
 

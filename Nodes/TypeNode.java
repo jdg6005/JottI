@@ -1,5 +1,6 @@
 package Nodes;
 
+import project.TypeAndValue;
 import provided.JottTree;
 import provided.Token;
 
@@ -46,7 +47,12 @@ public class TypeNode implements JottTree {
         return true;
     }
 
-    public TypeEnum getType() {
+	@Override
+	public TypeAndValue execute() {
+		return null;
+	}
+
+	public TypeEnum getType() {
         return switch (type.getToken()) {
             case "Integer" -> TypeEnum.Integer;
             case "Double" -> TypeEnum.Double;

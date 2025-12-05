@@ -1,5 +1,6 @@
 package Nodes;
 
+import project.TypeAndValue;
 import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
@@ -43,6 +44,11 @@ public class StringLiteralNode implements JottTree {
 	@Override
 	public boolean validateTree() {
 		return true;
+	}
+
+	@Override
+	public TypeAndValue execute() {
+		return null;
 	}
 
 	// --------------------------------

@@ -126,7 +126,12 @@ public class FunctionCallNode implements OperandNode {
         return true;
     }
 
-    @Override
+	@Override
+	public TypeAndValue execute() {
+		return null;
+	}
+
+	@Override
     public TypeEnum getType() {
         if (FunctionVariableAccessor.functions.containsKey(this.id.getToken()))
             return FunctionVariableAccessor.functions.get(this.id.getToken()).returnType;

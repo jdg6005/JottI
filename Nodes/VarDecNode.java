@@ -69,4 +69,9 @@ public class VarDecNode implements JottTree {
 
         return true;
     }
+
+	@Override
+	public TypeAndValue execute() {
+		return null;
+	}
 }

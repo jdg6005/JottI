@@ -23,6 +23,10 @@ public class Main {
             if (root != null) {
                 // analyze
                 boolean isValid = root.validateTree();
+                if (isValid) {
+					TypeAndValue program = root.execute();
+					System.out.println(program);
+				}
             }
         } else {
             System.err.println("Tokenization failed!");

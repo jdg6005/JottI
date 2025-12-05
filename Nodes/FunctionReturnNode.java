@@ -1,5 +1,6 @@
 package Nodes;
 
+import project.TypeAndValue;
 import provided.JottTree;
 import provided.Token;
 
@@ -58,4 +59,9 @@ public class FunctionReturnNode implements JottTree {
     public boolean validateTree() {
         return true;
     }
+
+	@Override
+	public TypeAndValue execute() {
+		return null;
+	}
 }
