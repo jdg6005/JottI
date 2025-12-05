@@ -25,7 +25,7 @@ public class Main {
                 boolean isValid = root.validateTree();
                 if (isValid) {
 					TypeAndValue program = root.execute();
-					System.out.println(program);
+					//System.out.println(program);
 				}
             }
         } else {

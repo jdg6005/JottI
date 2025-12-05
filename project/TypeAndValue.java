@@ -126,11 +126,11 @@ public class TypeAndValue {
 	}
 
 	public TypeAndValue greaterThan(TypeAndValue other) {
-		return other.lessThanOrEqual(this);
+		return other.lessThan(this);
 	}
 
 	public TypeAndValue greaterThanOrEqual(TypeAndValue other) {
-		return other.lessThan(this);
+		return other.lessThanOrEqual(this);
 	}
 
 	public TypeAndValue equals(TypeAndValue other) {
