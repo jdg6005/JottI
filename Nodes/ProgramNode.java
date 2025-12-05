@@ -115,6 +115,11 @@ public class ProgramNode implements JottTree {
     // --------------------------------
 
     public TypeAndValue execute() {
-        return FunctionVariableAccessor.callFunction("main", new ArrayList<>());
+        try {
+            return FunctionVariableAccessor.callFunction("main", new ArrayList<>());
+        } catch(Error e) {
+            System.err.println(e.toString());
+            return null;
+        }
     }
 }
