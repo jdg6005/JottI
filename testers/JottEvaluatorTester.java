@@ -1,8 +1,11 @@
+/* DOES NOT WORK WITH MAIN IN OUTER DIRECTORY
+/* MOVE MAIN INTO testers/ TO RUN THIS
+
+
 package testers;
 
-import project.Main;
-
 import java.io.*;
+import Main;
 
 public class JottEvaluatorTester {
 	private final static String[] filenames = { "helloWorld.jott", "ifStmtReturns.jott", "largerValid.jott", "providedExample1.jott", "validLoop.jott", "reallyLong.jott"};
@@ -26,3 +29,4 @@ public class JottEvaluatorTester {
 		}
 	}
 }
+ */

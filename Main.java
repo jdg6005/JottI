@@ -1,11 +1,8 @@
-package project;
-
 import provided.JottParser;
 import provided.JottTokenizer;
 import provided.JottTree;
 import provided.Token;
 import java.util.ArrayList;
-
 
 /*
 * Main method for running the Jott compiler
